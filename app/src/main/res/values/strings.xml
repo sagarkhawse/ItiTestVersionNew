@@ -1,3 +1,37 @@
 <resources>
     <string name="app_name">ITI TEST</string>
+    <string name="messageofinternetService">No internet connection found.Please\ncheck your connection \n or try again</string>
+    <string name="turn_on_internet_service">Turn On</string>
+    <string name="login_id">Login ID</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot Password ?</string>
+    <string name="create_account">Create Account</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="gender">Gender</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="prev">Prev</string>
+    <string name="next">Next</string>
+    <string name="login_instead">Login Instead</string>
+    <string name="email_address">Email Address</string>
+    <string name="password_reset_link_will_be_sent_to_your_registered_email_address">Password reset link will be sent to your registered email address</string>
+    <string name="send_reset_link">Send Reset Link</string>
+    <string name="forgot_password_title">Forgot Password</string>
+    <string name="set_new_password">Set New Password</string>
+    <string name="new_password">New Password</string>
+    <string name="submit">Submit</string>
+    <string name="change_password">Change Password</string>
+    <string name="change_mob">Change Mobile Number</string>
+    <string name="current_password">Current Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="change">Change</string>
+    <string name="select_gender">Select Gender</string>
+    <string name="otp">OTP</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome">Welcome</string>
+    <string name="Username">Username</string>
+    <string name="caption">We teach You at any point of the Earth</string>
 </resources>

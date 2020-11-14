@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,15 +28,13 @@ import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
 import com.skteam.ititest.R;
-import com.skteam.ititest.application.MyApplication;
-import com.skteam.ititest.brodcastReceivers.ConnectionReceiver;
 import com.skteam.ititest.database.RoomDatabase;
 import com.skteam.ititest.databinding.CustomToastBinding;
 import com.skteam.ititest.prefrences.SharedPre;
 import com.skteam.ititest.setting.CommonUtils;
 
 
-public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseViewModel> extends Fragment implements ConnectionReceiver.ConnectionReceiverListener {
+public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseViewModel> extends Fragment {
     private B mViewDataBinding;
     private V mViewModel;
     private BaseActivity mActivity;
@@ -45,8 +42,7 @@ public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseView
     private SharedPre sharedPre;
     private RoomDatabase database;
     private Toast toast;
-    private ConnectionReceiver.ConnectionReceiverListener connectionReceiverListener;
-   private Vibrator vibe ;
+
     /**
      * Override for set binding variable
      *
@@ -71,13 +67,8 @@ public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseView
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setHasOptionsMenu(false);
-    }
-    public Vibrator getVib(){
-        if(vibe==null){
-           vibe = (Vibrator) getBaseActivity().getSystemService(Context.VIBRATOR_SERVICE);
-        }
-        return vibe;
     }
 
     @Nullable
@@ -126,8 +117,6 @@ public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseView
         mViewDataBinding.setVariable(getBindingVariable(), mViewModel);
         mViewDataBinding.setLifecycleOwner(this);
         mViewDataBinding.executePendingBindings();
-        connectionReceiverListener = this;
-        ((MyApplication) getBaseActivity().getApplicationContext()).setConnectionListener(connectionReceiverListener);
     }
 
     public BaseActivity getBaseActivity() {
@@ -153,7 +142,7 @@ public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseView
     public void showCustomAlert(String msg) {
         CustomToastBinding toastBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.custom_toast, null, false);
         toastBinding.toastText.setText(msg);
-        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setDuration(Toast.LENGTH_LONG);
         toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.TOP, 0, 0);
         toast.setView(toastBinding.getRoot());
         toast.show();

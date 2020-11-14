@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#57c9fa</color>
+    <color name="colorPrimaryDark">#31a5fb</color>
+    <color name="colorSpecialDark">#40b3fb</color>
+    <color name="colorSpeciallight">#E667BFF4</color>
+    <color name="colorAccent">#57c9fa</color>
+    <color name="btnBlue">#007AFF</color>
+    <color name="txtBlue">#3591DA</color>
+    <color name="edtHint">#9AABC3</color>
+    <color name="edtText">#7D91AC</color>
+    <color name="borderTab">#8c52ff</color>
+    <color name="voilet2">#AE8BF3</color>
+    <color name="hintLine">#444f5e </color>
+    <color name="pink">#FF1494</color>
+    <color name="black">#000000</color>
+    <color name="lightGray">#3F485C</color>
+    <color name="commentColor">#717D9C</color>
+    <color name="text_shadow">#7F000000</color>
+    <color name="white_light">#e7e7ef</color>
+    <color name="profile_line">#10161e</color>
+    <color name="color_white">#ffffff</color>
+    <color name="color_white_light">#E9FFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="color_video_transparent">#88000000</color>
+
 </resources>

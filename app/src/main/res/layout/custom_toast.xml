@@ -7,46 +7,40 @@
   ~
   ~
   -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout>
 <androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
     <LinearLayout
-        android:id="@+id/backgroundToast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:id="@+id/backgroundToast"
         android:gravity="center"
-        android:orientation="horizontal"
+        android:background="@color/colorPrimary"
         android:weightSum="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.airbnb.lottie.LottieAnimationView
+        android:orientation="horizontal">
+        <ImageView
             android:layout_width="0dp"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_margin="@dimen/_10sdp"
             android:layout_weight=".1"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            android:scaleType="fitCenter"
-            app:lottie_rawRes="@raw/notification_bell" />
-
+            android:id="@+id/iconToast"
+            android:layout_gravity="center"
+            android:padding="2dp"
+            android:layout_margin="@dimen/_5sdp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/alarm_large"/>
 
         <TextView
-            android:id="@+id/toastText"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/toastText"
             android:layout_weight=".9"
-            android:fontFamily="@font/poppins_bold"
-            android:gravity="left"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="@dimen/_12ssp"
             android:text=""
-            android:layout_marginLeft="5dp"
+            android:fontFamily="@font/gothamrounded_book"
             android:textColor="@color/color_white"
-            android:textSize="@dimen/_12ssp" />
+            android:src="@drawable/alarm_large"/>
 
     </LinearLayout>
 

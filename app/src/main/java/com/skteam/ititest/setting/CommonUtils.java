@@ -8,6 +8,7 @@
 package com.skteam.ititest.setting;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -18,27 +19,29 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Base64;
-import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.RequiresApi;
+import androidx.databinding.DataBindingUtil;
+
 import com.skteam.ititest.R;
+import com.skteam.ititest.databinding.CustomToastBinding;
 import com.skteam.ititest.setting.animation.MyBounceInterpolator;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.tapadoo.alerter.Alerter;
+
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -210,57 +213,5 @@ public class CommonUtils {
         }
         return text;
     }
-    public static Bundle getFacebookData(JSONObject object) {
 
-        try {
-            Bundle bundle = new Bundle();
-            String id = object.getString("id");
-
-            try {
-                URL profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?width=200&height=150");
-                Log.i("profile_pic", profile_pic + "");
-                bundle.putString("profile_pic", profile_pic.toString());
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                return null;
-            }
-
-            bundle.putString("idFacebook", id);
-            if (object.has("first_name"))
-                bundle.putString("first_name", object.getString("first_name"));
-            if (object.has("last_name"))
-                bundle.putString("last_name", object.getString("last_name"));
-            if (object.has("email"))
-                bundle.putString("email", object.getString("email"));
-            if (object.has("gender"))
-                bundle.putString("gender", object.getString("gender"));
-            if (object.has("birthday"))
-                bundle.putString("birthday", object.getString("birthday"));
-            if (object.has("location"))
-                bundle.putString("location", object.getJSONObject("location").getString("name"));
-
-            return bundle;
-        } catch (JSONException e) {
-            Log.d("JSON", "Error parsing JSON");
-        }
-        return null;
-    }
-
-    public static String CurrentTimeAsFormat(String curentTimeStamp)  {
-
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ROOT);
-
-        Date result= null;
-        long miliSec= Long.parseLong(curentTimeStamp);
-        try {
-            result = new Date(miliSec);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return df.format(result);
-
-
-    }
 }

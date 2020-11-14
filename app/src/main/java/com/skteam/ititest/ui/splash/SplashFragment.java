@@ -7,34 +7,20 @@
 
 package com.skteam.ititest.ui.splash;
 
-import android.Manifest;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseFragment;
 import com.skteam.ititest.databinding.FragmentSplashBinding;
 import com.skteam.ititest.setting.CommonUtils;
-import com.skteam.ititest.ui.home.HomeActivity;
 import com.skteam.ititest.ui.welcome.WelcomeFragment;
 
 import java.util.concurrent.TimeUnit;
@@ -50,7 +36,6 @@ public class SplashFragment extends BaseFragment<FragmentSplashBinding,SplashVie
     private FragmentSplashBinding binding;
     private Disposable disposable;
     private SplashViewModel viewModel;
-    private Dialog internetDialog;
     public SplashFragment() {
         // Required empty public constructor
     }
@@ -92,45 +77,18 @@ public class SplashFragment extends BaseFragment<FragmentSplashBinding,SplashVie
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding = getViewDataBinding();
+        binding=getViewDataBinding();
         viewModel.setNavigator(this);
+        CommonUtils.setAnimationBounse(getContext(),binding.logo);
         binding.companyName.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_in));
-       String tokenFinal=getSharedPre().getFirebaseDeviceToken() ;
-        if (tokenFinal==null || tokenFinal.isEmpty()) {
-            try {
-                FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
-                            if (!task.isSuccessful()) {
-                                Log.w("Firebase", "getInstanceId failed", task.getException());
-                                return;
-                            }
-
-                            // Get new Instance ID token
-                            String token = task.getResult().getToken();
-                            getSharedPre().setFirebaseToken(token);
-                            getSharedPre().setUserId(FirebaseInstanceId.getInstance().getId());
-                            disposable = Observable.timer(SPLASH_SCREEN_TIME_OUT, TimeUnit.SECONDS)
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(aLong -> StartIntent());
-                        });
-            } catch (Exception e) {
-            }
-
-        } else {
-            disposable = Observable.timer(SPLASH_SCREEN_TIME_OUT, TimeUnit.SECONDS)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(aLong -> StartIntent());
-        }
+        disposable=Observable.timer(SPLASH_SCREEN_TIME_OUT, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aLong -> StartIntent());
     }
     void StartIntent(){
-        if(getSharedPre().isLoggedIn()){
-           startActivity(new Intent(getBaseActivity(), HomeActivity.class));
-           getBaseActivity().finish();
-        }else{
-            getBaseActivity().startFragment(WelcomeFragment.newInstance(),true,WelcomeFragment.newInstance().toString());
-        }
-
+        showCustomAlert("Thank You for Choosing us");
+        getBaseActivity().startFragment(WelcomeFragment.newInstance(),true,WelcomeFragment.newInstance().toString());
     }
 
     @Override
@@ -140,19 +98,4 @@ public class SplashFragment extends BaseFragment<FragmentSplashBinding,SplashVie
             disposable.dispose();
         }
     }
-
-    @Override
-    public void onNetworkConnectionChanged(boolean isConnected) {
-        if (internetDialog == null) {
-            internetDialog = CommonUtils.InternetConnectionAlert(getBaseActivity(), false);
-        }
-        if (isConnected) {
-            internetDialog.dismiss();
-            StartIntent();
-        } else {
-            internetDialog.show();
-        }
-    }
-
 }
-

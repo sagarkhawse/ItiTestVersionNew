@@ -14,23 +14,12 @@ import androidx.annotation.NonNull;
 public class SharedPre {
     private static final String ITI = "iti";
     private static final String EMAIL = "email";
-    private static final String NAME = "name";
-    private static final String OUR_PROFILE = "myProfileFromApi";
-    private static final String CLIENT_PROFILE = "profileFromFaceBook";
-    private static final String CLIENT_ID = "clientId";
     private static final String MOBILE_NO = "mobile_no";
     private static final String APP_BACKGROUND = "app_in_background";
     private static final String IS_ADD_MOB_SAVED = "isSvedAddMobData";
     private static final String IS_LOGGED_IN = "login";
     private static final String IS_REGISTER = "register";
     private static final String USER_ID = "userId";
-    private static final String FIREBASE_TOKEN = "firebaseToken";
-    private static final String RINGTON_PATH = "rington";
-    private static final String NOTIFICATION_MUTED = "notification_muted";
-    private static final String IS_LOGGED_IN_VIA_EMAIL = "emailLoggedin";
-    private static final String IS_LOGGED_IN_VIA_GOOGLE = "googleLoggedIn";
-    private static final String IS_LOGGED_IN_VIA_FACEBOOK = "facebookLoggedin";
-    private static final String FB_ACCESS_TOKEN = "facebookToken";
     private static SharedPre Instance;
     @NonNull
     Context mContext;
@@ -69,30 +58,6 @@ public class SharedPre {
         SetDataBoolean(this.IS_LOGGED_IN, value);
     }
 
-    public boolean isGoogleLoggedIn() {
-        return GetDataBoolean(this.IS_LOGGED_IN_VIA_GOOGLE);
-    }
-
-    public void setIsGoogleLoggedIn(boolean value) {
-        SetDataBoolean(this.IS_LOGGED_IN_VIA_GOOGLE, value);
-    }
-
-    public boolean isFaceboobkLoggedIn() {
-        return GetDataBoolean(this.IS_LOGGED_IN_VIA_FACEBOOK);
-    }
-
-    public void setIsFaceboobkLoggedIn(boolean value) {
-        SetDataBoolean(this.IS_LOGGED_IN_VIA_FACEBOOK, value);
-    }
-
-    public boolean isEmailLoggedIn() {
-        return GetDataBoolean(this.IS_LOGGED_IN_VIA_EMAIL);
-    }
-
-    public void setIsEmailLoggedIn(boolean value) {
-        SetDataBoolean(this.IS_LOGGED_IN_VIA_EMAIL, value);
-    }
-
     public boolean isRegister() {
         return GetDataBoolean(this.IS_REGISTER);
     }
@@ -125,46 +90,6 @@ public class SharedPre {
         return GetDataString(this.MOBILE_NO);
     }
 
-    public void setName(String name) {
-        SetDataString(this.NAME, name);
-    }
-
-    public String getName() {
-        return GetDataString(this.NAME);
-    }
-
-    public void setClientId(String id) {
-        SetDataString(this.CLIENT_ID, id);
-    }
-
-    public String getClientId() {
-        return GetDataString(this.CLIENT_ID);
-    }
-
-    public void setFaceBookAccessToken(String accessToken) {
-        SetDataString(this.FB_ACCESS_TOKEN, accessToken);
-    }
-
-    public String getFaceBookAccessToken() {
-        return GetDataString(this.FB_ACCESS_TOKEN);
-    }
-
-    public void setEmailProfile(String googleProfile) {
-        SetDataString(this.OUR_PROFILE, googleProfile);
-    }
-
-    public String getEmailProfile() {
-        return GetDataString(this.OUR_PROFILE);
-    }
-
-    public void setClientProfile(String profileClient) {
-        SetDataString(this.CLIENT_PROFILE, profileClient);
-    }
-
-    public String getClientProfile() {
-        return GetDataString(this.CLIENT_PROFILE);
-    }
-
     public void setUserEmail(String email) {
         SetDataString(this.EMAIL, email);
     }
@@ -173,29 +98,7 @@ public class SharedPre {
         return GetDataString(this.EMAIL);
     }
 
-    public String getFirebaseDeviceToken() {
-        return GetDataString(this.FIREBASE_TOKEN);
-    }
 
-    public void setFirebaseToken(String token) {
-        SetDataString(this.FIREBASE_TOKEN, token);
-    }
-
-    public boolean isNotificationMuted() {
-        return GetDataBoolean(this.NOTIFICATION_MUTED);
-    }
-
-    public void setNotificationMuted(boolean notificationMuted) {
-        SetDataBoolean(this.NOTIFICATION_MUTED, notificationMuted);
-    }
-
-    public String getNotificationSound() {
-        return GetDataString(this.RINGTON_PATH);
-    }
-
-    public void setNotificationSound(String uri) {
-        SetDataString(this.RINGTON_PATH, uri);
-    }
 //--------------------------------------Boolean Values--------------------------------------------
 
     //------------------------------------------------------------------------------------------------
@@ -226,7 +129,6 @@ public class SharedPre {
         edit.commit();
 
     }
-
     private int GetDataInt(String key) {
         int cbValue = getSharedPreferences(mContext).getInt(key, 0);
         return cbValue;
@@ -244,7 +146,7 @@ public class SharedPre {
     }
 
     private void SetDataLong(String key, long value) {
-        SharedPreferences sp = getSharedPreferences(mContext);
+        SharedPreferences sp =getSharedPreferences(mContext);
         SharedPreferences.Editor edit = sp.edit();
         edit.putLong(key, value);
         edit.commit();
@@ -276,24 +178,10 @@ public class SharedPre {
     }
 
     private void LogoutPrefrences() {
-        removePreferences(NAME, mContext);
-        removePreferences(EMAIL, mContext);
-        removePreferences(OUR_PROFILE, mContext);
-        removePreferences(CLIENT_PROFILE, mContext);
-        removePreferences(CLIENT_ID, mContext);
-        removePreferences(MOBILE_NO, mContext);
-        removePreferences(IS_ADD_MOB_SAVED, mContext);
-        removePreferences(IS_LOGGED_IN, mContext);
-        removePreferences(IS_REGISTER, mContext);
-        removePreferences(USER_ID, mContext);
-        removePreferences(FIREBASE_TOKEN, mContext);
-        removePreferences(RINGTON_PATH, mContext);
-        removePreferences(NOTIFICATION_MUTED, mContext);
-        removePreferences(IS_LOGGED_IN_VIA_EMAIL, mContext);
-        removePreferences(IS_LOGGED_IN_VIA_GOOGLE, mContext);
-        removePreferences(IS_LOGGED_IN_VIA_FACEBOOK, mContext);
+        removePreferences(APP_BACKGROUND, mContext);
 
     }
+
 
 
 }

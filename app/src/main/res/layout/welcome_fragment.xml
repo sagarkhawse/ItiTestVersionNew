@@ -1,92 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Ishant Sharma
+  ~ Android Developer
+  ~ ishant.sharma1947@gmail.com
+  ~ 7732993378
+  ~
+  ~
+  -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.welcome.WelcomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/gradient_background_home"
-        tools:context=".ui.welcome.WelcomeFragment">
-
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottieAnimationView"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_150sdp"
-            android:layout_above="@id/text_lyt"
-            android:layout_alignParentTop="true"
-            android:scaleType="fitCenter"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/login" />
-
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/text_lyt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/loginBtn"
             android:orientation="vertical"
-            android:padding="@dimen/_10sdp"
+            app:layout_constraintBottom_toTopOf="@+id/login_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView">
+            app:layout_constraintTop_toTopOf="@+id/guideline2"
+            app:layout_constraintVertical_bias="0.62">
 
             <TextView
-                style="@style/textViewBigWhite"
+                android:id="@+id/appName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name" />
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:fontFamily="@font/gothamrounded_bold"
+                android:text="@string/app_name"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/_25ssp" />
 
             <TextView
-                style="@style/textViewDescriptionWhite"
+                android:id="@+id/appCaption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="welcome to Iti test app an Electrical Engineering Student App "
-
-                />
-
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:fontFamily="@font/gothamrounded_bold"
+                android:text="@string/caption"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/_15ssp" />
         </LinearLayout>
 
 
-        <Button
-            android:id="@+id/loginBtn"
-            style="@style/btnWhite"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/createBtn"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:text="@string/log_in"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_lyt" />
 
-        <Button
-            android:id="@+id/createBtn"
-            style="@style/btnOutline"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/_15sdp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:text="@string/sign_up"
+        <TextView
+            android:id="@+id/login_btn"
+            style="@style/btnWhiteBig"
+            android:text="@string/login"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loginBtn"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="@+id/guideline"
+            app:layout_constraintVertical_bias="0.18" />
 
+        <TextView
+            android:id="@+id/create_btn"
+            style="@style/btnBlueBig"
+            android:text="@string/create_account"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_btn"
+            app:layout_constraintVertical_bias="0.32999998" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.72" />
 
-
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".35" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</layout>
+</FrameLayout></layout>
