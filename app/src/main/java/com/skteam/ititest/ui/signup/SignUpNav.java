@@ -9,15 +9,5 @@
 
 package com.skteam.ititest.ui.signup;
 
-import com.skteam.ititest.restModel.signup.Re;
-
 public interface SignUpNav {
-    void onLoginFail();
-
-    void setLoading(boolean b);
-
-    void SignUpResponse(Re re,String type);
-
-
-    void setMessage(String server_not_responding);
 }
