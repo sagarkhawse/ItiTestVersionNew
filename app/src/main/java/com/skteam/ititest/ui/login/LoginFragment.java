@@ -17,14 +17,25 @@ import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.jakewharton.rxbinding3.view.RxView;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseFragment;
 import com.skteam.ititest.databinding.FragmentLoginBinding;
+import com.skteam.ititest.ui.signup.SignUpFragment;
 
-public class LoginFragment extends BaseFragment<FragmentLoginBinding,LoginViewModel> implements LoginNav{
-private static LoginFragment instance;
-private FragmentLoginBinding binding;
-private LoginViewModel viewModel;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import kotlin.Unit;
+
+public class LoginFragment extends BaseFragment<FragmentLoginBinding, LoginViewModel> implements LoginNav {
+    private static LoginFragment instance;
+    private FragmentLoginBinding binding;
+    private LoginViewModel viewModel;
+    private Disposable disposable;
 
 
     public LoginFragment() {
@@ -53,7 +64,7 @@ private LoginViewModel viewModel;
 
     @Override
     public LoginViewModel getViewModel() {
-        return viewModel=new LoginViewModel(getContext(),getSharedPre(),getActivity());
+        return viewModel = new LoginViewModel(getContext(), getSharedPre(), getActivity());
     }
 
     @Override
@@ -71,8 +82,27 @@ private LoginViewModel viewModel;
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel.setNavigator(this);
-        binding=getViewDataBinding();
-        viewModel.setNavigator(this);
-//        ((SplashActivityBinding)getBaseActivity().getViewDataBinding()).background.setImageResource(R.color.color_white_light);
+        binding = getViewDataBinding();
+        SetClickListeners();
+
+    }
+
+    private void SetClickListeners() {
+        disposable = RxView.clicks(binding.loginBtn).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(unit -> {
+            getVib().vibrate(100);
+            viewModel.LoginNow();
+        });
+        disposable = RxView.clicks(binding.createBtn).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(unit -> {
+            getVib().vibrate(100);
+            getBaseActivity().startFragment(SignUpFragment.newInstance(), true, SignUpFragment.newInstance().toString());
+        });
+        disposable = RxView.clicks(binding.otherSigninOption.googleBtn).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(unit -> {
+            getVib().vibrate(100);
+            viewModel.LoginviaGoogle();
+        });
+        disposable = RxView.clicks(binding.otherSigninOption.faceBookBtn).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(unit -> {
+            getVib().vibrate(100);
+            viewModel.LoginviaFacebook();
+        });
     }
 }

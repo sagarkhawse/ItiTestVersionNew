@@ -32,7 +32,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import kotlin.Unit;
 
-public class WelcomeFragment extends BaseFragment<WelcomeFragmentBinding,WelcomeViewModel> implements WelcomeNav {
+public class WelcomeFragment extends BaseFragment<WelcomeFragmentBinding, WelcomeViewModel> implements WelcomeNav {
 
     private WelcomeViewModel viewModel;
     private WelcomeFragmentBinding binding;
@@ -61,7 +61,7 @@ public class WelcomeFragment extends BaseFragment<WelcomeFragmentBinding,Welcome
 
     @Override
     public WelcomeViewModel getViewModel() {
-        return viewModel=new WelcomeViewModel(getContext(),getSharedPre(),getActivity());
+        return viewModel = new WelcomeViewModel(getContext(), getSharedPre(), getActivity());
     }
 
     @Override
@@ -79,20 +79,19 @@ public class WelcomeFragment extends BaseFragment<WelcomeFragmentBinding,Welcome
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel.setNavigator(this);
-        binding=getViewDataBinding();
-        disposable= RxView.clicks(binding.loginBtn).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Unit>() {
+        binding = getViewDataBinding();
+        disposable = RxView.clicks(binding.loginBtn).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Unit>() {
             @Override
             public void accept(Unit unit) throws Exception {
-                showCustomAlert("Login clicked Successfully");
-                getBaseActivity().startFragment(LoginFragment.newInstance(),true, LoginFragment.newInstance().toString());
+                getVib().vibrate(100);
+                getBaseActivity().startFragment(LoginFragment.newInstance(), true, LoginFragment.newInstance().toString());
             }
         });
-        disposable= RxView.clicks(binding.createBtn).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Unit>() {
+        disposable = RxView.clicks(binding.createBtn).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Unit>() {
             @Override
             public void accept(Unit unit) throws Exception {
-                showCustomAlert("Create Account clicked Successfully");
-                getBaseActivity().startFragment(SignUpFragment.newInstance(),true,SignUpFragment.newInstance().toString());
-
+                getVib().vibrate(100);
+                getBaseActivity().startFragment(SignUpFragment.newInstance(), true, SignUpFragment.newInstance().toString());
             }
         });
     }
@@ -100,13 +99,12 @@ public class WelcomeFragment extends BaseFragment<WelcomeFragmentBinding,Welcome
     @Override
     public void onResume() {
         super.onResume();
-//        ((SplashActivityBinding)getBaseActivity().getViewDataBinding()).background.setImageResource(R.color.colorSpeciallight);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(disposable!=null){
+        if (disposable != null) {
             disposable.dispose();
         }
     }

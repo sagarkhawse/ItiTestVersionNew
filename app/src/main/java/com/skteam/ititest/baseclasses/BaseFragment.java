@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +43,7 @@ public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseView
     private SharedPre sharedPre;
     private RoomDatabase database;
     private Toast toast;
-
+   private Vibrator vibe ;
     /**
      * Override for set binding variable
      *
@@ -68,6 +69,12 @@ public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseView
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(false);
+    }
+    public Vibrator getVib(){
+        if(vibe==null){
+           vibe = (Vibrator) getBaseActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        }
+        return vibe;
     }
 
     @Nullable

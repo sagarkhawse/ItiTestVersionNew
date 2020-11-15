@@ -9,6 +9,7 @@
 
 package com.skteam.ititest.ui.signup;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,16 +19,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jakewharton.rxbinding3.view.RxView;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseFragment;
 import com.skteam.ititest.databinding.SignUpFragmentBinding;
+import com.skteam.ititest.setting.CommonUtils;
+import com.skteam.ititest.ui.login.LoginFragment;
+
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import kotlin.Unit;
+
+import static com.skteam.ititest.setting.AppConstance.GOOGLE_REQUEST_CODE;
 
 public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpViewModel> implements SignUpNav {
 
     private SignUpViewModel viewModel;
     private SignUpFragmentBinding binding;
     private static SignUpFragment instance;
-
+    private Disposable disposable;
 
     @Override
     public int getBindingVariable() {
@@ -65,6 +78,66 @@ public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpVi
         super.onActivityCreated(savedInstanceState);
         binding = getViewDataBinding();
         viewModel.setNavigator(this);
+        SetClickListeners();
     }
 
+    private void SetClickListeners() {
+        disposable = RxView.clicks(binding.loginBtn).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(unit -> {
+            getVib().vibrate(100);
+            getBaseActivity().startFragment(LoginFragment.newInstance(), true, LoginFragment.newInstance().toString());
+        });
+        disposable = RxView.clicks(binding.createBtn).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(unit -> {
+            getVib().vibrate(100);
+            SignupNow();
+        });
+        disposable = RxView.clicks(binding.otherSigninOption.googleBtn).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(unit -> {
+            getVib().vibrate(100);
+            CallGoogleApi();
+        });
+        disposable = RxView.clicks(binding.otherSigninOption.faceBookBtn).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(unit -> {
+            getVib().vibrate(100);
+            viewModel.SignUpViaFacebook();
+        });
+    }
+
+    private void CallGoogleApi() {
+        showLoadingDialog("");
+        Intent signInIntent = viewModel.getGoogleClient().getSignInIntent();
+        startActivityForResult(signInIntent, GOOGLE_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case GOOGLE_REQUEST_CODE:{
+                hideLoadingDialog();
+                viewModel.SignUpViaGoogle(data);
+                break;
+            }
+        }
+    }
+
+    private void SignupNow() {
+        String name = binding.etName.getText().toString().trim();
+        String email = binding.etEmail.getText().toString().trim();
+        String password = binding.etPassword.getText().toString().trim();
+        if (name.isEmpty()) {
+          showCustomAlert( "Name can't be empty.");
+        } else if (email.isEmpty()) {
+            showCustomAlert( "Email can't be empty.");
+        }else if (CommonUtils.isValidEmail(email)) {
+            showCustomAlert(  "Please enter a valid email.");
+        }else if(password.isEmpty()){
+            showCustomAlert( "Password can't be empty.");
+        }else{
+            viewModel.SignupNow(name,email,password);
+        }
+    }
+
+    @Override
+    public void onLoginFail() {
+        hideLoadingDialog();
+        showCustomAlert("Login failed Please try again");
+    }
 }

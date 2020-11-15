@@ -131,7 +131,9 @@
                 android:text="@string/log_in"
                 android:textColor="@color/black" />
 
-            <include layout="@layout/layout_fb_google" />
+            <include
+                android:id="@+id/otherSigninOption"
+                layout="@layout/layout_fb_google" />
         </LinearLayout>
 
     </RelativeLayout>

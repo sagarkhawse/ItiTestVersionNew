@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -56,6 +57,8 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
     private Fragment fragment;
     private ConnectionReceiver.ConnectionReceiverListener connectionReceiverListener;
     private Toast toast;
+    private Vibrator vibe;
+//replace yourActivity.this with your own activity or if you declared a context you can write context.getSystemService(Context.VIBRATOR_SERVICE);
     /**
      * Override for set binding variable
      *
@@ -112,6 +115,12 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
     }
 
 
+    public Vibrator getVibe() {
+       if(vibe==null){
+           vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+       }
+        return vibe;
+    }
 
     public void hideKeyboard() {
         View view = this.getCurrentFocus();

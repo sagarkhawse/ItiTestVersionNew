@@ -20,6 +20,12 @@ public class SharedPre {
     private static final String IS_LOGGED_IN = "login";
     private static final String IS_REGISTER = "register";
     private static final String USER_ID = "userId";
+    private static final String FIREBASE_TOKEN = "firebaseToken";
+    private static final String RINGTON_PATH = "rington";
+    private static final String NOTIFICATION_MUTED = "notification_muted";
+    private static final String IS_LOGGED_IN_VIA_EMAIL = "emailLoggedin";
+    private static final String IS_LOGGED_IN_VIA_GOOGLE = "googleLoggedIn";
+    private static final String IS_LOGGED_IN_VIA_FACEBOOK = "facebookLoggedin";
     private static SharedPre Instance;
     @NonNull
     Context mContext;
@@ -56,6 +62,27 @@ public class SharedPre {
 
     public void setIsLoggedIn(boolean value) {
         SetDataBoolean(this.IS_LOGGED_IN, value);
+    }
+    public boolean isGoogleLoggedIn() {
+        return GetDataBoolean(this.IS_LOGGED_IN_VIA_GOOGLE);
+    }
+
+    public void setIsGoogleLoggedIn(boolean value) {
+        SetDataBoolean(this.IS_LOGGED_IN_VIA_GOOGLE, value);
+    }
+    public boolean isFaceboobkLoggedIn() {
+        return GetDataBoolean(this.IS_LOGGED_IN_VIA_FACEBOOK);
+    }
+
+    public void setIsFaceboobkLoggedIn(boolean value) {
+        SetDataBoolean(this.IS_LOGGED_IN_VIA_FACEBOOK, value);
+    }
+    public boolean isEmailLoggedIn() {
+        return GetDataBoolean(this.IS_LOGGED_IN_VIA_EMAIL);
+    }
+
+    public void setIsEmailLoggedIn(boolean value) {
+        SetDataBoolean(this.IS_LOGGED_IN_VIA_EMAIL, value);
     }
 
     public boolean isRegister() {
@@ -97,8 +124,24 @@ public class SharedPre {
     public String getUserEmail() {
         return GetDataString(this.EMAIL);
     }
-
-
+    public String getFirebaseDeviceToken() {
+        return GetDataString(this.FIREBASE_TOKEN);
+    }
+    public void setFirebaseToken(String token){
+        SetDataString(this.FIREBASE_TOKEN,token);
+    }
+    public boolean isNotificationMuted() {
+        return  GetDataBoolean(this.NOTIFICATION_MUTED);
+    }
+    public void setNotificationMuted(boolean notificationMuted){
+        SetDataBoolean(this.NOTIFICATION_MUTED,notificationMuted);
+    }
+    public String getNotificationSound() {
+        return GetDataString(this.RINGTON_PATH);
+    }
+    public void setNotificationSound(String uri){
+      SetDataString(this.RINGTON_PATH,uri);
+    }
 //--------------------------------------Boolean Values--------------------------------------------
 
     //------------------------------------------------------------------------------------------------

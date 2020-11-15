@@ -10,4 +10,5 @@
 package com.skteam.ititest.ui.signup;
 
 public interface SignUpNav {
+    void onLoginFail();
 }

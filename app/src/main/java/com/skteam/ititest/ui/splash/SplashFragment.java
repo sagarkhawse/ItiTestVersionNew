@@ -7,16 +7,23 @@
 
 package com.skteam.ititest.ui.splash;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseFragment;
 import com.skteam.ititest.databinding.FragmentSplashBinding;
@@ -77,14 +84,35 @@ public class SplashFragment extends BaseFragment<FragmentSplashBinding,SplashVie
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding=getViewDataBinding();
+        binding = getViewDataBinding();
         viewModel.setNavigator(this);
-//        CommonUtils.setAnimationBounse(getContext(),binding.logo);
         binding.companyName.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_in));
-        disposable=Observable.timer(SPLASH_SCREEN_TIME_OUT, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aLong -> StartIntent());
+       String tokenFinal=getSharedPre().getFirebaseDeviceToken() ;
+        if (tokenFinal==null || tokenFinal.isEmpty()) {
+            try {
+                FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
+                            if (!task.isSuccessful()) {
+                                Log.w("Firebase", "getInstanceId failed", task.getException());
+                                return;
+                            }
+
+                            // Get new Instance ID token
+                            String token = task.getResult().getToken();
+                            getSharedPre().setFirebaseToken(token);
+                            disposable = Observable.timer(SPLASH_SCREEN_TIME_OUT, TimeUnit.SECONDS)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(aLong -> StartIntent());
+                        });
+            } catch (Exception e) {
+            }
+
+        } else {
+            disposable = Observable.timer(SPLASH_SCREEN_TIME_OUT, TimeUnit.SECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(aLong -> StartIntent());
+        }
     }
     void StartIntent(){
         showCustomAlert("Thank You for Choosing us");
@@ -99,3 +127,4 @@ public class SplashFragment extends BaseFragment<FragmentSplashBinding,SplashVie
         }
     }
 }
+
