@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) Ishant Sharma
-  ~ Android Developer
-  ~ ishant.sharma1947@gmail.com
-  ~ 7732993378
-  ~
-  ~
-  -->
+
 <layout>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -18,15 +11,11 @@
     android:orientation="vertical"
     android:gravity="center"
     android:layout_height="match_parent">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/logo"
-        android:src="@drawable/logo" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/gothamrounded_bold"
+        android:fontFamily="@font/poppins_bold"
         android:text="@string/app_name"
         android:id="@+id/companyName"
         android:textSize="@dimen/_19ssp"/>

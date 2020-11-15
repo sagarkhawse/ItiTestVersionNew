@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ITI TEST</string>
     <string name="messageofinternetService">No internet connection found.Please\ncheck your connection \n or try again</string>
@@ -34,4 +35,16 @@
     <string name="welcome">Welcome</string>
     <string name="Username">Username</string>
     <string name="caption">We teach You at any point of the Earth</string>
+
+
+
+
+<!--    Sign Up    -->
+    <string name="sign_up">Sign up</string>
+    <string name="log_in">Log in</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="or">or</string>
+    <string name="forget_password">Forget Password?</string>
+    <string name="back">back</string>
+
 </resources>

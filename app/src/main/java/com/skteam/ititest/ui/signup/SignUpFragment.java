@@ -9,13 +9,10 @@
 
 package com.skteam.ititest.ui.signup;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +21,6 @@ import android.view.ViewGroup;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseFragment;
 import com.skteam.ititest.databinding.SignUpFragmentBinding;
-import com.skteam.ititest.ui.login.Login;
 
 public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpViewModel> implements SignUpNav {
 

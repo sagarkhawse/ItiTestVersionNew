@@ -79,7 +79,7 @@ public class SplashFragment extends BaseFragment<FragmentSplashBinding,SplashVie
         super.onViewCreated(view, savedInstanceState);
         binding=getViewDataBinding();
         viewModel.setNavigator(this);
-        CommonUtils.setAnimationBounse(getContext(),binding.logo);
+//        CommonUtils.setAnimationBounse(getContext(),binding.logo);
         binding.companyName.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_in));
         disposable=Observable.timer(SPLASH_SCREEN_TIME_OUT, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())

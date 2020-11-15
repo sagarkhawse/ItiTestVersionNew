@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#57c9fa</color>
-    <color name="colorPrimaryDark">#31a5fb</color>
+    <color name="colorPrimary">#3A57FB</color>
+    <color name="colorPrimaryDark">#3A57FB</color>
     <color name="colorSpecialDark">#40b3fb</color>
     <color name="colorSpeciallight">#E667BFF4</color>
-    <color name="colorAccent">#57c9fa</color>
+    <color name="colorAccent">#FF9100</color>
     <color name="btnBlue">#007AFF</color>
     <color name="txtBlue">#3591DA</color>
-    <color name="edtHint">#9AABC3</color>
-    <color name="edtText">#7D91AC</color>
+
     <color name="borderTab">#8c52ff</color>
     <color name="voilet2">#AE8BF3</color>
     <color name="hintLine">#444f5e </color>
@@ -24,4 +23,6 @@
     <color name="transparent">#00000000</color>
     <color name="color_video_transparent">#88000000</color>
 
+    <color name="colorTheme1">#3A57FB</color>
+    <color name="colorTheme2">#65A7F6</color>
 </resources>
