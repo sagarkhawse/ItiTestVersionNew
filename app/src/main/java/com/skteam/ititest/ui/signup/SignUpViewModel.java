@@ -94,7 +94,7 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
 
     private void SignuViaClient(String name, String email, String profilePic,String userId,String clientType,String deviceVersion ) {
         AndroidNetworking.post(AppConstance.API_BASE_URL + AppConstance.SIGN_UP)
-                .addBodyParameter("user_id", getSharedPre().getUserId())
+                .addBodyParameter("user_id", userId)
                 .addBodyParameter("name", name)
                 .addBodyParameter("email", email)
                 .addBodyParameter("app_version", deviceVersion)
