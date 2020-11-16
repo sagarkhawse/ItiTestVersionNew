@@ -23,6 +23,7 @@ import com.jakewharton.rxbinding3.view.RxView;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseFragment;
 import com.skteam.ititest.databinding.SignUpFragmentBinding;
+import com.skteam.ititest.restModel.signup.Re;
 import com.skteam.ititest.setting.CommonUtils;
 import com.skteam.ititest.ui.login.LoginFragment;
 
@@ -139,5 +140,19 @@ public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpVi
     public void onLoginFail() {
         hideLoadingDialog();
         showCustomAlert("Login failed Please try again");
+    }
+
+    @Override
+    public void setLoading(boolean b) {
+        if (b) {
+            showLoadingDialog("");
+        } else {
+            hideLoadingDialog();
+        }
+    }
+
+    @Override
+    public void SignUpResponse(Re re) {
+
     }
 }

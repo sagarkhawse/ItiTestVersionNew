@@ -99,6 +99,7 @@ public class SplashFragment extends BaseFragment<FragmentSplashBinding,SplashVie
                             // Get new Instance ID token
                             String token = task.getResult().getToken();
                             getSharedPre().setFirebaseToken(token);
+                            getSharedPre().setUserId(FirebaseInstanceId.getInstance().getId());
                             disposable = Observable.timer(SPLASH_SCREEN_TIME_OUT, TimeUnit.SECONDS)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())

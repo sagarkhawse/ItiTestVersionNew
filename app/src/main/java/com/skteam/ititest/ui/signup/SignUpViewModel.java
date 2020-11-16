@@ -18,6 +18,10 @@ import android.util.Log;
 
 import androidx.lifecycle.ViewModel;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.ParsedRequestListener;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -33,8 +37,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.skteam.ititest.BuildConfig;
 import com.skteam.ititest.baseclasses.BaseViewModel;
 import com.skteam.ititest.prefrences.SharedPre;
+import com.skteam.ititest.restModel.signup.ResponseSignUp;
 import com.skteam.ititest.setting.AppConstance;
 
 import org.json.JSONException;
@@ -59,7 +65,7 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
     }
 
     public void SignupNow(String name,String Email,String password) {
-
+       SignuViaClient(name,Email , "",getSharedPre().getUserId() , AppConstance.LOGIN_TYPE_EMAIL,BuildConfig.VERSION_NAME);
     }
 //google
     public void SignUpViaGoogle(Intent data) {
@@ -79,14 +85,50 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
                 last = name.substring(name.lastIndexOf(" ") + 1);
             } else
                 first = name;
-            SignuViaClient(name,email,profilePic,getSharedPre().getFirebaseDeviceToken(),gSocialId,AppConstance.LOGIN_TYPE_GOOGLE,AppConstance.DEVICE_TYPE);
+            SignuViaClient(name,email,profilePic,getSharedPre().getUserId(),AppConstance.LOGIN_TYPE_GOOGLE, BuildConfig.VERSION_NAME);
 
         } catch (ApiException e) {
             Log.e("googleStatus", "signInResult:failed code=" + e.getStatusCode());
         }
     }
 
-    private void SignuViaClient(String name, String email, String profilePic,String firebaseToken,String clientId,String clientType,String DeviceType ) {
+    private void SignuViaClient(String name, String email, String profilePic,String userId,String clientType,String deviceVersion ) {
+        AndroidNetworking.post(AppConstance.API_BASE_URL + AppConstance.SIGN_UP)
+                .addBodyParameter("user_id", getSharedPre().getUserId())
+                .addBodyParameter("name", name)
+                .addBodyParameter("email", email)
+                .addBodyParameter("app_version", deviceVersion)
+                .addBodyParameter("verified", "1")
+                .addBodyParameter("signup_type", clientType)
+                .addBodyParameter("profile_pic", profilePic)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsObject(ResponseSignUp.class, new ParsedRequestListener<ResponseSignUp>() {
+                    @Override
+                    public void onResponse(ResponseSignUp response) {
+                        getNavigator().setLoading(false);
+                        try {
+                            if (response != null) {
+                                if (response.getCode().equals("200")) {
+                                   showCustomAlert("SignUp Successfully");
+                                    getNavigator().SignUpResponse(response.getRes().get(0));
+                                } else {
+                                    showCustomAlert("Please try again later!");
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            getNavigator().setLoading(false);
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(ANError error) {
+                        getNavigator().setLoading(false);
+                        showCustomAlert("Please try again later!");
+                    }
+                });
     }
     //facebook
     private void registerFBCallBack() {
@@ -109,7 +151,7 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
                                     String email=bFacebookData.getString("email","");
                                     String profilePic=bFacebookData.getString("profile_pic","");
                                     String facebookId=bFacebookData.getString("idFacebook");
-                                    SignuViaClient(name,email , profilePic,getSharedPre().getFirebaseDeviceToken(), facebookId , AppConstance.LOGIN_TYPE_FB,AppConstance.DEVICE_TYPE);
+                                    SignuViaClient(name,email , profilePic,getSharedPre().getUserId() , AppConstance.LOGIN_TYPE_FB,BuildConfig.VERSION_NAME);
                                 } else{
                                     getNavigator().onLoginFail();
                                 }
