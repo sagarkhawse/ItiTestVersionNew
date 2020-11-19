@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import com.androidnetworking.AndroidNetworking;
@@ -29,6 +30,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -36,8 +38,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.skteam.ititest.BuildConfig;
+import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseViewModel;
 import com.skteam.ititest.prefrences.SharedPre;
 import com.skteam.ititest.restModel.signup.ResponseSignUp;
@@ -52,22 +62,42 @@ import java.net.URL;
 import static com.skteam.ititest.setting.CommonUtils.getFacebookData;
 
 public class SignUpViewModel extends BaseViewModel<SignUpNav> {
-    private SignUpRepository signUpRepository;
+
+    private FirebaseAuth mAuth;
     private GoogleSignInClient googleSignInClient;
     private GoogleSignInOptions gso;
-    CallbackManager callbackManager;
-    AccessTokenTracker accessTokenTracker;
+    private CallbackManager callbackManager;
+    private AccessTokenTracker accessTokenTracker;
+    String Profile="";
     public SignUpViewModel(Context context, SharedPre sharedPre, Activity activity) {
         super(context, sharedPre, activity);
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        mAuth = FirebaseAuth.getInstance();
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(activity.getResources().getString(R.string.GOOGLE_SIGNIN_SECRET)).requestEmail().build();
         getGoogleClient();
-        signUpRepository=new SignUpRepository(context);
+    }
+    public GoogleSignInClient getGoogleClient() {
+        if (googleSignInClient != null) {
+            return googleSignInClient;
+        } else {
+            return googleSignInClient = GoogleSignIn.getClient(getContext(), gso);
+        }
+
     }
 
     public void SignupNow(String name,String Email,String password) {
-       SignuViaClient(name,Email , "",getSharedPre().getUserId() , AppConstance.LOGIN_TYPE_EMAIL,BuildConfig.VERSION_NAME);
+        getNavigator().setLoading(true);
+        getNavigator().setLoading(true);
+        getSharedPre().setIsRegister(true);
+        getSharedPre().setUserEmail(Email);
+        getSharedPre().setClientId("");
+        getSharedPre().setName(name);
+        getSharedPre().setGoogleProfile("");
+        getSharedPre().setProfileFacebook("");
+        getSharedPre().setIsGoogleLoggedIn(false);
+        getSharedPre().setIsFaceboobkLoggedIn(false);
+        SignUpViaEmail(Email,password);
     }
-//google
+    //google
     public void SignUpViaGoogle(Intent data) {
         try {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -76,6 +106,7 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
             String name = account.getDisplayName();
             String gSocialId = account.getId();
             String profilePic = "";
+            String acountToken=account.getIdToken();
             if (account.getPhotoUrl() != null)
                 profilePic = account.getPhotoUrl().toString();
             Log.d("googleStatus", "" + email + " " + name + " " + " " + profilePic);
@@ -85,14 +116,30 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
                 last = name.substring(name.lastIndexOf(" ") + 1);
             } else
                 first = name;
-            SignuViaClient(name,email,profilePic,getSharedPre().getUserId(),AppConstance.LOGIN_TYPE_GOOGLE, BuildConfig.VERSION_NAME);
+            getSharedPre().setIsGoogleLoggedIn(true);
+            getSharedPre().setIsFaceboobkLoggedIn(false);
+            getSharedPre().setIsLoggedIn(true);
+            getSharedPre().setIsRegister(true);
+            getSharedPre().setUserEmail(email);
+            getSharedPre().setName(name);
+            getSharedPre().setClientId(gSocialId);
+            getSharedPre().setProfileFacebook("");
+            Profile=profilePic;
+            getSharedPre().setGoogleProfile(profilePic);
+            firebaseAuthWithClient(acountToken,AppConstance.LOGIN_TYPE_GOOGLE);
+
 
         } catch (ApiException e) {
             Log.e("googleStatus", "signInResult:failed code=" + e.getStatusCode());
         }
     }
-
-    private void SignuViaClient(String name, String email, String profilePic,String userId,String clientType,String deviceVersion ) {
+    //facebook
+    public void SignUpViaFacebook() {
+        registerFBCallBack();
+    }
+    //signUpAPI
+    private void SignuViaClient(String name, String email, String profilePic,String userId,String clientType,String deviceVersion ,String type) {
+        getNavigator().setLoading(true);
         AndroidNetworking.post(AppConstance.API_BASE_URL + AppConstance.SIGN_UP)
                 .addBodyParameter("user_id", userId)
                 .addBodyParameter("name", name)
@@ -101,32 +148,29 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
                 .addBodyParameter("verified", "1")
                 .addBodyParameter("signup_type", clientType)
                 .addBodyParameter("profile_pic", profilePic)
+                .addBodyParameter("phone", "0")
+                .addBodyParameter("gender", "")
+                .addBodyParameter("date_of_birth", "")
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsObject(ResponseSignUp.class, new ParsedRequestListener<ResponseSignUp>() {
                     @Override
                     public void onResponse(ResponseSignUp response) {
                         getNavigator().setLoading(false);
-                        try {
                             if (response != null) {
                                 if (response.getCode().equals("200")) {
-                                   showCustomAlert("SignUp Successfully");
-                                    getNavigator().SignUpResponse(response.getRes().get(0));
+                                  getNavigator().setMessage("Signup Successfully");
+                                    getNavigator().SignUpResponse(response.getRes().get(0),type);
                                 } else {
-                                    showCustomAlert("Please try again later!");
+                                    getNavigator().setMessage("Please try again later!");
                                 }
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            getNavigator().setLoading(false);
-
-                        }
                     }
 
                     @Override
                     public void onError(ANError error) {
                         getNavigator().setLoading(false);
-                        showCustomAlert("Please try again later!");
+                        getNavigator().setMessage("Server not Responding");
                     }
                 });
     }
@@ -151,7 +195,18 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
                                     String email=bFacebookData.getString("email","");
                                     String profilePic=bFacebookData.getString("profile_pic","");
                                     String facebookId=bFacebookData.getString("idFacebook");
-                                    SignuViaClient(name,email , profilePic,getSharedPre().getUserId() , AppConstance.LOGIN_TYPE_FB,BuildConfig.VERSION_NAME);
+                                    getSharedPre().setIsGoogleLoggedIn(false);
+                                    getSharedPre().setIsFaceboobkLoggedIn(true);
+                                    getSharedPre().setIsLoggedIn(false);
+                                    getSharedPre().setIsRegister(true);
+                                    getSharedPre().setUserEmail(email);
+                                    getSharedPre().setProfileFacebook(profilePic);
+                                    Profile=profilePic;
+                                    getSharedPre().setGoogleProfile("");
+                                    getSharedPre().setName(name);
+                                    getSharedPre().setClientId(facebookId);
+                                    firebaseAuthWithClient(accessToken,AppConstance.LOGIN_TYPE_FB);
+                                    //SignuViaClient(name,email , profilePic,getSharedPre().getUserId() , AppConstance.LOGIN_TYPE_FB,BuildConfig.VERSION_NAME);
                                 } else{
                                     getNavigator().onLoginFail();
                                 }
@@ -193,18 +248,80 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
         accessTokenTracker.startTracking();
 
     }
+    //firebase login via email and pass
+    public void SignUpViaEmail(String email,String pass){
+        mAuth.createUserWithEmailAndPassword(email, pass)
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            getNavigator().setLoading(false);
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            getSharedPre().setUserId(user.getUid());
+                            user.sendEmailVerification();
+                            SignuViaClient(getSharedPre().getName(),user.getEmail() , "",user.getUid() , AppConstance.LOGIN_TYPE_EMAIL,BuildConfig.VERSION_NAME,AppConstance.LOGIN_TYPE_EMAIL);
 
+                        } else {
+                            getNavigator().setLoading(false);
+                            getNavigator().setMessage("Authentication failed.");
+                        }
+                    }
 
-
-    public void SignUpViaFacebook() {
-        registerFBCallBack();
+                });
     }
-    public GoogleSignInClient getGoogleClient() {
-       if(googleSignInClient!=null){
-           return googleSignInClient;
-       }else{
-           return  googleSignInClient = GoogleSignIn.getClient(getContext(), gso);
-       }
+    //firebase login via client
+    private void firebaseAuthWithClient(String idToken,String type) {
+        AuthCredential credential=null;
+        String typeFinal =null;
+        switch(type){
+            case AppConstance.LOGIN_TYPE_GOOGLE:{
+                credential = GoogleAuthProvider.getCredential(idToken, null);
+                Profile=getSharedPre().getGoogleProfile();
+                typeFinal=AppConstance.LOGIN_TYPE_GOOGLE;
+                break;
+            }
+            case AppConstance.LOGIN_TYPE_FB:{
+                credential =FacebookAuthProvider.getCredential(idToken);
+                Profile=getSharedPre().getFacebookProfile();
+                typeFinal=AppConstance.LOGIN_TYPE_FB;
+                break;
+            }
+            default:{
+                credential=null;
+                Profile="";
+            }
+        }
+        if(credential!=null){
+            getNavigator().setLoading(true);
+            String finalTypeFinal = typeFinal;
+            mAuth.signInWithCredential(credential)
+                    .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                getNavigator().setLoading(false);
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                getSharedPre().setUserId(user.getUid());
+                                SignuViaClient(getSharedPre().getName(),user.getEmail(), Profile,getSharedPre().getUserId(),AppConstance.LOGIN_TYPE_GOOGLE, BuildConfig.VERSION_NAME, finalTypeFinal);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                getNavigator().setMessage("Authentication Failed");
+                                getNavigator().setLoading(false);
+                            }
+
+                            // ...
+                        }
+                    });
+        }else{
+            getNavigator().setMessage("Client Error");
+        }
 
     }
+
+    public void signOut() {
+        mAuth.signOut();
+    }
+
 }

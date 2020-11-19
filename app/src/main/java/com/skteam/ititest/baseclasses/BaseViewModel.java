@@ -13,10 +13,21 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModel;
 
 
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.skteam.ititest.R;
 import com.skteam.ititest.databinding.CustomToastBinding;
 import com.skteam.ititest.prefrences.SharedPre;
@@ -31,17 +42,17 @@ public abstract class BaseViewModel<N> extends ViewModel {
     private Activity activity;
     private Toast toast;
 
-    public BaseViewModel(Context context,SharedPre sharedPre,Activity activity)
-    {
-        this.sharedPre=sharedPre;
+
+    public BaseViewModel(Context context, SharedPre sharedPre, Activity activity) {
+        this.sharedPre = sharedPre;
         this.context = context;
-        this.activity=activity;
+        this.activity = activity;
+
     }
 
     public Activity getActivity() {
         return activity;
     }
-
 
     public SharedPre getSharedPre() {
         return sharedPre;
@@ -63,12 +74,4 @@ public abstract class BaseViewModel<N> extends ViewModel {
         this.context = context;
     }
 
-    public void showCustomAlert(String msg) {
-        CustomToastBinding toastBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.custom_toast, null, false);
-        toastBinding.toastText.setText(msg);
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.TOP, 0, 0);
-        toast.setView(toastBinding.getRoot());
-        toast.show();
-    }
 }

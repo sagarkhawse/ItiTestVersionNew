@@ -15,16 +15,26 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseFragment;
 import com.skteam.ititest.databinding.SignUpFragmentBinding;
 import com.skteam.ititest.restModel.signup.Re;
+import com.skteam.ititest.setting.AppConstance;
 import com.skteam.ititest.setting.CommonUtils;
+import com.skteam.ititest.ui.home.HomeActivity;
 import com.skteam.ititest.ui.login.LoginFragment;
 
 import java.util.concurrent.TimeUnit;
@@ -126,11 +136,11 @@ public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpVi
         if (name.isEmpty()) {
           showCustomAlert( "Name can't be empty.");
         } else if (email.isEmpty()) {
-            showCustomAlert( "Email can't be empty.");
+            showCustomAlert( getResources().getString(R.string.email_empty));
         }else if (CommonUtils.isValidEmail(email)) {
-            showCustomAlert(  "Please enter a valid email.");
+            showCustomAlert(  getResources().getString(R.string.valid_email));
         }else if(password.isEmpty()){
-            showCustomAlert( "Password can't be empty.");
+            showCustomAlert( getResources().getString(R.string.password_empty));
         }else{
             viewModel.SignupNow(name,email,password);
         }
@@ -152,7 +162,28 @@ public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpVi
     }
 
     @Override
-    public void SignUpResponse(Re re) {
+    public void SignUpResponse(Re re,String type) {
+        switch (type){
+            case AppConstance.LOGIN_TYPE_EMAIL:{
+                getBaseActivity().startFragment(LoginFragment.newInstance(), true, LoginFragment.newInstance().toString());
+                break;
+            }
+            case AppConstance.LOGIN_TYPE_FB:{
+                startActivity(new Intent(getActivity(), HomeActivity.class));
+                break;
+            }
+            case AppConstance.LOGIN_TYPE_GOOGLE:{
+                startActivity(new Intent(getActivity(), HomeActivity.class));
+                break;
+            }
+        }
 
     }
+
+
+    @Override
+    public void setMessage(String message) {
+        showCustomAlert(message);
+    }
+
 }

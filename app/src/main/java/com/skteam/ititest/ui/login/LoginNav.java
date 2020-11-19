@@ -10,4 +10,9 @@
 package com.skteam.ititest.ui.login;
 
 public interface LoginNav {
+    void onLoginFail(String message);
+
+    void setLoading(boolean b);
+
+    void StartHomeNow();
 }

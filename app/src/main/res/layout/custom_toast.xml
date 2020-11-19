@@ -26,9 +26,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
             android:layout_margin="@dimen/_10sdp"
+            android:layout_weight=".1"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             android:scaleType="fitCenter"
@@ -41,8 +42,9 @@
             android:layout_height="wrap_content"
             android:layout_weight=".9"
             android:fontFamily="@font/poppins_bold"
-            android:gravity="center"
+            android:gravity="left"
             android:text=""
+            android:layout_marginLeft="5dp"
             android:textColor="@color/color_white"
             android:textSize="@dimen/_12ssp" />
 
