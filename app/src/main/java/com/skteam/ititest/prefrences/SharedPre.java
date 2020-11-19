@@ -15,8 +15,8 @@ public class SharedPre {
     private static final String ITI = "iti";
     private static final String EMAIL = "email";
     private static final String NAME = "name";
-    private static final String PROFILE_GOOGLE = "profileFromGoogle";
-    private static final String PROFILE_FACEBOOK = "profileFromFaceBook";
+    private static final String OUR_PROFILE = "myProfileFromApi";
+    private static final String CLIENT_PROFILE = "profileFromFaceBook";
     private static final String CLIENT_ID = "clientId";
     private static final String MOBILE_NO = "mobile_no";
     private static final String APP_BACKGROUND = "app_in_background";
@@ -140,20 +140,20 @@ public class SharedPre {
         return GetDataString(this.CLIENT_ID);
     }
 
-    public void setGoogleProfile(String googleProfile) {
-        SetDataString(this.PROFILE_GOOGLE, googleProfile);
+    public void setEmailProfile(String googleProfile) {
+        SetDataString(this.OUR_PROFILE, googleProfile);
     }
 
-    public String getGoogleProfile() {
-        return GetDataString(this.PROFILE_GOOGLE);
+    public String getEmailProfile() {
+        return GetDataString(this.OUR_PROFILE);
     }
 
-    public void setProfileFacebook(String profileFacebook) {
-        SetDataString(this.PROFILE_FACEBOOK, profileFacebook);
+    public void setClientProfile(String profileClient) {
+        SetDataString(this.CLIENT_PROFILE, profileClient);
     }
 
-    public String getFacebookProfile() {
-        return GetDataString(this.PROFILE_FACEBOOK);
+    public String getClientProfile() {
+        return GetDataString(this.CLIENT_PROFILE);
     }
 
     public void setUserEmail(String email) {

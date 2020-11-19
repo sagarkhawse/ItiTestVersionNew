@@ -7,6 +7,7 @@
 
 package com.skteam.ititest.baseclasses;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ import com.skteam.ititest.databinding.CustomToastBinding;
 import com.skteam.ititest.prefrences.SharedPre;
 import com.skteam.ititest.setting.CommonUtils;
 import com.skteam.ititest.ui.welcome.WelcomeFragment;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -58,6 +60,7 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
     private ConnectionReceiver.ConnectionReceiverListener connectionReceiverListener;
     private Toast toast;
     private Vibrator vibe;
+    private RxPermissions rxPermissions;
 //replace yourActivity.this with your own activity or if you declared a context you can write context.getSystemService(Context.VIBRATOR_SERVICE);
     /**
      * Override for set binding variable
@@ -102,7 +105,12 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
         }
         return database;
     }
-
+public RxPermissions getRxPermissions(){
+        if(rxPermissions==null){
+            rxPermissions=new RxPermissions(this);
+        }
+        return rxPermissions;
+}
     private void performDataBinding() {
         mViewDataBinding = DataBindingUtil.setContentView(this, getLayoutId());
         this.mViewModel = mViewModel == null ? getViewModel() : mViewModel;

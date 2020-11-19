@@ -101,9 +101,8 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
             getSharedPre().setUserEmail(email);
             getSharedPre().setName(name);
             getSharedPre().setClientId(gSocialId);
-            getSharedPre().setProfileFacebook("");
             Profile=profilePic;
-            getSharedPre().setGoogleProfile(profilePic);
+            getSharedPre().setClientProfile(profilePic);
             firebaseAuthWithClient(account.getIdToken(),AppConstance.LOGIN_TYPE_GOOGLE);
         } catch (ApiException e) {
             Log.e("googleStatus", "signInResult:failed code=" + e.getStatusCode());
@@ -138,9 +137,8 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
                                     getSharedPre().setIsLoggedIn(false);
                                     getSharedPre().setIsRegister(true);
                                     getSharedPre().setUserEmail(email);
-                                    getSharedPre().setProfileFacebook(profilePic);
+                                    getSharedPre().setClientProfile(profilePic);
                                     Profile=profilePic;
-                                    getSharedPre().setGoogleProfile("");
                                     getSharedPre().setName(name);
                                     getSharedPre().setClientId(facebookId);
                                     firebaseAuthWithClient(accessToken,AppConstance.LOGIN_TYPE_FB);
@@ -214,13 +212,13 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
         switch(type){
             case AppConstance.LOGIN_TYPE_GOOGLE:{
                 credential = GoogleAuthProvider.getCredential(idToken, null);
-                Profile=getSharedPre().getGoogleProfile();
+                Profile=getSharedPre().getClientProfile();
                 typeFinal=AppConstance.LOGIN_TYPE_GOOGLE;
                 break;
             }
             case AppConstance.LOGIN_TYPE_FB:{
                 credential = FacebookAuthProvider.getCredential(idToken);
-                Profile=getSharedPre().getFacebookProfile();
+                Profile=getSharedPre().getClientProfile();
                 typeFinal=AppConstance.LOGIN_TYPE_FB;
                 break;
             }
@@ -271,26 +269,26 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
                                         getSharedPre().setIsFaceboobkLoggedIn(false);
                                         getSharedPre().setIsGoogleLoggedIn(true);
                                         getSharedPre().setIsEmailLoggedIn(false);
-                                        getSharedPre().setGoogleProfile(response.getRes().get(0).getProfilePic());
+                                        getSharedPre().setClientProfile(response.getRes().get(0).getProfilePic());
                                         break;
                                     }
                                     case AppConstance.LOGIN_TYPE_FB:{
                                         getSharedPre().setIsFaceboobkLoggedIn(true);
                                         getSharedPre().setIsGoogleLoggedIn(false);
                                         getSharedPre().setIsEmailLoggedIn(false);
-                                        getSharedPre().setProfileFacebook(response.getRes().get(0).getProfilePic());
+                                        getSharedPre().setClientProfile(response.getRes().get(0).getProfilePic());
                                         break;
                                     }
                                     case AppConstance.LOGIN_TYPE_EMAIL:{
                                         getSharedPre().setIsEmailLoggedIn(true);
                                         getSharedPre().setIsFaceboobkLoggedIn(false);
                                         getSharedPre().setIsGoogleLoggedIn(false);
+                                        getSharedPre().setEmailProfile(response.getRes().get(0).getProfilePic());
                                         break;
                                     }
                                 }
                                 getSharedPre().setName(response.getRes().get(0).getName());
-                                getSharedPre().setUserEmail(response.getRes().get(0).getName());
-                                getSharedPre().setUserMobile(response.getRes().get(0).getPhone());
+                                getSharedPre().setUserEmail(response.getRes().get(0).getEmail());
                                 getSharedPre().setUserMobile(response.getRes().get(0).getPhone());
                                 getNavigator().StartHomeNow();
                             } else {

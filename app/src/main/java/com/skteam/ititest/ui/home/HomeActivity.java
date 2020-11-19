@@ -1,7 +1,9 @@
 
 package com.skteam.ititest.ui.home;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -9,74 +11,118 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
+import com.jakewharton.rxbinding3.view.RxView;
 import com.skteam.ititest.R;
+import com.skteam.ititest.baseclasses.BaseActivity;
+import com.skteam.ititest.databinding.ActivityHomeBinding;
+import com.skteam.ititest.databinding.NavHeaderMainBinding;
+import com.skteam.ititest.setting.CommonUtils;
 
-public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import kotlin.Unit;
+
+public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewModel> implements HomeNav {
+
+    private ActivityHomeBinding binding;
+    private HomeViewModel viewModel;
+    private Dialog internetDialog;
+    private Disposable disposable;
+    private NavHeaderMainBinding navigationViewHeaderBinding;
 
 
-    DrawerLayout drawer;
+
+    @Override
+    public int getBindingVariable() {
+        return 1;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_home;
+    }
+
+    @Override
+    public HomeViewModel getViewModel() {
+        return viewModel = new HomeViewModel(this, getSharedPre(), this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        binding = getViewDataBinding();
+        viewModel.setNavigator(this);
+        navigationViewHeaderBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.nav_header_main,binding.navView,false);
+        binding.navView.addHeaderView(navigationViewHeaderBinding.getRoot());
+        if (savedInstanceState == null) {
+            startFragment(HomeFragment.getInstance(),true,HomeFragment.getInstance().toString());
+        }
+        SetOnClickListnersAll();
+        setData();
 
-        drawer = findViewById(R.id.drawer_layout);
-        setFragment(new HomeFragment());
 
-        setNavigationViewListener();
+    }
+
+    private void setData() {
+        navigationViewHeaderBinding.navHeaderTitle.setText(getSharedPre().getName());
+        navigationViewHeaderBinding.navHeaderSubtitle.setText(getSharedPre().getUserEmail());
+        if(getSharedPre().isGoogleLoggedIn()|| getSharedPre().isFaceboobkLoggedIn()){
+            Glide.with(this).load(getSharedPre().getClientProfile()).into( navigationViewHeaderBinding.profilePic);
+        }else{
+
+        }
+
+    }
+
+
+    private void SetOnClickListnersAll() {
+        disposable = RxView.clicks(binding.toolbar.drwerAccess).throttleFirst(500, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(unit -> {
+            if (binding.drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                binding.drawerLayout.closeDrawer(Gravity.LEFT);
+            } else {
+                binding.drawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
+        binding.navView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            switch (id){
+                case R.id.nav_home_email:{
+                    showCustomAlert("Click on Email button in Navigation View");
+                }
+            }
+            return false;
+        });
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
 
 
-    /**
-     * Navigation drawer listener
-     */
-    private void setNavigationViewListener() {
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
-
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.nav_home:
-                setFragment(new HomeFragment());
-                break;
-//
-//            case R.id.nav_notifications:
-//                startActivity(new Intent(activity, NotificationActivity.class));
-//                break;
-//
-//            case R.id.nav_logout:
-//                Toast.makeText(activity, "clicked on logout", Toast.LENGTH_SHORT).show();
-//                Helper.setLoggedInUser(sharedPreferenceUtil, null);
-//                startActivity(new Intent(activity, LogRegActivity.class));
-//                finish();
-//                break;
-
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        if (internetDialog == null) {
+            internetDialog = CommonUtils.InternetConnectionAlert(this, false);
         }
-        //close navigation drawer
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+        if (isConnected) {
+            internetDialog.dismiss();
+        } else {
+            internetDialog.show();
+        }
     }
 
-    private void setFragment(Fragment fragment) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft = ft.replace(R.id.nav_host_fragment, fragment);
-        ft.addToBackStack(null);
-        ft.commit();
-    }
 
 }

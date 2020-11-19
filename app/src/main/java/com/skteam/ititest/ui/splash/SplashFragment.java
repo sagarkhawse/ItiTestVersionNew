@@ -7,6 +7,7 @@
 
 package com.skteam.ititest.ui.splash;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
@@ -28,6 +29,7 @@ import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseFragment;
 import com.skteam.ititest.databinding.FragmentSplashBinding;
 import com.skteam.ititest.setting.CommonUtils;
+import com.skteam.ititest.ui.home.HomeActivity;
 import com.skteam.ititest.ui.welcome.WelcomeFragment;
 
 import java.util.concurrent.TimeUnit;
@@ -117,7 +119,13 @@ public class SplashFragment extends BaseFragment<FragmentSplashBinding,SplashVie
     }
     void StartIntent(){
         showCustomAlert("Thank You for Choosing us");
-        getBaseActivity().startFragment(WelcomeFragment.newInstance(),true,WelcomeFragment.newInstance().toString());
+        if(getSharedPre().isLoggedIn()){
+           startActivity(new Intent(getBaseActivity(), HomeActivity.class));
+           getBaseActivity().finish();
+        }else{
+            getBaseActivity().startFragment(WelcomeFragment.newInstance(),true,WelcomeFragment.newInstance().toString());
+        }
+
     }
 
     @Override

@@ -91,8 +91,7 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
         getSharedPre().setUserEmail(Email);
         getSharedPre().setClientId("");
         getSharedPre().setName(name);
-        getSharedPre().setGoogleProfile("");
-        getSharedPre().setProfileFacebook("");
+        getSharedPre().setClientProfile("");
         getSharedPre().setIsGoogleLoggedIn(false);
         getSharedPre().setIsFaceboobkLoggedIn(false);
         SignUpViaEmail(Email,password);
@@ -123,9 +122,8 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
             getSharedPre().setUserEmail(email);
             getSharedPre().setName(name);
             getSharedPre().setClientId(gSocialId);
-            getSharedPre().setProfileFacebook("");
             Profile=profilePic;
-            getSharedPre().setGoogleProfile(profilePic);
+            getSharedPre().setClientProfile(profilePic);
             firebaseAuthWithClient(acountToken,AppConstance.LOGIN_TYPE_GOOGLE);
 
 
@@ -200,9 +198,8 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
                                     getSharedPre().setIsLoggedIn(false);
                                     getSharedPre().setIsRegister(true);
                                     getSharedPre().setUserEmail(email);
-                                    getSharedPre().setProfileFacebook(profilePic);
+                                    getSharedPre().setClientProfile(profilePic);
                                     Profile=profilePic;
-                                    getSharedPre().setGoogleProfile("");
                                     getSharedPre().setName(name);
                                     getSharedPre().setClientId(facebookId);
                                     firebaseAuthWithClient(accessToken,AppConstance.LOGIN_TYPE_FB);
@@ -277,13 +274,13 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
         switch(type){
             case AppConstance.LOGIN_TYPE_GOOGLE:{
                 credential = GoogleAuthProvider.getCredential(idToken, null);
-                Profile=getSharedPre().getGoogleProfile();
+                Profile=getSharedPre().getClientProfile();
                 typeFinal=AppConstance.LOGIN_TYPE_GOOGLE;
                 break;
             }
             case AppConstance.LOGIN_TYPE_FB:{
                 credential =FacebookAuthProvider.getCredential(idToken);
-                Profile=getSharedPre().getFacebookProfile();
+                Profile=getSharedPre().getClientProfile();
                 typeFinal=AppConstance.LOGIN_TYPE_FB;
                 break;
             }

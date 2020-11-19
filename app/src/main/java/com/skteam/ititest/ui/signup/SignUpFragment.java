@@ -157,10 +157,14 @@ public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpVi
     public void SignUpResponse(Re re,String type) {
         switch (type){
             case AppConstance.LOGIN_TYPE_EMAIL:{
+                getSharedPre().setEmailProfile(re.getProfilePic());
                 getBaseActivity().startFragment(LoginFragment.newInstance(), true, LoginFragment.newInstance().toString());
                 break;
             }
-            case AppConstance.LOGIN_TYPE_FB:
+            case AppConstance.LOGIN_TYPE_FB:{
+                startActivity(new Intent(getActivity(), HomeActivity.class));
+                break;
+            }
             case AppConstance.LOGIN_TYPE_GOOGLE: {
                 startActivity(new Intent(getActivity(), HomeActivity.class));
                 break;
