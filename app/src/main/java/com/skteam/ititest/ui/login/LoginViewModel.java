@@ -18,6 +18,10 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.ParsedRequestListener;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -44,6 +48,7 @@ import com.skteam.ititest.BuildConfig;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseViewModel;
 import com.skteam.ititest.prefrences.SharedPre;
+import com.skteam.ititest.restModel.signup.ResponseSignUp;
 import com.skteam.ititest.setting.AppConstance;
 
 import org.json.JSONObject;
@@ -194,6 +199,7 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
                             getNavigator().setLoading(false);
                             getSharedPre().setIsLoggedIn(true);
                             getSharedPre().setIsRegister(true);
+                            LoginClient(user.getUid(),AppConstance.LOGIN_TYPE_EMAIL);
                         } else {
                             getNavigator().setLoading(false);
                         }
@@ -234,7 +240,7 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
                                 // Sign in success, update UI with the signed-in user's information
                                 FirebaseUser user = getmAuth().getCurrentUser();
                                 getSharedPre().setUserId(user.getUid());
-                                getNavigator().StartHomeNow();
+                                LoginClient(user.getUid(),finalTypeFinal);
                             } else {
                                 // If sign in fails, display a message to the user.
                                 getNavigator().onLoginFail("Authentication Failed");
@@ -247,6 +253,58 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
             getNavigator().onLoginFail("Client Error");
         }
 
+    }
+    private void LoginClient(String userId,String type) {
+        getNavigator().setLoading(true);
+        AndroidNetworking.post(AppConstance.API_BASE_URL + AppConstance.SIGN_UP)
+                .addBodyParameter("user_id", userId)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsObject(ResponseSignUp.class, new ParsedRequestListener<ResponseSignUp>() {
+                    @Override
+                    public void onResponse(ResponseSignUp response) {
+                        getNavigator().setLoading(false);
+                        if (response != null) {
+                            if (response.getCode().equals("200")) {
+                                switch(type){
+                                    case AppConstance.LOGIN_TYPE_GOOGLE:{
+                                        getSharedPre().setIsFaceboobkLoggedIn(false);
+                                        getSharedPre().setIsGoogleLoggedIn(true);
+                                        getSharedPre().setIsEmailLoggedIn(false);
+                                        getSharedPre().setGoogleProfile(response.getRes().get(0).getProfilePic());
+                                        break;
+                                    }
+                                    case AppConstance.LOGIN_TYPE_FB:{
+                                        getSharedPre().setIsFaceboobkLoggedIn(true);
+                                        getSharedPre().setIsGoogleLoggedIn(false);
+                                        getSharedPre().setIsEmailLoggedIn(false);
+                                        getSharedPre().setProfileFacebook(response.getRes().get(0).getProfilePic());
+                                        break;
+                                    }
+                                    case AppConstance.LOGIN_TYPE_EMAIL:{
+                                        getSharedPre().setIsEmailLoggedIn(true);
+                                        getSharedPre().setIsFaceboobkLoggedIn(false);
+                                        getSharedPre().setIsGoogleLoggedIn(false);
+                                        break;
+                                    }
+                                }
+                                getSharedPre().setName(response.getRes().get(0).getName());
+                                getSharedPre().setUserEmail(response.getRes().get(0).getName());
+                                getSharedPre().setUserMobile(response.getRes().get(0).getPhone());
+                                getSharedPre().setUserMobile(response.getRes().get(0).getPhone());
+                                getNavigator().StartHomeNow();
+                            } else {
+                                getNavigator().onLoginFail("Server Not Responding");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(ANError error) {
+                        getNavigator().setLoading(false);
+                        getNavigator().onLoginFail("Server Not Responding");
+                    }
+                });
     }
     public FirebaseAuth getmAuth() {
         return mAuth;

@@ -157,14 +157,14 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
                     @Override
                     public void onResponse(ResponseSignUp response) {
                         getNavigator().setLoading(false);
-                            if (response != null) {
-                                if (response.getCode().equals("200")) {
-                                  getNavigator().setMessage("Signup Successfully");
-                                    getNavigator().SignUpResponse(response.getRes().get(0),type);
-                                } else {
-                                    getNavigator().setMessage("Please try again later!");
-                                }
+                        if (response != null) {
+                            if (response.getCode().equals("200")) {
+                                getNavigator().setMessage("Signup Successfully");
+                                getNavigator().SignUpResponse(response.getRes().get(0),type);
+                            } else {
+                                getNavigator().setMessage("Please try again later!");
                             }
+                        }
                     }
 
                     @Override

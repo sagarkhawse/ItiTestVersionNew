@@ -56,7 +56,7 @@ public class Re {
         this.name = name;
     }
 
-    public Object getPhone() {
+    public String getPhone() {
         return phone;
     }
 
