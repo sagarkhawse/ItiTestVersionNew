@@ -2,6 +2,9 @@
 <resources>
     <color name="colorPrimary">#3A57FB</color>
     <color name="colorPrimaryDark">#3A57FB</color>
+
+    <color name="colorHomeBg">#EAEBF3</color>
+
     <color name="colorSpecialDark">#40b3fb</color>
     <color name="colorSpeciallight">#E667BFF4</color>
     <color name="colorAccent">#FF9100</color>
@@ -25,4 +28,16 @@
 
     <color name="colorTheme1">#3A57FB</color>
     <color name="colorTheme2">#65A7F6</color>
+
+    <color name="colorTheme3">#FF9100</color>
+    <color name="colorTheme4">#E6BC85</color>
+
+    <color name="colorTheme5">#FF1744</color>
+    <color name="colorTheme6">#ED5976</color>
+
+    <color name="colorTheme7">#FF1744</color>
+    <color name="colorTheme8">#ED5976</color>
+
+    <color name="colorTheme9">#007B5C</color>
+    <color name="colorTheme10">#00E676</color>
 </resources>
