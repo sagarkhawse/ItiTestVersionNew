@@ -1,41 +1,38 @@
-
+/*
+ * Copyright (c) Ishant Sharma
+ * Android Developer
+ * ishant.sharma1947@gmail.com
+ * 7732993378
+ *
+ *
+ */
 
 package com.skteam.ititest.ui.home.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.skteam.ititest.R;
 import com.skteam.ititest.databinding.ItemSubjectBinding;
-import com.skteam.ititest.restModel.home.subjects.ResItem;
-import com.skteam.ititest.ui.home.chapterdata.ChapterFragment;
-import com.skteam.ititest.ui.home.HomeActivity;
-import com.skteam.ititest.ui.home.chapterdata.adapter.ChapterListAdapter;
-import com.skteam.ititest.ui.home.chapterdata.testseries.adapter.TestSeriesAdapter;
-
+import com.skteam.ititest.restModel.home.subjects.Re;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.skteam.ititest.setting.AppConstance.IMG_URL;
 
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectHolder> {
-    List<ResItem> subjectList = new ArrayList<>();
+    List<Re> subjectList =new ArrayList<>();
     Context context;
-    private ChapterListAdapter chapterListAdapter;
-    private TestSeriesAdapter testSeriesAdapter;
 
 
-    public SubjectAdapter(Context context,List<ResItem> subjectList) {
+    public SubjectAdapter(Context context) {
         this.context = context;
-        this.subjectList=subjectList;
     }
 
     @Override
@@ -47,13 +44,13 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectH
     @NonNull
     @Override
     public SubjectHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemSubjectBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_subject, parent, false);
+       ItemSubjectBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_subject, parent, false);
         return new SubjectHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SubjectHolder holder, final int position) {
-        holder.OnBinding(subjectList.get(position));
+       holder.OnBinding(subjectList.get(position));
     }
 
     @Override
@@ -62,39 +59,21 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectH
     }
 
     class SubjectHolder extends RecyclerView.ViewHolder {
-        ItemSubjectBinding binding;
+        ItemSubjectBinding binding ;
 
-        public SubjectHolder(ItemSubjectBinding binding) {
+        public SubjectHolder(  ItemSubjectBinding binding ) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
-        @SuppressLint("SetTextI18n")
-        public void OnBinding(final ResItem re) {
-            binding.tvTitle.setText(re.getTitle());
-            if (Integer.parseInt(re.getChaptersCount()) > 0) {
-                binding.chapterId.setText(re.getChaptersCount() + " Chapters");
-            } else {
-                binding.chapterId.setText("No Chapters");
-            }
-
-            binding.itemView.setOnClickListener(view -> {
-                if(re.getChapterList()!=null && re.getChapterList().size()>0) {
-                    ((HomeActivity) context).startFragment(ChapterFragment.newInstance(re.getChapterList()),true,ChapterFragment.newInstance(re.getChapterList()).toString());
-                }
-                else{
-                    ((HomeActivity) context).showCustomAlert("Chapter Not Found");
-                    ((HomeActivity) context).startFragment(ChapterFragment.newInstance(null),true,ChapterFragment.newInstance(null).toString());
-                }
-            });
-
-            Glide.with(context).load(IMG_URL + re.getImage()).into(binding.subjectImage);
-
+        public void OnBinding(final Re re) {
+binding.tvTitle.setText(re.getTitle());
+Glide.with(context).load(IMG_URL+re.getImage()).into(binding.subjectImage);
         }
     }
 
 
-    public void updateList(List<ResItem> subjectList) {
+    public void updateList( List<Re> subjectList) {
         this.subjectList = subjectList;
         notifyDataSetChanged();
     }

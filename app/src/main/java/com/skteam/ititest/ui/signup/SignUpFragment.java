@@ -154,6 +154,11 @@ public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpVi
     }
 
     @Override
+    public void setMessage(String message) {
+        showCustomAlert(message);
+    }
+
+    @Override
     public void SignUpResponse(Re re,String type) {
         switch (type){
             case AppConstance.LOGIN_TYPE_EMAIL:{
@@ -174,9 +179,6 @@ public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpVi
     }
 
 
-    @Override
-    public void setMessage(String message) {
-        showCustomAlert(message);
-    }
+
 
 }

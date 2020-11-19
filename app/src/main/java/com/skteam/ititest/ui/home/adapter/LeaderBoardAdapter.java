@@ -8,7 +8,6 @@
 package com.skteam.ititest.ui.home.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
@@ -19,8 +18,6 @@ import com.bumptech.glide.Glide;
 import com.skteam.ititest.R;
 import com.skteam.ititest.databinding.ItemBestPlayersBinding;
 import com.skteam.ititest.restModel.home.leaderboard.Re;
-import com.skteam.ititest.setting.AppConstance;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,9 +26,8 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
    private  Context context;
 
 
-    public LeaderBoardAdapter(Context context,List<Re> lederboardList) {
+    public LeaderBoardAdapter(Context context) {
         this.context = context;
-        this.lederboardList=lederboardList;
     }
 
     @NonNull
@@ -60,15 +56,7 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
         }
 
         public void onBinding(final Re re) {
-
-            Uri uri = Uri.parse(re.getProfilePic());
-            String protocol = uri.getScheme();
-            String server = uri.getAuthority();
-          if(protocol!=null && server!=null){
-              Glide.with(context).load(re.getProfilePic()).into(binding.userDp);
-          }else{
-              Glide.with(context).load(AppConstance.IMG_URL+re.getProfilePic()).into(binding.userDp);
-          }
+            Glide.with(context).load("https://lh3.googleusercontent.com/a-/AOh14Gj2G6zOxvhbf1kNH-2vUwt21HPJl-nyxuBJwk9bEhM=s96-c").into(binding.userDp);
             binding.userName.setText(re.getName()+"\n"+re.getPoints());
         }
     }

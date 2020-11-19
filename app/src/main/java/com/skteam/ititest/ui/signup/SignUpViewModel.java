@@ -83,7 +83,6 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
         }
 
     }
-
     public void SignupNow(String name,String Email,String password) {
         getNavigator().setLoading(true);
         getNavigator().setLoading(true);

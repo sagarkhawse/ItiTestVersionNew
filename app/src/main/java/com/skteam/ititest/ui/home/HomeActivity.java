@@ -125,4 +125,18 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
     }
 
 
+    @Override
+    public void setLoading(boolean b) {
+        if (b) {
+            showLoadingDialog("");
+        } else {
+            hideLoadingDialog();
+        }
+    }
+
+    @Override
+    public void setMessage(String message) {
+        showCustomAlert(message);
+    }
+
 }

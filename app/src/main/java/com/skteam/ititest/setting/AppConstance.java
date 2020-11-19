@@ -9,6 +9,7 @@ public class AppConstance {
     public static final String DEVICE_TYPE = "android";
     //API Endpoints
     public static final String API_BASE_URL ="https://androappdev.xyz/ItiTest/index.php?p=";
+    public static final String IMG_URL ="https://androappdev.xyz/ItiTest/Images/";
     public static final String SIGN_UP ="sign_up";
     public static final String SUBJECTS ="subjects";
     public static final String LEADERBOARD ="leaderboard";

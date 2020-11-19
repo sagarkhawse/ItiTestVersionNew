@@ -10,4 +10,6 @@
 package com.skteam.ititest.ui.home;
 
 public interface HomeNav {
+    void setLoading(boolean b);
+    void setMessage(String s);
 }
