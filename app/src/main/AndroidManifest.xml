@@ -8,10 +8,10 @@
         android:name="android.software.leanback"
         android:required="false" /> <!-- Permission -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".application.MyApplication"
@@ -25,7 +25,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.home.HomeActivity"></activity>
+        <activity
+            android:name=".ui.home.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <!-- Activties -->
         <activity
             android:name=".ui.splash.SplashActivity"
@@ -37,10 +42,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- receivers -->
-
+        </activity> <!-- receivers -->
         <receiver
             android:name=".brodcastReceivers.ConnectionReceiver"
             android:enabled="true">
@@ -48,23 +50,6 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-
-        <!--metadata-->
-
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
-        <meta-data android:name="com.facebook.accountkit.ApplicationName"
-            android:value="@string/app_name"/>
-        <meta-data
-            android:name="com.facebook.accountkit.ClientToken"
-            android:value="@string/ACCOUNT_KIT_CLIENT_TOKEN" />
-
-            <!--Providers-->
-
-        <provider
-            android:authorities="com.facebook.app.FacebookContentProvider416701669690722"
-            android:name="com.facebook.FacebookContentProvider"
-            android:exported="true"/>
     </application>
 
 </manifest>

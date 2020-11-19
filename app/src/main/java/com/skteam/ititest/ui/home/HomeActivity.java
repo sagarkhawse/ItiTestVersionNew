@@ -1,60 +1,82 @@
-/*
- * Copyright (c) Ishant Sharma
- * Android Developer
- * ishant.sharma1947@gmail.com
- * 7732993378
- */
 
 package com.skteam.ititest.ui.home;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
-import android.app.Dialog;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.navigation.NavigationView;
 import com.skteam.ititest.R;
-import com.skteam.ititest.baseclasses.BaseActivity;
-import com.skteam.ititest.databinding.ActivityHomeBinding;
-import com.skteam.ititest.setting.CommonUtils;
 
-public class HomeActivity extends BaseActivity<ActivityHomeBinding,HomeViewModel>implements HomeNav {
-private Dialog internetDialog;
-private ActivityHomeBinding binding;
-private HomeViewModel viewModel;
-private Activity activity;
-    @Override
-    public int getBindingVariable() {
-        return 0;
-    }
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_home;
-    }
 
-    @Override
-    public HomeViewModel getViewModel() {
-        return viewModel=new HomeViewModel(this,getSharedPre(),this);
-    }
+    DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      activity=this;
-      viewModel.setNavigator(this);
-      binding=getViewDataBinding();
+        setContentView(R.layout.activity_home);
+
+        drawer = findViewById(R.id.drawer_layout);
+        setFragment(new HomeFragment());
+
+        setNavigationViewListener();
     }
 
     @Override
-    public void onNetworkConnectionChanged(boolean isConnected) {
-        if (internetDialog == null) {
-            internetDialog = CommonUtils.InternetConnectionAlert(this, false);
-        }
-        if (isConnected) {
-            internetDialog.dismiss();
-        } else {
-            internetDialog.show();
-        }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.home, menu);
+        return true;
     }
+
+
+    /**
+     * Navigation drawer listener
+     */
+    private void setNavigationViewListener() {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_home:
+                setFragment(new HomeFragment());
+                break;
+//
+//            case R.id.nav_notifications:
+//                startActivity(new Intent(activity, NotificationActivity.class));
+//                break;
+//
+//            case R.id.nav_logout:
+//                Toast.makeText(activity, "clicked on logout", Toast.LENGTH_SHORT).show();
+//                Helper.setLoggedInUser(sharedPreferenceUtil, null);
+//                startActivity(new Intent(activity, LogRegActivity.class));
+//                finish();
+//                break;
+
+        }
+        //close navigation drawer
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void setFragment(Fragment fragment) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft = ft.replace(R.id.nav_host_fragment, fragment);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
 }

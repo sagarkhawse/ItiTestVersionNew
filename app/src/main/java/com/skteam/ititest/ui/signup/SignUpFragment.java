@@ -1,11 +1,3 @@
-/*
- * Copyright (c) Ishant Sharma
- * Android Developer
- * ishant.sharma1947@gmail.com
- * 7732993378
- *
- *
- */
 
 package com.skteam.ititest.ui.signup;
 
@@ -168,11 +160,8 @@ public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpVi
                 getBaseActivity().startFragment(LoginFragment.newInstance(), true, LoginFragment.newInstance().toString());
                 break;
             }
-            case AppConstance.LOGIN_TYPE_FB:{
-                startActivity(new Intent(getActivity(), HomeActivity.class));
-                break;
-            }
-            case AppConstance.LOGIN_TYPE_GOOGLE:{
+            case AppConstance.LOGIN_TYPE_FB:
+            case AppConstance.LOGIN_TYPE_GOOGLE: {
                 startActivity(new Intent(getActivity(), HomeActivity.class));
                 break;
             }
