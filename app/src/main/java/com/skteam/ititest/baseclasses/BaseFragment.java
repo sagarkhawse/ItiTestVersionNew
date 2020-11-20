@@ -153,7 +153,7 @@ public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseView
     public void showCustomAlert(String msg) {
         CustomToastBinding toastBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.custom_toast, null, false);
         toastBinding.toastText.setText(msg);
-        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setDuration(Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.TOP, 0, 0);
         toast.setView(toastBinding.getRoot());
         toast.show();

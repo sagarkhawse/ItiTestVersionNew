@@ -6,12 +6,14 @@
  */
 
 package com.skteam.ititest.baseclasses;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.Gravity;
@@ -37,7 +39,9 @@ import com.skteam.ititest.database.RoomDatabase;
 import com.skteam.ititest.databinding.CustomToastBinding;
 import com.skteam.ititest.prefrences.SharedPre;
 import com.skteam.ititest.setting.CommonUtils;
+import com.skteam.ititest.ui.home.HomeFragment;
 import com.skteam.ititest.ui.welcome.WelcomeFragment;
+import com.tapadoo.alerter.Alerter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.jetbrains.annotations.NotNull;
@@ -47,7 +51,7 @@ import java.util.ArrayList;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 
-public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseViewModel> extends AppCompatActivity  implements ConnectionReceiver.ConnectionReceiverListener {
+public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseViewModel> extends AppCompatActivity implements ConnectionReceiver.ConnectionReceiverListener {
     private static ArrayList<Class> runningActivities = new ArrayList<>();
     private B mViewDataBinding;
     private V mViewModel;
@@ -62,8 +66,9 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
     private Toast toast;
     private Vibrator vibe;
     private RxPermissions rxPermissions;
-    private Application application;
+    private boolean doubleBackToExitPressedOnce = false;
 //replace yourActivity.this with your own activity or if you declared a context you can write context.getSystemService(Context.VIBRATOR_SERVICE);
+
     /**
      * Override for set binding variable
      *
@@ -102,20 +107,23 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
     }
 
     public RoomDatabase getDatabase() {
-        if(database==null){
+        if (database == null) {
             database = RoomDatabase.getInstance(this);
         }
         return database;
     }
-    public Context GetApplicationContext(){
+
+    public Context GetApplicationContext() {
         return getApplicationContext();
     }
-public RxPermissions getRxPermissions(){
-        if(rxPermissions==null){
-            rxPermissions=new RxPermissions(this);
+
+    public RxPermissions getRxPermissions() {
+        if (rxPermissions == null) {
+            rxPermissions = new RxPermissions(this);
         }
         return rxPermissions;
-}
+    }
+
     private void performDataBinding() {
         mViewDataBinding = DataBindingUtil.setContentView(this, getLayoutId());
         this.mViewModel = mViewModel == null ? getViewModel() : mViewModel;
@@ -129,9 +137,9 @@ public RxPermissions getRxPermissions(){
 
 
     public Vibrator getVibe() {
-       if(vibe==null){
-           vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-       }
+        if (vibe == null) {
+            vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        }
         return vibe;
     }
 
@@ -146,12 +154,11 @@ public RxPermissions getRxPermissions(){
     }
 
 
-
     public SharedPre getSharedPre() {
-        if(sharedPre!=null){
+        if (sharedPre != null) {
             return sharedPre;
-        }else{
-            sharedPre=SharedPre.getInstance(this);
+        } else {
+            sharedPre = SharedPre.getInstance(this);
             return sharedPre;
         }
     }
@@ -185,7 +192,7 @@ public RxPermissions getRxPermissions(){
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(progressDialog!=null && progressDialog.isShowing()){
+        if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
         removeThisActivityFromRunningActivities(this.getClass());
@@ -199,6 +206,7 @@ public RxPermissions getRxPermissions(){
         toast.setView(toastBinding.getRoot());
         toast.show();
     }
+
     public void showLoadingDialog(String s) {
         try {
             if (progressDialog == null)
@@ -218,6 +226,7 @@ public RxPermissions getRxPermissions(){
             e.printStackTrace();
         }
     }
+
     public void startFragment(Fragment fragment) {
         transaction = manager.beginTransaction();
         transaction.replace(R.id.container, fragment);
@@ -225,9 +234,10 @@ public RxPermissions getRxPermissions(){
             transaction.commit();
         }
     }
+
     public void startFragment(Fragment fragment, boolean addToBackStack, String backStackTag) {
         this.addToBackStack = addToBackStack;
-        boolean fragmentPopped = manager.popBackStackImmediate (backStackTag, 0);
+        boolean fragmentPopped = manager.popBackStackImmediate(backStackTag, 0);
         if (!fragmentPopped) {
             transaction = manager.beginTransaction();
             if (addToBackStack) {
@@ -239,12 +249,13 @@ public RxPermissions getRxPermissions(){
             transaction.commit();
         }
     }
-    public void startFragment(Fragment fragment, boolean addToBackStack, String backStackTag,boolean wantAnimation) {
+
+    public void startFragment(Fragment fragment, boolean addToBackStack, String backStackTag, boolean wantAnimation) {
         this.addToBackStack = addToBackStack;
-        boolean fragmentPopped = manager.popBackStackImmediate (backStackTag, 0);
+        boolean fragmentPopped = manager.popBackStackImmediate(backStackTag, 0);
         if (!fragmentPopped) {
             transaction = manager.beginTransaction();
-            if(wantAnimation){
+            if (wantAnimation) {
                 transaction.setCustomAnimations(R.anim.slide_up, 0, 0, 0);
             }
             if (addToBackStack) {
@@ -261,13 +272,24 @@ public RxPermissions getRxPermissions(){
     @Override
     public void onBackPressed() {
         fragment = getCurrentFragment();
-        for(int entry = 0; entry < manager.getBackStackEntryCount(); entry++){
+        for (int entry = 0; entry < manager.getBackStackEntryCount(); entry++) {
             Log.e("Ishant", "Found fragment: " + manager.getBackStackEntryAt(entry).getId());
         }
         if (addToBackStack) {
             if (fragment instanceof WelcomeFragment) {
                 addToBackStack = false;
                 finish();
+            }
+            if (fragment instanceof HomeFragment) {
+                if (doubleBackToExitPressedOnce) {
+                    toast.cancel();
+                    finish();
+                    return;
+                }
+                this.doubleBackToExitPressedOnce = true;
+                // showAlertDialog();
+                showCustomAlert(" Please Press BACK again to exit");
+                new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
             } else {
                 if (manager != null && manager.getBackStackEntryCount() > 0) {
                     manager.popBackStackImmediate();
