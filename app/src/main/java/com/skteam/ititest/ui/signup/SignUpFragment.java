@@ -179,6 +179,8 @@ public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpVi
     }
 
 
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
 
-
+    }
 }

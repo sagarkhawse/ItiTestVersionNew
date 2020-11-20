@@ -50,6 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="20 Chapters"
+                    android:id="@+id/chapterId"
                     android:background="@drawable/bg_white_round"
                     android:paddingStart="@dimen/_10sdp"
                     android:paddingEnd="@dimen/_10sdp"

@@ -108,4 +108,9 @@ public class WelcomeFragment extends BaseFragment<WelcomeFragmentBinding, Welcom
             disposable.dispose();
         }
     }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+
+    }
 }

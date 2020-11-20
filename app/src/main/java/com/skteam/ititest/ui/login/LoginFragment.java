@@ -171,4 +171,9 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding, LoginViewM
     public void StartHomeNow() {
        startActivity(new Intent(getActivity(), HomeActivity.class));
     }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+
+    }
 }

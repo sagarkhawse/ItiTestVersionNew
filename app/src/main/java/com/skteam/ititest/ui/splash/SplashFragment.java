@@ -135,5 +135,10 @@ public class SplashFragment extends BaseFragment<FragmentSplashBinding,SplashVie
             disposable.dispose();
         }
     }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+
+    }
 }
 

@@ -11,9 +11,7 @@ package com.skteam.ititest.ui.home.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,13 +19,14 @@ import com.bumptech.glide.Glide;
 import com.skteam.ititest.R;
 import com.skteam.ititest.databinding.ItemSubjectBinding;
 import com.skteam.ititest.restModel.home.subjects.Re;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.skteam.ititest.setting.AppConstance.IMG_URL;
 
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectHolder> {
-    List<Re> subjectList =new ArrayList<>();
+    List<Re> subjectList = new ArrayList<>();
     Context context;
 
 
@@ -44,13 +43,13 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectH
     @NonNull
     @Override
     public SubjectHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       ItemSubjectBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_subject, parent, false);
+        ItemSubjectBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_subject, parent, false);
         return new SubjectHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SubjectHolder holder, final int position) {
-       holder.OnBinding(subjectList.get(position));
+        holder.OnBinding(subjectList.get(position));
     }
 
     @Override
@@ -59,21 +58,27 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectH
     }
 
     class SubjectHolder extends RecyclerView.ViewHolder {
-        ItemSubjectBinding binding ;
+        ItemSubjectBinding binding;
 
-        public SubjectHolder(  ItemSubjectBinding binding ) {
+        public SubjectHolder(ItemSubjectBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
         public void OnBinding(final Re re) {
-binding.tvTitle.setText(re.getTitle());
-Glide.with(context).load(IMG_URL+re.getImage()).into(binding.subjectImage);
+            binding.tvTitle.setText(re.getTitle());
+            if(Integer.parseInt(re.getChapters())>0){
+                binding.chapterId.setText(re.getChapters()+" Chapters");
+            }else{
+                binding.chapterId.setText("No Chapters");
+            }
+
+            Glide.with(context).load(IMG_URL + re.getImage()).into(binding.subjectImage);
         }
     }
 
 
-    public void updateList( List<Re> subjectList) {
+    public void updateList(List<Re> subjectList) {
         this.subjectList = subjectList;
         notifyDataSetChanged();
     }

@@ -13,6 +13,8 @@ public class Re {
     private String subjectId;
     @Expose
     private String title;
+    @SerializedName("chapters_count")
+    private String chapters;
 
     public String getImage() {
         return image;
@@ -38,4 +40,11 @@ public class Re {
         this.title = title;
     }
 
+    public String getChapters() {
+        return chapters;
+    }
+
+    public void setChapters(String chapters) {
+        this.chapters = chapters;
+    }
 }

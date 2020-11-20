@@ -29,13 +29,15 @@ import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
 import com.skteam.ititest.R;
+import com.skteam.ititest.application.MyApplication;
+import com.skteam.ititest.brodcastReceivers.ConnectionReceiver;
 import com.skteam.ititest.database.RoomDatabase;
 import com.skteam.ititest.databinding.CustomToastBinding;
 import com.skteam.ititest.prefrences.SharedPre;
 import com.skteam.ititest.setting.CommonUtils;
 
 
-public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseViewModel> extends Fragment {
+public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseViewModel> extends Fragment implements ConnectionReceiver.ConnectionReceiverListener {
     private B mViewDataBinding;
     private V mViewModel;
     private BaseActivity mActivity;
@@ -43,6 +45,7 @@ public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseView
     private SharedPre sharedPre;
     private RoomDatabase database;
     private Toast toast;
+    private ConnectionReceiver.ConnectionReceiverListener connectionReceiverListener;
    private Vibrator vibe ;
     /**
      * Override for set binding variable
@@ -123,6 +126,8 @@ public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseView
         mViewDataBinding.setVariable(getBindingVariable(), mViewModel);
         mViewDataBinding.setLifecycleOwner(this);
         mViewDataBinding.executePendingBindings();
+        connectionReceiverListener = this;
+        ((MyApplication) getBaseActivity().getApplicationContext()).setConnectionListener(connectionReceiverListener);
     }
 
     public BaseActivity getBaseActivity() {

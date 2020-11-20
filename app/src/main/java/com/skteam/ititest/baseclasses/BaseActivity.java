@@ -8,6 +8,7 @@
 package com.skteam.ititest.baseclasses;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -61,6 +62,7 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
     private Toast toast;
     private Vibrator vibe;
     private RxPermissions rxPermissions;
+    private Application application;
 //replace yourActivity.this with your own activity or if you declared a context you can write context.getSystemService(Context.VIBRATOR_SERVICE);
     /**
      * Override for set binding variable
@@ -104,6 +106,9 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
             database = RoomDatabase.getInstance(this);
         }
         return database;
+    }
+    public Context GetApplicationContext(){
+        return getApplicationContext();
     }
 public RxPermissions getRxPermissions(){
         if(rxPermissions==null){

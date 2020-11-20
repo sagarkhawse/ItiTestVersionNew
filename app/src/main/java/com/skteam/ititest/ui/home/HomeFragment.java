@@ -24,18 +24,19 @@ import com.skteam.ititest.ui.signup.SignUpFragment;
 
 import java.util.List;
 
-public class HomeFragment extends BaseFragment<FragmentHomeBinding,HomeViewModel>implements HomeNav {
+public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> implements HomeNav {
 
-private FragmentHomeBinding binding;
-private HomeViewModel viewModel;
-private static HomeFragment instance;
-private LeaderBoardAdapter leaderBoardAdapter;
-private SubjectAdapter subjectAdapter;
+    private FragmentHomeBinding binding;
+    private HomeViewModel viewModel;
+    private static HomeFragment instance;
+    private LeaderBoardAdapter leaderBoardAdapter;
+    private SubjectAdapter subjectAdapter;
 
     public HomeFragment() {
         // Required empty public constructor
     }
-    public static HomeFragment getInstance(){
+
+    public static HomeFragment getInstance() {
         instance = instance == null ? new HomeFragment() : instance;
         return instance;
     }
@@ -55,6 +56,7 @@ private SubjectAdapter subjectAdapter;
     public HomeViewModel getViewModel() {
         return viewModel = new HomeViewModel(getContext(), getSharedPre(), getActivity());
     }
+
     @Override
     public String toString() {
         return HomeFragment.class.getSimpleName();
@@ -69,31 +71,35 @@ private SubjectAdapter subjectAdapter;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding=getViewDataBinding();
+        binding = getViewDataBinding();
         viewModel.setNavigator(this);
         binding.name.setText(getSharedPre().getName());
         binding.emailAddress.setText(getSharedPre().getUserEmail());
-        leaderBoardAdapter=new LeaderBoardAdapter(getContext());
-        subjectAdapter=new SubjectAdapter(getContext());
+        leaderBoardAdapter = new LeaderBoardAdapter(getContext());
+        subjectAdapter = new SubjectAdapter(getContext());
         binding.rvSubjects.setAdapter(subjectAdapter);
         binding.rvBestPlayers.setAdapter(leaderBoardAdapter);
-        if(getSharedPre().isGoogleLoggedIn()|| getSharedPre().isFaceboobkLoggedIn()){
-            Glide.with(this).load(getSharedPre().getClientProfile()).into( binding.userDp);
-        }else{
+        if (getSharedPre().isGoogleLoggedIn() || getSharedPre().isFaceboobkLoggedIn()) {
+            Glide.with(this).load(getSharedPre().getClientProfile()).into(binding.userDp);
+        } else {
 
         }
+        CollectAllDataThroughAPI();
+
+
+    }
+
+    private void CollectAllDataThroughAPI() {
         viewModel.GetAllSubjectNow().observe(getBaseActivity(), res -> {
-            if(res!=null && res.size()>0){
+            if (res != null && res.size() > 0) {
                 subjectAdapter.updateList(res);
             }
         });
         viewModel.GetAllLeaderBoardNow().observe(getBaseActivity(), res -> {
-            if(res!=null && res.size()>0){
+            if (res != null && res.size() > 0) {
                 leaderBoardAdapter.updateList(res);
             }
         });
-
-
     }
 
 
@@ -109,5 +115,12 @@ private SubjectAdapter subjectAdapter;
     @Override
     public void setMessage(String message) {
         showCustomAlert(message);
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        if (isConnected) {
+            CollectAllDataThroughAPI();
+        }
     }
 }
