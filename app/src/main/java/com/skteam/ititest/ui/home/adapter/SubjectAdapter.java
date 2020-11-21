@@ -87,9 +87,11 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectH
             if(re.getChapterList()!=null && re.getChapterList().size()>0 ){
                 chapterListItem=re.getChapterList();
                 chapterListItem.add(0,chapterList0Item);
+                binding.spinnerChapters.setVisibility(View.VISIBLE);
 
             }else{
                 chapterListItem.add(0,chapterList0Item);
+                binding.spinnerChapters.setVisibility(View.GONE);
             }
             chapterListAdapter=new ChapterListAdapter(context,R.layout.custom_spinner,chapterListItem);
 
