@@ -1,28 +1,21 @@
 
 package com.skteam.ititest.ui.home;
-
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.SnapHelper;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.bumptech.glide.Glide;
-import com.skteam.ititest.BR;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseFragment;
 import com.skteam.ititest.databinding.FragmentHomeBinding;
-import com.skteam.ititest.restModel.home.subjects.Re;
+import com.skteam.ititest.setting.AppConstance;
 import com.skteam.ititest.ui.home.adapter.LeaderBoardAdapter;
 import com.skteam.ititest.ui.home.adapter.SubjectAdapter;
-import com.skteam.ititest.ui.signup.SignUpFragment;
-
-import java.util.List;
 
 public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> implements HomeNav {
 
@@ -31,6 +24,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private static HomeFragment instance;
     private LeaderBoardAdapter leaderBoardAdapter;
     private SubjectAdapter subjectAdapter;
+    private SnapHelper bestPlayerHelper=new PagerSnapHelper();
+    private SnapHelper subjectHelper=new PagerSnapHelper();
 
     public HomeFragment() {
         // Required empty public constructor
@@ -77,16 +72,16 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.emailAddress.setText(getSharedPre().getUserEmail());
         leaderBoardAdapter = new LeaderBoardAdapter(getContext());
         subjectAdapter = new SubjectAdapter(getContext());
+        bestPlayerHelper.attachToRecyclerView(  binding.rvBestPlayers);
+        subjectHelper.attachToRecyclerView( binding.rvSubjects);
         binding.rvSubjects.setAdapter(subjectAdapter);
         binding.rvBestPlayers.setAdapter(leaderBoardAdapter);
         if (getSharedPre().isGoogleLoggedIn() || getSharedPre().isFaceboobkLoggedIn()) {
             Glide.with(this).load(getSharedPre().getClientProfile()).into(binding.userDp);
         } else {
-
+            Glide.with(this).load(AppConstance.IMG_URL+getSharedPre().getEmailProfile()).into(binding.userDp);
         }
         CollectAllDataThroughAPI();
-
-
     }
 
     private void CollectAllDataThroughAPI() {

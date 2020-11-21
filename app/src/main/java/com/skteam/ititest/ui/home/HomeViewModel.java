@@ -21,20 +21,19 @@ import com.androidnetworking.interfaces.ParsedRequestListener;
 import com.skteam.ititest.baseclasses.BaseViewModel;
 import com.skteam.ititest.prefrences.SharedPre;
 import com.skteam.ititest.restModel.home.leaderboard.LeaderBoardResponse;
-import com.skteam.ititest.restModel.home.subjects.Re;
+import com.skteam.ititest.restModel.home.subjects.ResItem;
 import com.skteam.ititest.restModel.home.subjects.SubjectResponse;
-import com.skteam.ititest.restModel.signup.ResponseSignUp;
 import com.skteam.ititest.setting.AppConstance;
 
 import java.util.List;
 
 public class HomeViewModel extends BaseViewModel<HomeNav> {
-    private MutableLiveData<List<Re>> subjectListMutableLiveData=new MutableLiveData<>();
+    private MutableLiveData<List<ResItem>> subjectListMutableLiveData=new MutableLiveData<>();
     private MutableLiveData<List<com.skteam.ititest.restModel.home.leaderboard.Re>> leaderBoardMutabledata=new MutableLiveData<>();
     public HomeViewModel(Context context, SharedPre sharedPre, Activity activity) {
         super(context, sharedPre, activity);
     }
-    private MutableLiveData<List<Re>> GetAllSubject() {
+    private MutableLiveData<List<ResItem>> GetAllSubject() {
         getNavigator().setLoading(true);
         AndroidNetworking.post(AppConstance.API_BASE_URL + AppConstance.SUBJECTS)
                 .setPriority(Priority.HIGH)
@@ -86,7 +85,7 @@ public class HomeViewModel extends BaseViewModel<HomeNav> {
                 });
         return leaderBoardMutabledata;
     }
-    public LiveData<List<Re>> GetAllSubjectNow(){
+    public LiveData<List<ResItem>> GetAllSubjectNow(){
         return GetAllSubject();
     }
     public LiveData<List<com.skteam.ititest.restModel.home.leaderboard.Re>>GetAllLeaderBoardNow(){

@@ -1,31 +1,31 @@
-
 package com.skteam.ititest.restModel.home.subjects;
 
 import java.util.List;
-import com.google.gson.annotations.Expose;
 
+public class SubjectResponse{
+	private List<ResItem> res;
+	private String code;
+	public List<ResItem> getRes(){
+		return res;
+	}
+	public String getCode(){
+		return code;
+	}
 
-public class SubjectResponse {
+	public void setRes(List<ResItem> res) {
+		this.res = res;
+	}
 
-    @Expose
-    private String code;
-    @Expose
-    private List<Re> res;
+	public void setCode(String code) {
+		this.code = code;
+	}
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public List<Re> getRes() {
-        return res;
-    }
-
-    public void setRes(List<Re> res) {
-        this.res = res;
-    }
-
+	@Override
+ 	public String toString(){
+		return 
+			"SubjectResponse{" + 
+			"res = '" + res + '\'' + 
+			",code = '" + code + '\'' + 
+			"}";
+		}
 }
