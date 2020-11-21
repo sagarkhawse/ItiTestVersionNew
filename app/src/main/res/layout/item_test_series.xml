@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,14 +9,12 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_white"
     android:padding="@dimen/_5sdp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/test_series_1"
-        android:textColor="@color/black"
         style="@style/textViewDescriptionBlack"
         android:id="@+id/tvTitle"
         android:layout_toStartOf="@+id/ivViewTest"
@@ -28,9 +25,10 @@
         android:id="@+id/ivViewTest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/lb_ic_nav_arrow"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         app:tint="@color/black"
         android:contentDescription="@string/view_test" />
 </RelativeLayout>
-</androidx.cardview.widget.CardView></layout>
+</androidx.cardview.widget.CardView>

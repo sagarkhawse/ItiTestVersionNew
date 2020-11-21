@@ -142,33 +142,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
          />
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/_10sdp"
-            >
-            <TextView
-                android:layout_toStartOf="@+id/tvViewAllPlayers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/subjects"
-                android:textSize="@dimen/_14ssp"
-                android:fontFamily="@font/avenir_next_regular"
-                />
 
-            <TextView
-                android:id="@+id/tvViewAllSubjects"
-                android:layout_alignParentEnd="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/view_all"
-                style="@style/underlineTextview"
-                />
-
-        </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvSubjects"
+            android:layout_marginTop="@dimen/_5sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
