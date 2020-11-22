@@ -1,5 +1,6 @@
 
 package com.skteam.ititest.ui.home;
+import android.app.Dialog;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +15,7 @@ import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseFragment;
 import com.skteam.ititest.databinding.FragmentHomeBinding;
 import com.skteam.ititest.setting.AppConstance;
+import com.skteam.ititest.setting.CommonUtils;
 import com.skteam.ititest.ui.home.adapter.LeaderBoardAdapter;
 import com.skteam.ititest.ui.home.adapter.SubjectAdapter;
 
@@ -24,6 +26,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private static HomeFragment instance;
     private LeaderBoardAdapter leaderBoardAdapter;
     private SubjectAdapter subjectAdapter;
+    private Dialog internetDialog;
     private SnapHelper bestPlayerHelper=new PagerSnapHelper();
     private SnapHelper subjectHelper=new PagerSnapHelper();
 
@@ -114,8 +117,14 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
+        if (internetDialog == null) {
+            internetDialog = CommonUtils.InternetConnectionAlert(getActivity(), false);
+        }
         if (isConnected) {
+            internetDialog.dismiss();
             CollectAllDataThroughAPI();
+        } else {
+            internetDialog.show();
         }
     }
 }
