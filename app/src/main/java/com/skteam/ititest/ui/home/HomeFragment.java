@@ -1,9 +1,11 @@
 
 package com.skteam.ititest.ui.home;
 import android.app.Dialog;
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.SnapHelper;
 
@@ -14,10 +16,13 @@ import com.bumptech.glide.Glide;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseFragment;
 import com.skteam.ititest.databinding.FragmentHomeBinding;
+import com.skteam.ititest.restModel.signup.Re;
 import com.skteam.ititest.setting.AppConstance;
 import com.skteam.ititest.setting.CommonUtils;
 import com.skteam.ititest.ui.home.adapter.LeaderBoardAdapter;
 import com.skteam.ititest.ui.home.adapter.SubjectAdapter;
+
+import java.util.List;
 
 public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> implements HomeNav {
 
@@ -71,19 +76,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         super.onViewCreated(view, savedInstanceState);
         binding = getViewDataBinding();
         viewModel.setNavigator(this);
-        binding.name.setText(getSharedPre().getName());
-        binding.emailAddress.setText(getSharedPre().getUserEmail());
         leaderBoardAdapter = new LeaderBoardAdapter(getContext());
         subjectAdapter = new SubjectAdapter(getContext());
         bestPlayerHelper.attachToRecyclerView(  binding.rvBestPlayers);
         subjectHelper.attachToRecyclerView( binding.rvSubjects);
         binding.rvSubjects.setAdapter(subjectAdapter);
         binding.rvBestPlayers.setAdapter(leaderBoardAdapter);
-        if (getSharedPre().isGoogleLoggedIn() || getSharedPre().isFaceboobkLoggedIn()) {
-            Glide.with(this).load(getSharedPre().getClientProfile()).into(binding.userDp);
-        } else {
-            Glide.with(this).load(AppConstance.IMG_URL+getSharedPre().getEmailProfile()).into(binding.userDp);
-        }
         CollectAllDataThroughAPI();
     }
 
@@ -96,6 +94,22 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.GetAllLeaderBoardNow().observe(getBaseActivity(), res -> {
             if (res != null && res.size() > 0) {
                 leaderBoardAdapter.updateList(res);
+            }
+        });
+        viewModel.GetAllUserDetails().observe(getBaseActivity(), res -> {
+            if(res!=null && res.size()>0){
+                binding.name.setText(res.get(0).getName());
+                binding.emailAddress.setText(res.get(0).getEmail());
+                if(res.get(0).getProfilePic()!=null) {
+                    Uri uri = Uri.parse(res.get(0).getProfilePic());
+                    String protocol = uri.getScheme();
+                    String server = uri.getAuthority();
+                    if(protocol!=null && server!=null){
+                        Glide.with(getContext()).load(res.get(0).getProfilePic()).into(binding.userDp);
+                    }else{
+                        Glide.with(getContext()).load(AppConstance.IMG_URL+res.get(0).getProfilePic()).into(binding.userDp);
+                    }
+                }
             }
         });
     }

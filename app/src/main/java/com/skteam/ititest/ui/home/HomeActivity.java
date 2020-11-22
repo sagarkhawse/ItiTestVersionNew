@@ -2,6 +2,8 @@
 package com.skteam.ititest.ui.home;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -15,6 +17,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
@@ -23,8 +26,11 @@ import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseActivity;
 import com.skteam.ititest.databinding.ActivityHomeBinding;
 import com.skteam.ititest.databinding.NavHeaderMainBinding;
+import com.skteam.ititest.restModel.signup.Re;
+import com.skteam.ititest.setting.AppConstance;
 import com.skteam.ititest.setting.CommonUtils;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -38,8 +44,8 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
     private HomeViewModel viewModel;
     private Dialog internetDialog;
     private Disposable disposable;
+    private Context context;
     private NavHeaderMainBinding navigationViewHeaderBinding;
-
 
 
     @Override
@@ -62,10 +68,11 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
         super.onCreate(savedInstanceState);
         binding = getViewDataBinding();
         viewModel.setNavigator(this);
-        navigationViewHeaderBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.nav_header_main,binding.navView,false);
+        context=this;
+        navigationViewHeaderBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.nav_header_main, binding.navView, false);
         binding.navView.addHeaderView(navigationViewHeaderBinding.getRoot());
         if (savedInstanceState == null) {
-            startFragment(HomeFragment.getInstance(),true,HomeFragment.getInstance().toString());
+            startFragment(HomeFragment.getInstance(), true, HomeFragment.getInstance().toString());
         }
         SetOnClickListnersAll();
         setData();
@@ -74,13 +81,24 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
     }
 
     private void setData() {
-        navigationViewHeaderBinding.navHeaderTitle.setText(getSharedPre().getName());
-        navigationViewHeaderBinding.navHeaderSubtitle.setText(getSharedPre().getUserEmail());
-        if(getSharedPre().isGoogleLoggedIn()|| getSharedPre().isFaceboobkLoggedIn()){
-            Glide.with(this).load(getSharedPre().getClientProfile()).into( navigationViewHeaderBinding.profilePic);
-        }else{
+        viewModel.GetAllUserDetails().observe(this, res -> {
+            if (res != null && res.size() > 0) {
+                navigationViewHeaderBinding.navHeaderTitle.setText(res.get(0).getName());
+                navigationViewHeaderBinding.navHeaderSubtitle.setText(res.get(0).getEmail());
+                if(res.get(0).getProfilePic()!=null) {
+                    Uri uri = Uri.parse(res.get(0).getProfilePic());
+                    String protocol = uri.getScheme();
+                    String server = uri.getAuthority();
+                    if(protocol!=null && server!=null){
+                        Glide.with(context).load(res.get(0).getProfilePic()).into(navigationViewHeaderBinding.profilePic);
+                    }else{
+                        Glide.with(context).load(AppConstance.IMG_URL+res.get(0).getProfilePic()).into(navigationViewHeaderBinding.profilePic);
+                    }
+                }
+            }
+        });
 
-        }
+
 
     }
 
@@ -95,8 +113,8 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
         });
         binding.navView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
-            switch (id){
-                case R.id.nav_home_email:{
+            switch (id) {
+                case R.id.nav_home_email: {
                     showCustomAlert("Click on Email button in Navigation View");
                 }
             }
