@@ -81,5 +81,17 @@
     <string name="select_chapter">select chapter</string>
     <string name="test_series_1">Test series 1</string>
     <string name="view_test">View Test</string>
+    <string name="mathematics">Mathematics</string>
+    <string name="_20_chapters">20 Chapters</string>
+
+
+<!--    Sidebar   -->
+    <string name="profile">Profile</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="invite">Invite</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="contact_us">Contact us</string>
+    <string name="about_us">About us</string>
+    <string name="share">Share this app</string>
 
 </resources>
