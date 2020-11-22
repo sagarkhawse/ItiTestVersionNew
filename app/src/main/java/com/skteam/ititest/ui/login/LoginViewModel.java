@@ -140,7 +140,7 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
                                     String facebookId=bFacebookData.getString("idFacebook");
                                     getSharedPre().setIsGoogleLoggedIn(false);
                                     getSharedPre().setIsFaceboobkLoggedIn(true);
-                                    getSharedPre().setIsLoggedIn(false);
+                                    getSharedPre().setIsLoggedIn(true);
                                     getSharedPre().setIsRegister(true);
                                     getSharedPre().setUserEmail(email);
                                     getSharedPre().setClientProfile(profilePic);
@@ -242,6 +242,9 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
                                 // Sign in success, update UI with the signed-in user's information
                                 FirebaseUser user = getmAuth().getCurrentUser();
                                 getSharedPre().setUserId(user.getUid());
+                                getSharedPre().setUserEmail(user.getEmail());
+                                getSharedPre().setIsLoggedIn(true);
+                                getSharedPre().setIsRegister(true);
                                 LoginClient(getSharedPre().getName(),user.getEmail(),Profile,user.getUid(),finalTypeFinal,BuildConfig.VERSION_NAME);
                             } else {
                                 // If sign in fails, display a message to the user.
