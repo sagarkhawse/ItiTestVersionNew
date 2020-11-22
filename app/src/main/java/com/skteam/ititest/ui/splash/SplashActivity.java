@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 
+import com.facebook.FacebookSdk;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseActivity;
 import com.skteam.ititest.databinding.SplashActivityBinding;
@@ -55,7 +56,8 @@ public class SplashActivity extends BaseActivity<SplashActivityBinding, SplashVi
         binding = getViewDataBinding();
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.container);
-       // printHashKey();
+        FacebookSdk.sdkInitialize(this);
+      printHashKey();
         if (fragment == null) {
             //start splash fragment only first time
             startFragment( SplashFragment.newInstance());

@@ -30,6 +30,7 @@ public class SharedPre {
     private static final String IS_LOGGED_IN_VIA_EMAIL = "emailLoggedin";
     private static final String IS_LOGGED_IN_VIA_GOOGLE = "googleLoggedIn";
     private static final String IS_LOGGED_IN_VIA_FACEBOOK = "facebookLoggedin";
+    private static final String FB_ACCESS_TOKEN = "facebookToken";
     private static SharedPre Instance;
     @NonNull
     Context mContext;
@@ -138,6 +139,14 @@ public class SharedPre {
 
     public String getClientId() {
         return GetDataString(this.CLIENT_ID);
+    }
+
+    public void setFaceBookAccessToken(String accessToken) {
+        SetDataString(this.FB_ACCESS_TOKEN, accessToken);
+    }
+
+    public String getFaceBookAccessToken() {
+        return GetDataString(this.FB_ACCESS_TOKEN);
     }
 
     public void setEmailProfile(String googleProfile) {
@@ -267,7 +276,22 @@ public class SharedPre {
     }
 
     private void LogoutPrefrences() {
-        removePreferences(APP_BACKGROUND, mContext);
+        removePreferences(NAME, mContext);
+        removePreferences(EMAIL, mContext);
+        removePreferences(OUR_PROFILE, mContext);
+        removePreferences(CLIENT_PROFILE, mContext);
+        removePreferences(CLIENT_ID, mContext);
+        removePreferences(MOBILE_NO, mContext);
+        removePreferences(IS_ADD_MOB_SAVED, mContext);
+        removePreferences(IS_LOGGED_IN, mContext);
+        removePreferences(IS_REGISTER, mContext);
+        removePreferences(USER_ID, mContext);
+        removePreferences(FIREBASE_TOKEN, mContext);
+        removePreferences(RINGTON_PATH, mContext);
+        removePreferences(NOTIFICATION_MUTED, mContext);
+        removePreferences(IS_LOGGED_IN_VIA_EMAIL, mContext);
+        removePreferences(IS_LOGGED_IN_VIA_GOOGLE, mContext);
+        removePreferences(IS_LOGGED_IN_VIA_FACEBOOK, mContext);
 
     }
 

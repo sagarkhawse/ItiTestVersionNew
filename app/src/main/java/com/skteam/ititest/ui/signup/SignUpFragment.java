@@ -29,6 +29,9 @@ import com.skteam.ititest.setting.CommonUtils;
 import com.skteam.ititest.ui.home.HomeActivity;
 import com.skteam.ititest.ui.login.LoginFragment;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -44,7 +47,7 @@ public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpVi
     private SignUpFragmentBinding binding;
     private static SignUpFragment instance;
     private Disposable disposable;
-
+    List<String> permissions = Arrays.asList("public_profile", "email","user_status");
     @Override
     public int getBindingVariable() {
         return 1;
@@ -81,6 +84,8 @@ public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpVi
         super.onActivityCreated(savedInstanceState);
         binding = getViewDataBinding();
         viewModel.setNavigator(this);
+        binding.otherSigninOption.fbLoginButton.setFragment(this);
+        binding.otherSigninOption.fbLoginButton.setPermissions(permissions);
         SetClickListeners();
     }
 
@@ -99,7 +104,8 @@ public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpVi
         });
         disposable = RxView.clicks(binding.otherSigninOption.faceBookBtn).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(unit -> {
             getVib().vibrate(100);
-            viewModel.SignUpViaFacebook();
+            viewModel.registerFBCallBack();
+            binding.otherSigninOption.fbLoginButton.performClick();
         });
     }
 
@@ -117,6 +123,10 @@ public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpVi
                 hideLoadingDialog();
                 viewModel.SignUpViaGoogle(data);
                 break;
+            }
+            default:{
+               viewModel.getCallbackManager().onActivityResult(requestCode, resultCode, data);
+               break;
             }
         }
     }

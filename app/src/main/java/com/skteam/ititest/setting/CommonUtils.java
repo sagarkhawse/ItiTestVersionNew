@@ -8,7 +8,6 @@
 package com.skteam.ititest.setting;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -23,27 +22,16 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.RequiresApi;
-import androidx.databinding.DataBindingUtil;
-
 import com.skteam.ititest.R;
-import com.skteam.ititest.databinding.CustomToastBinding;
 import com.skteam.ititest.setting.animation.MyBounceInterpolator;
-import com.tapadoo.alerter.Alerter;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;

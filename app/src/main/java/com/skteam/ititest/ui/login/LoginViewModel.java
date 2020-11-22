@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -53,6 +54,9 @@ import com.skteam.ititest.setting.AppConstance;
 
 import org.json.JSONObject;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static com.skteam.ititest.setting.CommonUtils.getFacebookData;
 
 public class LoginViewModel extends BaseViewModel<LoginNav> {
@@ -62,11 +66,13 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
     private FirebaseAuth mAuth;
     private GoogleSignInClient googleSignInClient;
     private GoogleSignInOptions gso;
+    List<String> permissions = Arrays.asList("public_profile", "email","user_status");
     public LoginViewModel(Context context, SharedPre sharedPre, Activity activity) {
         super(context, sharedPre, activity);
         mAuth = FirebaseAuth.getInstance();
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(activity.getResources().getString(R.string.GOOGLE_SIGNIN_SECRET)).requestEmail().build();
         getGoogleClient();
+        registerFBCallBack();
     }
     public GoogleSignInClient getGoogleClient() {
         if (googleSignInClient != null) {
@@ -108,17 +114,16 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
             Log.e("googleStatus", "signInResult:failed code=" + e.getStatusCode());
         }
     }
-    public void LoginviaFacebook() {
-        registerFBCallBack();
-    }
 
-    private void registerFBCallBack() {
+
+    public void registerFBCallBack() {
         callbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().registerCallback(callbackManager,
-                new FacebookCallback<LoginResult>() {
+
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         String accessToken = loginResult.getAccessToken().getToken();
+                        getSharedPre().setFaceBookAccessToken(accessToken);
                         Log.i("FBstatus accessToken", accessToken);
                         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                             @Override
@@ -126,9 +131,10 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
                                 Log.i("LoginActivity", response.toString());
                                 // Get facebook data from login
                                 Bundle bFacebookData = getFacebookData(object);
+                                Log.d("FBstatus", "Welcome" + " " + bFacebookData.toString());
                                 if (bFacebookData != null) {
                                     Log.d("FBstatus", "Welcome" + " " + bFacebookData.getString("first_name"));
-                                    String name=bFacebookData.getString("first_name","")+bFacebookData.getString("last_name","");
+                                    String name=bFacebookData.getString("first_name","")+" "+bFacebookData.getString("last_name","");
                                     String email=bFacebookData.getString("email","");
                                     String profilePic=bFacebookData.getString("profile_pic","");
                                     String facebookId=bFacebookData.getString("idFacebook");
@@ -186,23 +192,20 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
     }
     public void LoginViaEmail(String email,String pass){
         getmAuth().signInWithEmailAndPassword(email, pass)
-                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = getmAuth().getCurrentUser();
-                            getSharedPre().setUserId(user.getUid());
-                            getSharedPre().setUserEmail(user.getEmail());
-                            getNavigator().setLoading(false);
-                            getSharedPre().setIsLoggedIn(true);
-                            getSharedPre().setIsRegister(true);
-                            LoginClient(user.getUid(),AppConstance.LOGIN_TYPE_EMAIL);
-                        } else {
-                            getNavigator().setLoading(false);
-                        }
+                .addOnCompleteListener(getActivity(), task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        FirebaseUser user = getmAuth().getCurrentUser();
+                        getSharedPre().setUserId(user.getUid());
+                        getSharedPre().setUserEmail(user.getEmail());
+                        getNavigator().setLoading(false);
+                        getSharedPre().setIsLoggedIn(true);
+                        getSharedPre().setIsRegister(true);
+                        LoginClient(user.getUid(),AppConstance.LOGIN_TYPE_EMAIL);
+                    } else {
+                        getNavigator().setLoading(false);
+                        getNavigator().onLoginFail("Username or Password Mismatch!!");
                     }
-
                 });
     }
     //firebase login via client
@@ -234,13 +237,15 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
                     .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+                            getNavigator().setLoading(false);
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 FirebaseUser user = getmAuth().getCurrentUser();
                                 getSharedPre().setUserId(user.getUid());
-                                LoginClient(user.getUid(),finalTypeFinal);
+                                LoginClient(getSharedPre().getName(),user.getEmail(),Profile,user.getUid(),finalTypeFinal,BuildConfig.VERSION_NAME);
                             } else {
                                 // If sign in fails, display a message to the user.
+
                                 getNavigator().onLoginFail("Authentication Failed");
                             }
 
@@ -304,11 +309,54 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
                     }
                 });
     }
+    //signUpAPI
+    private void LoginClient(String name, String email, String profilePic,String userId,String clientType,String deviceVersion ) {
+        getNavigator().setLoading(true);
+        AndroidNetworking.post(AppConstance.API_BASE_URL + AppConstance.SIGN_UP)
+                .addBodyParameter("user_id", userId)
+                .addBodyParameter("name", name)
+                .addBodyParameter("email", email)
+                .addBodyParameter("app_version", deviceVersion)
+                .addBodyParameter("verified", "1")
+                .addBodyParameter("signup_type", clientType)
+                .addBodyParameter("profile_pic", profilePic)
+                .addBodyParameter("phone", "0")
+                .addBodyParameter("gender", "")
+                .addBodyParameter("date_of_birth", "")
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsObject(ResponseSignUp.class, new ParsedRequestListener<ResponseSignUp>() {
+                    @Override
+                    public void onResponse(ResponseSignUp response) {
+                        getNavigator().setLoading(false);
+                        if (response != null) {
+                            if (response.getCode().equals("200")) {
+                                getSharedPre().setName(response.getRes().get(0).getName());
+                                getSharedPre().setUserEmail(response.getRes().get(0).getEmail());
+                                getSharedPre().setUserMobile(response.getRes().get(0).getPhone());
+                                getNavigator().StartHomeNow();
+                            } else {
+                                getNavigator().onLoginFail("Server Not Responding");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(ANError error) {
+                        getNavigator().setLoading(false);
+                        getNavigator().onLoginFail("Server Not Responding");
+                    }
+                });
+    }
     public FirebaseAuth getmAuth() {
         return mAuth;
     }
 
     public void signOut() {
         getmAuth().signOut();
+    }
+
+    public CallbackManager getCallbackManager() {
+        return callbackManager;
     }
 }

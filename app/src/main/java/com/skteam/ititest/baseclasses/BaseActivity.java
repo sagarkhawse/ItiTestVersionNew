@@ -10,6 +10,7 @@ package com.skteam.ititest.baseclasses;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -27,21 +28,23 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.Observable;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.skteam.ititest.R;
 import com.skteam.ititest.application.MyApplication;
 import com.skteam.ititest.brodcastReceivers.ConnectionReceiver;
 import com.skteam.ititest.database.RoomDatabase;
+import com.skteam.ititest.databinding.ActivityHomeBinding;
 import com.skteam.ititest.databinding.CustomToastBinding;
 import com.skteam.ititest.prefrences.SharedPre;
 import com.skteam.ititest.setting.CommonUtils;
 import com.skteam.ititest.ui.home.HomeFragment;
 import com.skteam.ititest.ui.welcome.WelcomeFragment;
-import com.tapadoo.alerter.Alerter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.jetbrains.annotations.NotNull;
@@ -67,6 +70,7 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
     private Vibrator vibe;
     private RxPermissions rxPermissions;
     private boolean doubleBackToExitPressedOnce = false;
+    private FirebaseAuth auth;
 //replace yourActivity.this with your own activity or if you declared a context you can write context.getSystemService(Context.VIBRATOR_SERVICE);
 
     /**
@@ -104,6 +108,14 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
         performDataBinding();
         manager = getSupportFragmentManager();
         toast = new Toast(this);
+    }
+
+    public FirebaseAuth getAuth() {
+        if (auth != null) {
+            return auth;
+        } else {
+           return auth = FirebaseAuth.getInstance();
+        }
     }
 
     public RoomDatabase getDatabase() {

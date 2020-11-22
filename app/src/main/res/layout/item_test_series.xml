@@ -26,7 +26,6 @@
         android:id="@+id/ivViewTest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/lb_ic_nav_arrow"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         app:tint="@color/black"

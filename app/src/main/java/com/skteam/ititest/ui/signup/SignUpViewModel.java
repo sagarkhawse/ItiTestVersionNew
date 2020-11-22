@@ -58,6 +58,8 @@ import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 
 import static com.skteam.ititest.setting.CommonUtils.getFacebookData;
 
@@ -68,13 +70,21 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
     private GoogleSignInOptions gso;
     private CallbackManager callbackManager;
     private AccessTokenTracker accessTokenTracker;
+    List<String> permissions = Arrays.asList("public_profile", "email","user_status");
     String Profile="";
+
     public SignUpViewModel(Context context, SharedPre sharedPre, Activity activity) {
         super(context, sharedPre, activity);
         mAuth = FirebaseAuth.getInstance();
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(activity.getResources().getString(R.string.GOOGLE_SIGNIN_SECRET)).requestEmail().build();
         getGoogleClient();
+       // registerFBCallBack();
     }
+
+    public CallbackManager getCallbackManager() {
+        return callbackManager;
+    }
+
     public GoogleSignInClient getGoogleClient() {
         if (googleSignInClient != null) {
             return googleSignInClient;
@@ -130,10 +140,7 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
             Log.e("googleStatus", "signInResult:failed code=" + e.getStatusCode());
         }
     }
-    //facebook
-    public void SignUpViaFacebook() {
-        registerFBCallBack();
-    }
+
     //signUpAPI
     private void SignuViaClient(String name, String email, String profilePic,String userId,String clientType,String deviceVersion ,String type) {
         getNavigator().setLoading(true);
@@ -172,13 +179,14 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
                 });
     }
     //facebook
-    private void registerFBCallBack() {
+    public void registerFBCallBack() {
         callbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().registerCallback(callbackManager,
-                new FacebookCallback<LoginResult>() {
+       // LoginManager.getInstance().logInWithReadPermissions(getActivity(),permissions);
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         String accessToken = loginResult.getAccessToken().getToken();
+                        getSharedPre().setFaceBookAccessToken(accessToken);
                         Log.i("FBstatus accessToken", accessToken);
                         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                             @Override
@@ -230,8 +238,7 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
                 });
         accessTokenTracker = new AccessTokenTracker() {
             @Override
-            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken,
-                                                       AccessToken currentAccessToken) {
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
                 if (currentAccessToken == null) {
                     try {
                         getNavigator().onLoginFail();
@@ -300,7 +307,7 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
                                 getNavigator().setLoading(false);
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 getSharedPre().setUserId(user.getUid());
-                                SignuViaClient(getSharedPre().getName(),user.getEmail(), Profile,getSharedPre().getUserId(),AppConstance.LOGIN_TYPE_GOOGLE, BuildConfig.VERSION_NAME, finalTypeFinal);
+                                SignuViaClient(getSharedPre().getName(),user.getEmail(), Profile,getSharedPre().getUserId(),finalTypeFinal, BuildConfig.VERSION_NAME, finalTypeFinal);
                             } else {
                                 // If sign in fails, display a message to the user.
                                 getNavigator().setMessage("Authentication Failed");

@@ -32,6 +32,9 @@ import com.skteam.ititest.setting.CommonUtils;
 import com.skteam.ititest.ui.home.HomeActivity;
 import com.skteam.ititest.ui.signup.SignUpFragment;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -47,7 +50,7 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding, LoginViewM
     private LoginViewModel viewModel;
     private Disposable disposable;
     private FirebaseAuth mAuth;
-
+    private List<String> permissions = Arrays.asList("public_profile", "email","user_status");
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -93,7 +96,8 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding, LoginViewM
         super.onViewCreated(view, savedInstanceState);
         viewModel.setNavigator(this);
         binding = getViewDataBinding();
-
+        binding.otherSigninOption.fbLoginButton.setFragment(this);
+        binding.otherSigninOption.fbLoginButton.setPermissions(permissions);
         SetClickListeners();
 
     }
@@ -113,7 +117,8 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding, LoginViewM
         });
         disposable = RxView.clicks(binding.otherSigninOption.faceBookBtn).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(unit -> {
             getVib().vibrate(100);
-            viewModel.LoginviaFacebook();
+            viewModel.registerFBCallBack();
+            binding.otherSigninOption.fbLoginButton.performClick();
         });
     }
 
@@ -121,17 +126,17 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding, LoginViewM
         setLoading(true);
         String email = binding.etEmail.getText().toString().trim();
         String password = binding.etPassword.getText().toString().trim();
-         if (email.isEmpty()) {
-            showCustomAlert( getResources().getString(R.string.email_empty));
-             setLoading(false);
-        }else if (CommonUtils.isValidEmail(email)) {
-            showCustomAlert(  getResources().getString(R.string.valid_email));
-             setLoading(false);
-        }else if(password.isEmpty()){
-            showCustomAlert( getResources().getString(R.string.password_empty));
-             setLoading(false);
-        }else{
-          viewModel.LoginViaEmail(email,password);
+        if (email.isEmpty()) {
+            showCustomAlert(getResources().getString(R.string.email_empty));
+            setLoading(false);
+        } else if (CommonUtils.isValidEmail(email)) {
+            showCustomAlert(getResources().getString(R.string.valid_email));
+            setLoading(false);
+        } else if (password.isEmpty()) {
+            showCustomAlert(getResources().getString(R.string.password_empty));
+            setLoading(false);
+        } else {
+            viewModel.LoginViaEmail(email, password);
         }
     }
 
@@ -148,6 +153,10 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding, LoginViewM
             case GOOGLE_REQUEST_CODE: {
                 hideLoadingDialog();
                 viewModel.SignUpViaGoogle(data);
+                break;
+            }
+            default:{
+                viewModel.getCallbackManager().onActivityResult(requestCode, resultCode, data);
                 break;
             }
         }
@@ -169,7 +178,7 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding, LoginViewM
 
     @Override
     public void StartHomeNow() {
-       startActivity(new Intent(getActivity(), HomeActivity.class));
+        startActivity(new Intent(getActivity(), HomeActivity.class));
     }
 
     @Override
