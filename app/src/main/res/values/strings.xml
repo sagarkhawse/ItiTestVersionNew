@@ -61,14 +61,14 @@
     <string name="password_empty">Password can\'t be empty.</string>
 
 
-<!--    Login   -->
+    <!--    Login   -->
     <string name="facebook_app_id">835351513672710</string>
     <string name="fb_protocol">fb835351513672710</string>
     <string name="ACCOUNT_KIT_CLIENT_TOKEN">3aa80d669d9a65edd236b213e060b05d</string>
     <string name="GOOGLE_SIGNIN_SECRET">1071205870408-gcph6eqvje8he7uloq51u8jlkut8t47t.apps.googleusercontent.com</string>
 
 
-<!--    Home Screen   -->
+    <!--    Home Screen   -->
     <string name="hello">Hello!</string>
     <string name="user_name">Student Name</string>
     <string name="teachers">Teachers</string>
@@ -85,7 +85,7 @@
     <string name="_20_chapters">20 Chapters</string>
 
 
-<!--    Sidebar   -->
+    <!--    Sidebar   -->
     <string name="profile">Profile</string>
     <string name="leaderboard">Leaderboard</string>
     <string name="invite">Invite</string>
@@ -93,5 +93,12 @@
     <string name="contact_us">Contact us</string>
     <string name="about_us">About us</string>
     <string name="share">Share this app</string>
+
+
+    <!--    LeaderBoard   -->
+    <string name="today">Today</string>
+    <string name="month">Month</string>
+    <string name="all_time">All time</string>
+    <string name="time">Time</string>
 
 </resources>

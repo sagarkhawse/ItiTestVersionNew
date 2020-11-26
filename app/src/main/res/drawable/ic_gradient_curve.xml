@@ -9,13 +9,13 @@
       android:strokeWidth="1"
       android:strokeColor="#707070">
     <aapt:attr name="android:fillColor">
-      <gradient
+      <gradient 
           android:startY="0.5"
           android:startX="285.266"
           android:endY="493.466"
           android:endX="285.266"
           android:type="linear">
-        <item android:offset="0" android:color="#3A57FB"/>
+        <item android:offset="0" android:color="#651FFF"/>
         <item android:offset="1" android:color="#720B30"/>
       </gradient>
     </aapt:attr>

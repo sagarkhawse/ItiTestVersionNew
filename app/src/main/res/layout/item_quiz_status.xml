@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="45dp"
     android:layout_height="45dp"
@@ -18,4 +17,4 @@
        android:fontFamily="@font/poppins_semibold"
         android:layout_height="match_parent"/>
 
-</LinearLayout></layout>
+</LinearLayout>

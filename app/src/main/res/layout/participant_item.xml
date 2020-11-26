@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:attribute="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="70dp"
-    android:background="@color/color_gray_back"
+    android:background="#EDEEF0"
     android:orientation="vertical"
     android:paddingTop="4dp"
     android:paddingStart="2dp"
@@ -15,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_sidecurve_white"
+
         android:gravity="center"
         android:orientation="horizontal"
         android:weightSum="10">
@@ -36,10 +36,9 @@
             android:layout_height="55dp"
             android:layout_weight="1.5"
             android:src="@drawable/ic_user"
-            android:id="@+id/profile"
             attribute:civ_border_color="#EEEEEE"
             attribute:civ_border_width="1dp"
-            />
+            attribute:civ_shadow_radius="10" />
 
         <TextView
             android:id="@+id/name"
@@ -65,4 +64,4 @@
     </LinearLayout>
 
 
-</LinearLayout></layout>
+</LinearLayout>
