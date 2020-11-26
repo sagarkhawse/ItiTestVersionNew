@@ -16,15 +16,12 @@ import com.skteam.ititest.baseclasses.BaseFragment;
 import com.skteam.ititest.databinding.FragmentChapterBinding;
 import com.skteam.ititest.restModel.home.subjects.ChapterListItem;
 import com.skteam.ititest.setting.CommonUtils;
-import com.skteam.ititest.setting.dialog.SweetAlertDialog;
 import com.skteam.ititest.ui.home.HomeNav;
 import com.skteam.ititest.ui.home.HomeViewModel;
 import com.skteam.ititest.ui.home.chapterdata.adapter.ChapterListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.skteam.ititest.setting.AppConstance.ERROR;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,7 +35,7 @@ public class ChapterFragment extends BaseFragment<FragmentChapterBinding, HomeVi
     private Dialog internetDialog;
     private static List<ChapterListItem> chapterList = new ArrayList<>();
     private ChapterListAdapter chapterListAdapter;
-    private SweetAlertDialog dialog;
+
 
     public ChapterFragment() {
         // Required empty public constructor
@@ -109,29 +106,17 @@ public class ChapterFragment extends BaseFragment<FragmentChapterBinding, HomeVi
         } else {
             binding.emptyTxt.setText(getContext().getResources().getString(R.string.no_chapter_found));
             binding.emptyTxt.setVisibility(View.VISIBLE);
-            dialog = getBaseActivity().showAlertDialog(getActivity(), ERROR, "Chapter will be updated soon!", "ITI Test");
-            dialog.setConfirmText("Go Back")
-                    .setConfirmClickListener(sweetAlertDialog -> {
-                        dialog.dismissWithAnimation();
-                        getBaseActivity().onBackPressed();
-                    });
-            //dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-            dialog.show();
         }
     }
 
     @Override
     public void setLoading(boolean b) {
-        if (b) {
-            showLoadingDialog("");
-        } else {
-            hideLoadingDialog();
-        }
+
     }
 
     @Override
     public void setMessage(String s) {
-        showCustomAlert(s);
+
     }
 
 }

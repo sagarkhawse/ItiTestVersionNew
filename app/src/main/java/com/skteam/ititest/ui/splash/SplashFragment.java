@@ -7,6 +7,7 @@
 
 package com.skteam.ititest.ui.splash;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -45,6 +46,7 @@ public class SplashFragment extends BaseFragment<FragmentSplashBinding,SplashVie
     private FragmentSplashBinding binding;
     private Disposable disposable;
     private SplashViewModel viewModel;
+    private Dialog internetDialog;
     public SplashFragment() {
         // Required empty public constructor
     }
@@ -138,7 +140,14 @@ public class SplashFragment extends BaseFragment<FragmentSplashBinding,SplashVie
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
-
+        if (internetDialog == null) {
+            internetDialog = CommonUtils.InternetConnectionAlert(getBaseActivity(), false);
+        }
+        if (isConnected) {
+            internetDialog.dismiss();
+        } else {
+            internetDialog.show();
+        }
     }
 }
 

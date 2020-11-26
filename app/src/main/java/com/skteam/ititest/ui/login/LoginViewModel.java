@@ -38,6 +38,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -361,5 +363,27 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
 
     public CallbackManager getCallbackManager() {
         return callbackManager;
+    }
+
+    public void forgotPassword(String email) {
+        getNavigator().setLoading(true);
+        getmAuth().setLanguageCode("en");
+        getmAuth().sendPasswordResetEmail(email)
+                .addOnCompleteListener(getActivity(), task -> {
+                    if(task.isSuccessful()){
+                        getNavigator().setLoading(false);
+                    }else{
+                        getNavigator().setLoading(false);
+                        getNavigator().onLoginFail("Please try again!!");
+                    }
+                })
+                .addOnSuccessListener((OnSuccessListener<Void>) aVoid -> {
+                    getNavigator().setLoading(false);
+                    getNavigator().onLoginFail(getContext().getResources().getString(R.string.password_reset_link_will_be_sent_to_your_registered_email_address));
+                })
+                .addOnFailureListener(e -> {
+            getNavigator().setLoading(false);
+            getNavigator().onLoginFail(e.getMessage());
+        });
     }
 }

@@ -9,6 +9,7 @@
 
 package com.skteam.ititest.ui.login;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -50,6 +51,7 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding, LoginViewM
     private LoginViewModel viewModel;
     private Disposable disposable;
     private FirebaseAuth mAuth;
+    private Dialog internetDialog;
     private List<String> permissions = Arrays.asList("public_profile", "email","user_status");
     public LoginFragment() {
         // Required empty public constructor
@@ -120,6 +122,18 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding, LoginViewM
             viewModel.registerFBCallBack();
             binding.otherSigninOption.fbLoginButton.performClick();
         });
+        disposable=RxView.clicks(binding.tvForgetPass).throttleFirst(1000,TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Unit>() {
+            @Override
+            public void accept(Unit unit) throws Exception {
+                String email=binding.etEmail.getText().toString();
+                if(!email.trim().isEmpty() && !CommonUtils.isValidEmail(email.trim())){
+                    viewModel.forgotPassword(binding.etEmail.getText().toString());
+                }else{
+                    showCustomAlert("Incorrect E-mail Found");
+                }
+
+            }
+        });
     }
 
     private void LoginNow() {
@@ -183,6 +197,13 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding, LoginViewM
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
-
+        if (internetDialog == null) {
+            internetDialog = CommonUtils.InternetConnectionAlert(getBaseActivity(), false);
+        }
+        if (isConnected) {
+            internetDialog.dismiss();
+        } else {
+            internetDialog.show();
+        }
     }
 }
