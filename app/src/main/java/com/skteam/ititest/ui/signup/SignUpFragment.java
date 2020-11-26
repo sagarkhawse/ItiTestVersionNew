@@ -46,6 +46,7 @@ public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpVi
     private SignUpViewModel viewModel;
     private SignUpFragmentBinding binding;
     private static SignUpFragment instance;
+
     private Disposable disposable;
     List<String> permissions = Arrays.asList("public_profile", "email","user_status");
     @Override
