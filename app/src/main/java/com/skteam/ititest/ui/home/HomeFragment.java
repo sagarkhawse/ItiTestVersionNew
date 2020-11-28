@@ -21,6 +21,7 @@ import com.skteam.ititest.setting.AppConstance;
 import com.skteam.ititest.setting.CommonUtils;
 import com.skteam.ititest.ui.home.adapter.LeaderBoardAdapter;
 import com.skteam.ititest.ui.home.adapter.SubjectAdapter;
+import com.skteam.ititest.ui.leaderboard.LeaderboardFragment;
 
 import java.util.List;
 
@@ -83,6 +84,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.rvSubjects.setAdapter(subjectAdapter);
         binding.rvBestPlayers.setAdapter(leaderBoardAdapter);
         CollectAllDataThroughAPI();
+        binding.tvViewAllPlayers.setOnClickListener(v -> getBaseActivity().startFragment(LeaderboardFragment.newInstance(), true, LeaderboardFragment.newInstance().toString()));
     }
 
     private void CollectAllDataThroughAPI() {

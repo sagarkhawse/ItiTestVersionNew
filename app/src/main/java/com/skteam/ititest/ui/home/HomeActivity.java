@@ -28,8 +28,10 @@ import com.jakewharton.rxbinding3.view.RxView;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseActivity;
 import com.skteam.ititest.databinding.ActivityHomeBinding;
+import com.skteam.ititest.databinding.AppBarMainBinding;
 import com.skteam.ititest.databinding.NavHeaderMainBinding;
 import com.skteam.ititest.setting.CommonUtils;
+import com.skteam.ititest.ui.leaderboard.LeaderboardFragment;
 import com.skteam.ititest.ui.profile.ProfileFragment;
 import com.skteam.ititest.ui.splash.SplashActivity;
 
@@ -157,6 +159,7 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
                     break;
                 }
                 case R.id.nav_leaderboard: {
+                    startFragment(LeaderboardFragment.newInstance(), true, LeaderboardFragment.newInstance().toString());
                     break;
                 }
                 case R.id.nav_share_app: {
@@ -213,6 +216,10 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
     @Override
     public void setMessage(String message) {
         showCustomAlert(message);
+    }
+
+    public AppBarMainBinding getAppBar(){
+        return binding.toolbar;
     }
 
 }
