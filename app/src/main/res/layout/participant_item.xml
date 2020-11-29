@@ -4,7 +4,7 @@
     xmlns:attribute="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="70dp"
-    android:background="#EDEEF0"
+    android:background="@color/color_gray_back"
     android:orientation="vertical"
     android:paddingTop="4dp"
     android:paddingStart="2dp"
@@ -15,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_sidecurve_white"
-
         android:gravity="center"
         android:orientation="horizontal"
         android:weightSum="10">
