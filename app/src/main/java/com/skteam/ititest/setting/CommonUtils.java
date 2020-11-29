@@ -35,8 +35,10 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -243,5 +245,22 @@ public class CommonUtils {
             Log.d("JSON", "Error parsing JSON");
         }
         return null;
+    }
+
+    public static String CurrentTimeAsFormat(String curentTimeStamp)  {
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ROOT);
+
+        Date result= null;
+        long miliSec= Long.parseLong(curentTimeStamp);
+        try {
+            result = new Date(miliSec);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return df.format(result);
+
+
     }
 }

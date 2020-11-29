@@ -29,6 +29,9 @@ import com.skteam.ititest.setting.AppConstance;
 
 import java.util.List;
 
+import static com.skteam.ititest.setting.AppConstance.MONTH;
+import static com.skteam.ititest.setting.CommonUtils.CurrentTimeAsFormat;
+
 public class HomeViewModel extends BaseViewModel<HomeNav> {
     private MutableLiveData<List<ResItem>> subjectListMutableLiveData=new MutableLiveData<>();
     private MutableLiveData<List<com.skteam.ititest.restModel.home.leaderboard.Re>> leaderBoardMutabledata=new MutableLiveData<>();
@@ -62,9 +65,13 @@ public class HomeViewModel extends BaseViewModel<HomeNav> {
                 });
         return subjectListMutableLiveData;
     }
-    private MutableLiveData<List<com.skteam.ititest.restModel.home.leaderboard.Re>> GetAllLeaderBoard() {
+
+    private MutableLiveData<List<com.skteam.ititest.restModel.home.leaderboard.Re>> GetAllLeaderBoard(String type) {
+        String date= String.valueOf(System.currentTimeMillis());
         getNavigator().setLoading(true);
         AndroidNetworking.post(AppConstance.API_BASE_URL + AppConstance.LEADERBOARD)
+                .addBodyParameter("date",CurrentTimeAsFormat(date))
+                .addBodyParameter("type",type)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsObject(LeaderBoardResponse.class, new ParsedRequestListener<LeaderBoardResponse>() {
@@ -117,7 +124,7 @@ public class HomeViewModel extends BaseViewModel<HomeNav> {
         return GetAllSubject();
     }
     public LiveData<List<com.skteam.ititest.restModel.home.leaderboard.Re>>GetAllLeaderBoardNow(){
-        return GetAllLeaderBoard();
+        return GetAllLeaderBoard(MONTH);
     }
     public LiveData<List<Re>>GetAllUserDetails(){
         if(LoginDetaild!=null){
