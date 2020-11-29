@@ -49,6 +49,6 @@ public class QuizViewModel extends BaseViewModel<QuizNav> {
         return QuizLiveData;
     }
     public LiveData<List<String>>GetAllQuiz(String testId){
-        return GetAllQuiz(testId);
+        return getAllQuizData(testId);
     }
 }
