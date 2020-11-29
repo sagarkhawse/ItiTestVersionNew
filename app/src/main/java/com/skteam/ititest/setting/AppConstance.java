@@ -15,4 +15,5 @@ public class AppConstance {
     public static final String SIGN_UP ="sign_up";
     public static final String SUBJECTS ="subjects";
     public static final String LEADERBOARD ="leaderboard";
+    public static final String QUIZ ="quiz";
 }

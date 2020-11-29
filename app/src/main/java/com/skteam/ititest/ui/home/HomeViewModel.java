@@ -68,10 +68,11 @@ public class HomeViewModel extends BaseViewModel<HomeNav> {
 
     private MutableLiveData<List<com.skteam.ititest.restModel.home.leaderboard.Re>> GetAllLeaderBoard(String type) {
         String date= String.valueOf(System.currentTimeMillis());
+        String dateF=CurrentTimeAsFormat(date);
         getNavigator().setLoading(true);
         AndroidNetworking.post(AppConstance.API_BASE_URL + AppConstance.LEADERBOARD)
-                .addBodyParameter("date",CurrentTimeAsFormat(date))
                 .addBodyParameter("type",type)
+                .addBodyParameter("date",dateF)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsObject(LeaderBoardResponse.class, new ParsedRequestListener<LeaderBoardResponse>() {

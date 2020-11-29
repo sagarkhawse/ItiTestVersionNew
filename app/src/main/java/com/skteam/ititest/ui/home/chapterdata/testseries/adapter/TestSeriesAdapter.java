@@ -11,6 +11,7 @@ package com.skteam.ititest.ui.home.chapterdata.testseries.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.skteam.ititest.R;
 import com.skteam.ititest.databinding.ItemTestSeriesBinding;
 import com.skteam.ititest.restModel.home.subjects.TestListItem;
+import com.skteam.ititest.ui.home.HomeActivity;
+import com.skteam.ititest.ui.home.chapterdata.testseries.TestSeriesFragment;
+import com.skteam.ititest.ui.quiz.QuizFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +65,7 @@ public class TestSeriesAdapter extends RecyclerView.Adapter<TestSeriesAdapter.Te
 
         public void onBinding(final TestListItem testListItem) {
             binding.tvTitle.setText(testListItem.getTitle() );
+            binding.tvTitle.setOnClickListener(v -> ((HomeActivity) context).startFragment(QuizFragment.getInstance(testListItem.getTestId()),true,QuizFragment.getInstance(testListItem.getTestId()).toString()));
         }
     }
 
