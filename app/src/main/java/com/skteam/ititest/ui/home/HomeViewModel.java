@@ -29,6 +29,7 @@ import com.skteam.ititest.setting.AppConstance;
 
 import java.util.List;
 
+import static com.skteam.ititest.setting.AppConstance.ALL_TIME;
 import static com.skteam.ititest.setting.AppConstance.MONTH;
 import static com.skteam.ititest.setting.CommonUtils.CurrentTimeAsFormat;
 
@@ -125,7 +126,7 @@ public class HomeViewModel extends BaseViewModel<HomeNav> {
         return GetAllSubject();
     }
     public LiveData<List<com.skteam.ititest.restModel.home.leaderboard.Re>>GetAllLeaderBoardNow(){
-        return GetAllLeaderBoard(MONTH);
+        return GetAllLeaderBoard(ALL_TIME);
     }
     public LiveData<List<Re>>GetAllUserDetails(){
         if(LoginDetaild!=null){
