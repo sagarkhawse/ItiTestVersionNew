@@ -10,12 +10,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -96,6 +98,22 @@ public class QuizFragment extends BaseFragment<FragmentQuizBinding, QuizViewMode
         quizHelper.attachToRecyclerView(binding.questionsList);
         binding.statusList.setAdapter(postionAdapter);
         binding.questionsList.setAdapter(quizAdapter);
+        binding.questionsList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                return e.getAction() == MotionEvent.ACTION_MOVE;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
         CountDownTimer timer = new CountDownTimer(SEC30, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -109,8 +127,6 @@ public class QuizFragment extends BaseFragment<FragmentQuizBinding, QuizViewMode
         };
         long elapsedMillis = SystemClock.elapsedRealtime() - binding.time.getBase();
         binding.time.setBase(SystemClock.elapsedRealtime() - elapsedMillis);
-        binding.time.start();
-        timer.start();
 
         binding.submit.setOnClickListener(v -> {
             quizAdapter.UpdateSubmit(true);
@@ -119,6 +135,8 @@ public class QuizFragment extends BaseFragment<FragmentQuizBinding, QuizViewMode
         });
         viewModel.GetAllQuiz(testId).observe(getBaseActivity(), resItems -> {
             if (resItems != null && resItems.size() > 0) {
+                binding.time.start();
+                timer.start();
                 postionAdapter.UpdateList(resItems);
                 quizAdapter.UpdateList(resItems);
             }
