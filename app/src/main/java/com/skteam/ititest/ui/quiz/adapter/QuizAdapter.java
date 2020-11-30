@@ -68,59 +68,58 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
             binding.answer2.setText(resItem.getOption2());
             binding.answer3.setText(resItem.getOption3());
             binding.answer4.setText(resItem.getOption4());
-           disposable= RxView.clicks(binding.answer1).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Unit>() {
-               @Override
-               public void accept(Unit unit) throws Exception {
-                   disposable.dispose();
-                   if(binding.answer1.getText().toString().equalsIgnoreCase(resItem.getAnswer())){
-                       binding.answerLay.setBackgroundColor(Color.GREEN);
-                       binding.answer1.setTextColor(Color.WHITE);
-                   }else{
-                       binding.answerLay.setBackgroundColor(Color.RED);
-                       binding.answer1.setTextColor(Color.WHITE);
-                   }
-
-               }
-           });
-           disposable= RxView.clicks(binding.answer2).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Unit>() {
-               @Override
-               public void accept(Unit unit) throws Exception {
-                   disposable.dispose();
-                   if(binding.answer2.getText().toString().equalsIgnoreCase(resItem.getAnswer())){
-                       binding.answerLay2.setBackgroundColor(Color.GREEN);
-                       binding.answer2.setTextColor(Color.WHITE);
-                   }else{
-                       binding.answerLay2.setBackgroundColor(Color.RED);
-                       binding.answer2.setTextColor(Color.WHITE);
-                   }
-               }
-           });
-           disposable= RxView.clicks(binding.answer3).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Unit>() {
-               @Override
-               public void accept(Unit unit) throws Exception {
-                   disposable.dispose();
-                   if(binding.answer3.getText().toString().equalsIgnoreCase(resItem.getAnswer())){
-                       binding.answer3lay.setBackgroundColor(Color.GREEN);
-                       binding.answer3.setTextColor(Color.WHITE);
-                   }else{
-                       binding.answerLay.setBackgroundColor(Color.RED);
-                       binding.answer3.setTextColor(Color.WHITE);
-                   }
-               }
-           });
-           disposable= RxView.clicks(binding.answer4).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Unit>() {
-               @Override
-               public void accept(Unit unit) throws Exception {
-                   disposable.dispose();
-                   if(binding.answer4.getText().toString().equalsIgnoreCase(resItem.getAnswer())){
-                       binding.answer3lay.setBackgroundColor(Color.GREEN);
-                       binding.answer4.setTextColor(Color.WHITE);
-                   }else{
-                       binding.answerLay.setBackgroundColor(Color.RED);
-                       binding.answer4.setTextColor(Color.WHITE);
-                   }
-               }
-           });
+            binding.answer1.setOnClickListener(v -> {
+                binding.answer1.setOnClickListener(null);
+                binding.answer2.setOnClickListener(null);
+                binding.answer3.setOnClickListener(null);
+                binding.answer4.setOnClickListener(null);
+                if(binding.answer1.getText().toString().equalsIgnoreCase(resItem.getAnswer())){
+                    binding.answerLay.setBackgroundResource(R.drawable.question_select_green);
+                    binding.answer1.setTextColor(Color.WHITE);
+                }else{
+                    binding.answerLay.setBackgroundResource(R.drawable.question_select_red);
+                    binding.answer1.setTextColor(Color.WHITE);
+                }
+            });
+            binding.answer2.setOnClickListener(v -> {
+                binding.answer1.setOnClickListener(null);
+                binding.answer2.setOnClickListener(null);
+                binding.answer3.setOnClickListener(null);
+                binding.answer4.setOnClickListener(null);
+                if(binding.answer2.getText().toString().equalsIgnoreCase(resItem.getAnswer())){
+                    binding.answerLay2.setBackgroundResource(R.drawable.question_select_green);
+                    binding.answer2.setTextColor(Color.WHITE);
+                }else{
+                    binding.answerLay2.setBackgroundResource(R.drawable.question_select_red);
+                    binding.answer2.setTextColor(Color.WHITE);
+                }
+            });
+            binding.answer3.setOnClickListener(v -> {
+                binding.answer1.setOnClickListener(null);
+                binding.answer2.setOnClickListener(null);
+                binding.answer3.setOnClickListener(null);
+                binding.answer4.setOnClickListener(null);
+                if(binding.answer3.getText().toString().equalsIgnoreCase(resItem.getAnswer())){
+                    binding.answer3lay.setBackgroundResource(R.drawable.question_select_green);
+                    binding.answer3.setTextColor(Color.WHITE);
+                }else{
+                    binding.answer3lay.setBackgroundResource(R.drawable.question_select_red);
+                    binding.answer3.setTextColor(Color.WHITE);
+                }
+            });
+            binding.answer4.setOnClickListener(v -> {
+                binding.answer1.setOnClickListener(null);
+                binding.answer2.setOnClickListener(null);
+                binding.answer3.setOnClickListener(null);
+                binding.answer4.setOnClickListener(null);
+                if(binding.answer4.getText().toString().equalsIgnoreCase(resItem.getAnswer())){
+                    binding.answer4lay.setBackgroundResource(R.drawable.question_select_green);
+                    binding.answer4.setTextColor(Color.WHITE);
+                }else{
+                    binding.answer4lay.setBackgroundResource(R.drawable.question_select_red);
+                    binding.answer4.setTextColor(Color.WHITE);
+                }
+            });
         }
     }
 }

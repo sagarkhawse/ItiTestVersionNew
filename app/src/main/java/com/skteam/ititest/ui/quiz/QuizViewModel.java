@@ -25,8 +25,9 @@ public class QuizViewModel extends BaseViewModel<QuizNav> {
         super(context, sharedPre, activity);
     }
     private MutableLiveData<List<ResItem>> getAllQuizData(String testId){
+        getNavigator().setLoading(true);
         AndroidNetworking.post(AppConstance.API_BASE_URL + AppConstance.QUIZ)
-                .addBodyParameter("test_id",testId)
+                .addBodyParameter("test_id","1")
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsObject(QuizResponse.class, new ParsedRequestListener<QuizResponse>() {
