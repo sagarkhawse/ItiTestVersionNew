@@ -15,12 +15,15 @@ import com.skteam.ititest.baseclasses.BaseFragment;
 import com.skteam.ititest.databinding.FragmentChapterBinding;
 import com.skteam.ititest.restModel.home.subjects.TestListItem;
 import com.skteam.ititest.setting.CommonUtils;
+import com.skteam.ititest.setting.dialog.SweetAlertDialog;
 import com.skteam.ititest.ui.home.HomeNav;
 import com.skteam.ititest.ui.home.HomeViewModel;
 import com.skteam.ititest.ui.home.chapterdata.testseries.adapter.TestSeriesAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.skteam.ititest.setting.AppConstance.ERROR;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +37,7 @@ public class TestSeriesFragment extends BaseFragment<FragmentChapterBinding, Hom
     private Dialog internetDialog;
     private static List<TestListItem> testList = new ArrayList<>();
     private TestSeriesAdapter testSeriesAdapter;
-
+    private SweetAlertDialog dialog;
     public TestSeriesFragment() {
         // Required empty public constructor
     }
@@ -102,16 +105,28 @@ public class TestSeriesFragment extends BaseFragment<FragmentChapterBinding, Hom
             } else {
                 binding.emptyTxt.setText("No Test Series Found");
                 binding.emptyTxt.setVisibility(View.VISIBLE);
+            dialog = getBaseActivity().showAlertDialog(getActivity(), ERROR, "Test Series  will be updated soon!", "ITI Test");
+            dialog.setConfirmText("Go Back")
+                    .setConfirmClickListener(sweetAlertDialog -> {
+                        dialog.dismissWithAnimation();
+                        getBaseActivity().onBackPressed();
+                    });
+            //dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+            dialog.show();
             }
     }
 
     @Override
     public void setLoading(boolean b) {
-
+        if (b) {
+            showLoadingDialog("");
+        } else {
+            hideLoadingDialog();
+        }
     }
 
     @Override
     public void setMessage(String s) {
-
+        showCustomAlert(s);
     }
 }

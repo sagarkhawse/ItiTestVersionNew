@@ -39,6 +39,7 @@ public class LeaderBoardViewmodel extends BaseViewModel<LeaderNav> {
                         getNavigator().setLoading(false);
                         if (response != null) {
                             if (response.getCode().equals("200")) {
+
                                 leaderBoardMutabledata.postValue(response.getRes());
                             } else {
                                 getNavigator().setMessage("Please try again later!");

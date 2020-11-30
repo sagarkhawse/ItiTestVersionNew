@@ -1,13 +1,18 @@
 package com.skteam.ititest.ui.quiz;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.SnapHelper;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,25 +20,37 @@ import android.view.ViewGroup;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseFragment;
 import com.skteam.ititest.databinding.FragmentQuizBinding;
+import com.skteam.ititest.restModel.quiz.QuizResponse;
+import com.skteam.ititest.restModel.quiz.ResItem;
 import com.skteam.ititest.setting.CommonUtils;
+import com.skteam.ititest.setting.dialog.SweetAlertDialog;
+import com.skteam.ititest.ui.quiz.adapter.PostionAdapter;
+import com.skteam.ititest.ui.quiz.adapter.QuizAdapter;
 
 import java.util.List;
 
+import static com.skteam.ititest.setting.AppConstance.ERROR;
+import static com.skteam.ititest.setting.AppConstance.WARNING;
 
-public class QuizFragment extends BaseFragment<FragmentQuizBinding, QuizViewModel> implements QuizNav {
+
+public class QuizFragment extends BaseFragment<FragmentQuizBinding, QuizViewModel> implements QuizNav, PostionAdapter.onClickQuistionStatus {
     private QuizViewModel viewModel;
     private FragmentQuizBinding binding;
     private Dialog internetDialog;
     private static QuizFragment instance;
     private static String testId;
+    private SweetAlertDialog dialog;
+    private PostionAdapter postionAdapter;
+    private QuizAdapter quizAdapter;
+    private SnapHelper postionHelper, quizHelper;
 
     public QuizFragment() {
         // Required empty public constructor
     }
 
     public static QuizFragment getInstance(String testIdMain) {
-        testId=testIdMain;
-       return instance = instance == null ? new QuizFragment() : instance;
+        testId = testIdMain;
+        return instance = instance == null ? new QuizFragment() : instance;
     }
 
     @Override
@@ -66,12 +83,22 @@ public class QuizFragment extends BaseFragment<FragmentQuizBinding, QuizViewMode
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding=getViewDataBinding();
+        binding = getViewDataBinding();
         viewModel.setNavigator(this);
-        viewModel.GetAllQuiz(testId).observe(getBaseActivity(), new Observer<List<String>>() {
-            @Override
-            public void onChanged(List<String> strings) {
+        quizAdapter = new QuizAdapter(getContext());
+        postionAdapter = new PostionAdapter(getContext(), this);
+        postionHelper = new LinearSnapHelper();
+        postionHelper.attachToRecyclerView(binding.statusList);
+        quizHelper = new PagerSnapHelper();
+        quizHelper.attachToRecyclerView(binding.questionsList);
 
+        viewModel.GetAllQuiz(testId).observe(getBaseActivity(), new Observer<List<ResItem>>() {
+            @Override
+            public void onChanged(List<ResItem> resItems) {
+                if (resItems != null && resItems.size() > 0) {
+                    postionAdapter.UpdateList(resItems);
+                    quizAdapter.UpdateList(resItems);
+                }
             }
         });
 
@@ -97,6 +124,20 @@ public class QuizFragment extends BaseFragment<FragmentQuizBinding, QuizViewMode
 
     @Override
     public void setMessage(String s) {
+        showCustomAlert("Quiz will be updated soon!");
+        dialog = getBaseActivity().showAlertDialog(getActivity(), ERROR, "Quiz will be updated soon!", "ITI Test");
+        dialog.setConfirmText("Go Back")
+                .setConfirmClickListener(sweetAlertDialog -> {
+                    dialog.dismissWithAnimation();
+                    getBaseActivity().onBackPressed();
+                });
+        //dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+        dialog.show();
+    }
 
+
+    @Override
+    public void onClickOnStatus(int pos) {
+        binding.questionsList.smoothScrollToPosition(pos);
     }
 }

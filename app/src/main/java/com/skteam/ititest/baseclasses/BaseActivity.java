@@ -13,6 +13,7 @@ import android.app.Application;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -43,6 +44,7 @@ import com.skteam.ititest.databinding.ActivityHomeBinding;
 import com.skteam.ititest.databinding.CustomToastBinding;
 import com.skteam.ititest.prefrences.SharedPre;
 import com.skteam.ititest.setting.CommonUtils;
+import com.skteam.ititest.setting.dialog.SweetAlertDialog;
 import com.skteam.ititest.ui.home.HomeFragment;
 import com.skteam.ititest.ui.welcome.WelcomeFragment;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -52,6 +54,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.skteam.ititest.setting.AppConstance.BASIC;
+import static com.skteam.ititest.setting.AppConstance.BASIC_DISCRIPTION;
+import static com.skteam.ititest.setting.AppConstance.ERROR;
+import static com.skteam.ititest.setting.AppConstance.PROGRESS;
+import static com.skteam.ititest.setting.AppConstance.WARNING;
 
 
 public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseViewModel> extends AppCompatActivity implements ConnectionReceiver.ConnectionReceiverListener {
@@ -71,6 +78,7 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
     private RxPermissions rxPermissions;
     private boolean doubleBackToExitPressedOnce = false;
     private FirebaseAuth auth;
+    private SweetAlertDialog dialog;
 //replace yourActivity.this with your own activity or if you declared a context you can write context.getSystemService(Context.VIBRATOR_SERVICE);
 
     /**
@@ -313,7 +321,51 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
 
 
     }
+    public SweetAlertDialog showAlertDialog(Context context, int type, String msg, String title) {
+        switch (type) {
+            case PROGRESS: {
+                dialog = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
+                dialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                dialog.setTitleText(title);
+                dialog.setCancelable(false);
+                return dialog;
+            }
+            case BASIC: {
+                dialog = new SweetAlertDialog(context);
+                dialog.setTitleText(title);
+                dialog.setCancelable(false);
+                return dialog;
+            }
+            case BASIC_DISCRIPTION: {
+                dialog = new SweetAlertDialog(context);
+                dialog.setTitleText(title);
+                dialog.setContentText(msg);
+                dialog.setCancelable(false);
+                return dialog;
+            }
+            case ERROR: {
+                dialog = new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE);
+                dialog.setTitleText(title);
+                dialog.setContentText(msg);
+                dialog.setCancelable(false);
+                return dialog;
+            }
+            case WARNING: {
+                dialog = new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE);
+                dialog.setTitleText(title);
+                dialog.setContentText(msg);
+                return dialog;
+            }
+            default:{
+                dialog = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
+                dialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                dialog.setTitleText(title);
+                dialog.setCancelable(false);
+                return dialog;
+            }
+        }
 
+    }
     public Fragment getCurrentFragment() {
         fragment = getSupportFragmentManager().findFragmentById(R.id.container);
         return fragment;

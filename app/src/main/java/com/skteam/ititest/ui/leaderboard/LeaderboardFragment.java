@@ -157,6 +157,7 @@ public class LeaderboardFragment extends BaseFragment<FragmentLeaderboardBinding
                 getBaseActivity().onBackPressed();
             }
         });
+        binding.allTimeButton.performClick();
     }
 
     @Override
@@ -191,22 +192,25 @@ public class LeaderboardFragment extends BaseFragment<FragmentLeaderboardBinding
                     }
                     binding.nameTop1.setText(res.get(0).getName());
                     binding.pointTop1.setText(res.get(0).getPoints()+" Pro");
-                   if(res.size()<3){
-                        binding.layTop3.setVisibility(View.GONE);
-                       Uri uri2 = Uri.parse(res.get(1).getProfilePic());
-                       String protocol2 = uri2.getScheme();
-                       String server2 = uri2.getAuthority();
-                       if(protocol2!=null && server2!=null){
-                           Glide.with(getContext()).load(res.get(1).getProfilePic()).into(binding.top2);
-                       }else{
-                           Glide.with(getContext()).load(AppConstance.IMG_URL+res.get(1).getProfilePic()).into(binding.top2);
-                       }
-                       binding.nameTop2.setText(res.get(1).getName());
-                       binding.pointTop2.setText(res.get(1).getPoints()+" Pro");
-                    }else if(res.size()<2){
+                  if(res.size()<2){
                         binding.layTop2.setVisibility(View.GONE);
                        binding.layTop3.setVisibility(View.GONE);
-                    }else{
+                    }
+                  else  if(res.size()<3){
+                      binding.layTop3.setVisibility(View.GONE);
+                      binding.layTop2.setVisibility(View.VISIBLE);
+                      Uri uri2 = Uri.parse(res.get(1).getProfilePic());
+                      String protocol2 = uri2.getScheme();
+                      String server2 = uri2.getAuthority();
+                      if(protocol2!=null && server2!=null){
+                          Glide.with(getContext()).load(res.get(1).getProfilePic()).into(binding.top2);
+                      }else{
+                          Glide.with(getContext()).load(AppConstance.IMG_URL+res.get(1).getProfilePic()).into(binding.top2);
+                      }
+                      binding.nameTop2.setText(res.get(1).getName());
+                      binding.pointTop2.setText(res.get(1).getPoints()+" Pro");
+                  }
+                  else{
                        Uri uri2 = Uri.parse(res.get(1).getProfilePic());
                        String protocol2 = uri2.getScheme();
                        String server2 = uri2.getAuthority();

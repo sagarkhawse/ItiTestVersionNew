@@ -16,4 +16,10 @@ public class AppConstance {
     public static final String SUBJECTS ="subjects";
     public static final String LEADERBOARD ="leaderboard";
     public static final String QUIZ ="quiz";
+    //dialogtype
+    public static final int PROGRESS=0;
+    public static final int BASIC=1;
+    public static final int BASIC_DISCRIPTION=2;
+    public static final int ERROR=3;
+    public static final int WARNING=4;
 }

@@ -101,5 +101,7 @@
     <string name="all_time">All time</string>
     <string name="time">Time</string>
     <string name="no_chapter_found">No Chapter Found</string>
+    <string name="cancel">Cancel</string>
+    <string name="dialog_ok">Ok</string>
 
 </resources>
