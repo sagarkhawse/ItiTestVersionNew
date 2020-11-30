@@ -9,6 +9,15 @@ public class AppConstance {
     public static final String TODAY = "today";
     public static final String MONTH = "monthly";
     public static final String ALL_TIME = "all time";
+    public static final int SEC30=31000;
+    public static final int SEC45=46000;
+    public static final int MINUTES1=61000;
+    public static final int MINUTES5=301000;
+    public static final int MINUTES10=601000;
+    public static final int MINUTES20=1201000;
+    public static final int MINUTES30=1801000;
+    public static final int MINUTES60=3601000;
+
     //API Endpoints
     public static final String API_BASE_URL ="https://androappdev.xyz/ItiTest/index.php?p=";
     public static final String IMG_URL ="https://androappdev.xyz/ItiTest/";

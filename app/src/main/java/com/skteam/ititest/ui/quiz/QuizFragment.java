@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.SnapHelper;
 
+import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,7 @@ import com.skteam.ititest.ui.quiz.adapter.QuizAdapter;
 import java.util.List;
 
 import static com.skteam.ititest.setting.AppConstance.ERROR;
+import static com.skteam.ititest.setting.AppConstance.SEC30;
 import static com.skteam.ititest.setting.AppConstance.WARNING;
 
 
@@ -93,19 +96,31 @@ public class QuizFragment extends BaseFragment<FragmentQuizBinding, QuizViewMode
         quizHelper.attachToRecyclerView(binding.questionsList);
         binding.statusList.setAdapter(postionAdapter);
         binding.questionsList.setAdapter(quizAdapter);
-        binding.submit.setOnClickListener(new View.OnClickListener() {
+        CountDownTimer timer = new CountDownTimer(SEC30, 1000) {
             @Override
-            public void onClick(View v) {
-                quizAdapter.UpdateSubmit(true);
+            public void onTick(long millisUntilFinished) {
+
             }
-        });
-        viewModel.GetAllQuiz(testId).observe(getBaseActivity(), new Observer<List<ResItem>>() {
+
             @Override
-            public void onChanged(List<ResItem> resItems) {
-                if (resItems != null && resItems.size() > 0) {
-                    postionAdapter.UpdateList(resItems);
-                    quizAdapter.UpdateList(resItems);
-                }
+            public void onFinish() {
+                binding.submit.performClick();
+            }
+        };
+        long elapsedMillis = SystemClock.elapsedRealtime() - binding.time.getBase();
+        binding.time.setBase(SystemClock.elapsedRealtime() - elapsedMillis);
+        binding.time.start();
+        timer.start();
+
+        binding.submit.setOnClickListener(v -> {
+            quizAdapter.UpdateSubmit(true);
+            binding.time.stop();
+            timer.cancel();
+        });
+        viewModel.GetAllQuiz(testId).observe(getBaseActivity(), resItems -> {
+            if (resItems != null && resItems.size() > 0) {
+                postionAdapter.UpdateList(resItems);
+                quizAdapter.UpdateList(resItems);
             }
         });
 
