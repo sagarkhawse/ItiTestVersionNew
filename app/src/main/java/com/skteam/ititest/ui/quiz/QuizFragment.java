@@ -93,7 +93,12 @@ public class QuizFragment extends BaseFragment<FragmentQuizBinding, QuizViewMode
         quizHelper.attachToRecyclerView(binding.questionsList);
         binding.statusList.setAdapter(postionAdapter);
         binding.questionsList.setAdapter(quizAdapter);
-
+        binding.submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                quizAdapter.UpdateSubmit(true);
+            }
+        });
         viewModel.GetAllQuiz(testId).observe(getBaseActivity(), new Observer<List<ResItem>>() {
             @Override
             public void onChanged(List<ResItem> resItems) {

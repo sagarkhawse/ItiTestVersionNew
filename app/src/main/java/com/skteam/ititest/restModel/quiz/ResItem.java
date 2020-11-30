@@ -32,6 +32,26 @@ public class ResItem{
 	@SerializedName("test_id")
 	private String testId;
 
+	private boolean isCorrectAnswerSelected;
+
+	private String selectQuestion;
+
+	public String getSelectQuestion() {
+		return selectQuestion;
+	}
+
+	public void setSelectQuestion(String selectQuestion) {
+		this.selectQuestion = selectQuestion;
+	}
+
+	public boolean isCorrectAnswerSelected() {
+		return isCorrectAnswerSelected;
+	}
+
+	public void setCorrectAnswerSelected(boolean correctAnswerSelected) {
+		isCorrectAnswerSelected = correctAnswerSelected;
+	}
+
 	public void setImage(String image){
 		this.image = image;
 	}
