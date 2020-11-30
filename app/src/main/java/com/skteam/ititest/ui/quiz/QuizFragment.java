@@ -91,6 +91,8 @@ public class QuizFragment extends BaseFragment<FragmentQuizBinding, QuizViewMode
         postionHelper.attachToRecyclerView(binding.statusList);
         quizHelper = new PagerSnapHelper();
         quizHelper.attachToRecyclerView(binding.questionsList);
+        binding.statusList.setAdapter(postionAdapter);
+        binding.questionsList.setAdapter(quizAdapter);
 
         viewModel.GetAllQuiz(testId).observe(getBaseActivity(), new Observer<List<ResItem>>() {
             @Override
@@ -119,7 +121,11 @@ public class QuizFragment extends BaseFragment<FragmentQuizBinding, QuizViewMode
 
     @Override
     public void setLoading(boolean b) {
-
+        if (b) {
+            showLoadingDialog("");
+        } else {
+            hideLoadingDialog();
+        }
     }
 
     @Override
