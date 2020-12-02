@@ -164,6 +164,18 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         changeAlertType(mAlertType, true);
 
     }
+    public Button getmConfirmButton(){
+        if(mConfirmButton==null){
+            return mConfirmButton = (Button)findViewById(R.id.confirm_button);
+        }
+        return mConfirmButton;
+    }
+    public Button getCancelButton(){
+        if(mCancelButton==null){
+            return  mCancelButton = (Button)findViewById(R.id.cancel_button);
+        }
+        return mCancelButton;
+    }
 
     private void restore () {
         mCustomImage.setVisibility(View.GONE);
@@ -214,7 +226,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
                 case WARNING_TYPE:
                     mConfirmButton.setBackgroundResource(R.drawable.btn_red);
                     mWarningFrame.setVisibility(View.VISIBLE);
-                    mCancelButton.setVisibility(View.GONE);
+                    mCancelButton.setVisibility(View.VISIBLE);
                     break;
                 case CUSTOM_IMAGE_TYPE:
                     setCustomImage(mCustomImgDrawable);

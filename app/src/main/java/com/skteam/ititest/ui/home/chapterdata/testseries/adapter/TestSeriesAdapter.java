@@ -10,6 +10,7 @@
 package com.skteam.ititest.ui.home.chapterdata.testseries.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,9 @@ public class TestSeriesAdapter extends RecyclerView.Adapter<TestSeriesAdapter.Te
 
         public void onBinding(final TestListItem testListItem) {
             binding.tvTitle.setText(testListItem.getTitle() );
-            binding.tvTitle.setOnClickListener(v -> ((HomeActivity) context).startFragment(QuizFragment.getInstance(testListItem.getTestId()),true,QuizFragment.getInstance(testListItem.getTestId()).toString()));
+            binding.tvTitle.setOnClickListener(v -> {
+                context.startActivity(new Intent(context,QuizFragment.class).putExtra("test_Id",testListItem.getTestId()));
+            });
         }
     }
 

@@ -9,14 +9,16 @@ public class AppConstance {
     public static final String TODAY = "today";
     public static final String MONTH = "monthly";
     public static final String ALL_TIME = "all time";
-    public static final int SEC30=31000;
-    public static final int SEC45=46000;
-    public static final int MINUTES1=61000;
-    public static final int MINUTES5=301000;
-    public static final int MINUTES10=601000;
-    public static final int MINUTES20=1201000;
-    public static final int MINUTES30=1801000;
-    public static final int MINUTES60=3601000;
+    public static final int CAMERA_REQUEST = 1888;
+    public static final int SELECT_IMAGE = 1;
+    public static final int SEC30=30000;
+    public static final int SEC45=45000;
+    public static final int MINUTES1=60000;
+    public static final int MINUTES5=300000;
+    public static final int MINUTES10=600000;
+    public static final int MINUTES20=1200000;
+    public static final int MINUTES30=1800000;
+    public static final int MINUTES60=3600000;
 
     //API Endpoints
     public static final String API_BASE_URL ="https://androappdev.xyz/ItiTest/index.php?p=";
@@ -31,4 +33,5 @@ public class AppConstance {
     public static final int BASIC_DISCRIPTION=2;
     public static final int ERROR=3;
     public static final int WARNING=4;
+    public static final int SUCCESS=5;
 }

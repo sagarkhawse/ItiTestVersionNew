@@ -29,8 +29,9 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
    private  Context context;
 
 
-    public LeaderBoardAdapter(Context context) {
+    public LeaderBoardAdapter(Context context,List<Re> lederboardList) {
         this.context = context;
+        this.lederboardList=lederboardList;
     }
 
     @NonNull

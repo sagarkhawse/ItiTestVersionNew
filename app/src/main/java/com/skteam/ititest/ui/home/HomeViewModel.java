@@ -9,7 +9,12 @@
 
 package com.skteam.ititest.ui.home;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.provider.MediaStore;
+import android.view.Window;
+import android.widget.ImageView;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -37,6 +42,7 @@ public class HomeViewModel extends BaseViewModel<HomeNav> {
     private MutableLiveData<List<ResItem>> subjectListMutableLiveData=new MutableLiveData<>();
     private MutableLiveData<List<com.skteam.ititest.restModel.home.leaderboard.Re>> leaderBoardMutabledata=new MutableLiveData<>();
     private MutableLiveData<List<Re>>LoginDetaild=new MutableLiveData<>();
+
     public HomeViewModel(Context context, SharedPre sharedPre, Activity activity) {
         super(context, sharedPre, activity);
     }
@@ -135,4 +141,5 @@ public class HomeViewModel extends BaseViewModel<HomeNav> {
             return LoginDetaild;
         }
     }
+
 }

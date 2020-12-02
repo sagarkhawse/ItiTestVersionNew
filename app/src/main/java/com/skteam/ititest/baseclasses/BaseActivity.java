@@ -58,6 +58,7 @@ import static com.skteam.ititest.setting.AppConstance.BASIC;
 import static com.skteam.ititest.setting.AppConstance.BASIC_DISCRIPTION;
 import static com.skteam.ititest.setting.AppConstance.ERROR;
 import static com.skteam.ititest.setting.AppConstance.PROGRESS;
+import static com.skteam.ititest.setting.AppConstance.SUCCESS;
 import static com.skteam.ititest.setting.AppConstance.WARNING;
 
 
@@ -327,6 +328,13 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
                 dialog = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
                 dialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
                 dialog.setTitleText(title);
+                dialog.setCancelable(false);
+                return dialog;
+            }
+            case SUCCESS:{
+                dialog = new SweetAlertDialog(context,SweetAlertDialog.SUCCESS_TYPE);
+                dialog.setTitleText(title);
+                dialog.setContentText(msg);
                 dialog.setCancelable(false);
                 return dialog;
             }

@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.skteam.ititest.R;
+import com.skteam.ititest.baseclasses.BaseActivity;
 import com.skteam.ititest.baseclasses.BaseFragment;
 import com.skteam.ititest.databinding.FragmentQuizBinding;
 import com.skteam.ititest.restModel.quiz.QuizResponse;
@@ -35,10 +36,11 @@ import java.util.List;
 
 import static com.skteam.ititest.setting.AppConstance.ERROR;
 import static com.skteam.ititest.setting.AppConstance.SEC30;
+import static com.skteam.ititest.setting.AppConstance.SUCCESS;
 import static com.skteam.ititest.setting.AppConstance.WARNING;
 
 
-public class QuizFragment extends BaseFragment<FragmentQuizBinding, QuizViewModel> implements QuizNav, PostionAdapter.onClickQuistionStatus {
+public class QuizFragment extends BaseActivity<FragmentQuizBinding, QuizViewModel> implements QuizAdapter.NoQuestionSelected,QuizNav, PostionAdapter.onClickQuistionStatus {
     private QuizViewModel viewModel;
     private FragmentQuizBinding binding;
     private Dialog internetDialog;
@@ -48,20 +50,7 @@ public class QuizFragment extends BaseFragment<FragmentQuizBinding, QuizViewMode
     private PostionAdapter postionAdapter;
     private QuizAdapter quizAdapter;
     private SnapHelper postionHelper, quizHelper;
-
-    public QuizFragment() {
-        // Required empty public constructor
-    }
-
-    public static QuizFragment getInstance(String testIdMain) {
-        testId = testIdMain;
-        return instance = instance == null ? new QuizFragment() : instance;
-    }
-
-    @Override
-    public String toString() {
-        return QuizFragment.class.getName();
-    }
+    private boolean isSubmited =false;
 
     @Override
     public int getBindingVariable() {
@@ -75,23 +64,28 @@ public class QuizFragment extends BaseFragment<FragmentQuizBinding, QuizViewMode
 
     @Override
     public QuizViewModel getViewModel() {
-        return viewModel = new QuizViewModel(getContext(), getSharedPre(), getBaseActivity());
+        return viewModel = new QuizViewModel(this, getSharedPre(), this);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         binding = getViewDataBinding();
         viewModel.setNavigator(this);
-        quizAdapter = new QuizAdapter(getContext());
-        postionAdapter = new PostionAdapter(getContext(), this);
+        if(getIntent().getStringExtra("test_Id")!=null && !getIntent().getStringExtra("test_Id").isEmpty()){
+            testId = getIntent().getStringExtra("test_Id");
+        }else{
+            dialog =showAlertDialog(this, ERROR, "Quiz will be updated soon!", "ITI Test");
+            dialog.setConfirmText("Go Back")
+                    .setConfirmClickListener(sweetAlertDialog -> {
+                        dialog.dismissWithAnimation();
+                        finish();
+                    });
+            //dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+            dialog.show();
+        }
+        quizAdapter = new QuizAdapter(this,this);
+        postionAdapter = new PostionAdapter(this, this);
         postionHelper = new LinearSnapHelper();
         postionHelper.attachToRecyclerView(binding.statusList);
         quizHelper = new PagerSnapHelper();
@@ -129,11 +123,24 @@ public class QuizFragment extends BaseFragment<FragmentQuizBinding, QuizViewMode
         binding.time.setBase(SystemClock.elapsedRealtime() - elapsedMillis);
 
         binding.submit.setOnClickListener(v -> {
-            quizAdapter.UpdateSubmit(true);
-            binding.time.stop();
-            timer.cancel();
+            if(isSubmited){
+                showCustomAlert("Test Already Submited!!");
+            }else {
+                isSubmited=true;
+                quizAdapter.UpdateSubmit(true);
+                binding.time.stop();
+                timer.cancel();
+                dialog = showAlertDialog(this, SUCCESS, "Test Submited Successfully", "ITI Test");
+                dialog.setConfirmText("OK")
+                        .setConfirmClickListener(sweetAlertDialog -> {
+                            dialog.dismissWithAnimation();
+                        });
+                //dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                dialog.show();
+            }
+
         });
-        viewModel.GetAllQuiz(testId).observe(getBaseActivity(), resItems -> {
+        viewModel.GetAllQuiz(testId).observe(this, resItems -> {
             if (resItems != null && resItems.size() > 0) {
                 binding.time.start();
                 timer.start();
@@ -141,13 +148,13 @@ public class QuizFragment extends BaseFragment<FragmentQuizBinding, QuizViewMode
                 quizAdapter.UpdateList(resItems);
             }
         });
-
     }
+
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
         if (internetDialog == null) {
-            internetDialog = CommonUtils.InternetConnectionAlert(getActivity(), false);
+            internetDialog = CommonUtils.InternetConnectionAlert(this, false);
         }
         if (isConnected) {
             internetDialog.dismiss();
@@ -169,19 +176,51 @@ public class QuizFragment extends BaseFragment<FragmentQuizBinding, QuizViewMode
     @Override
     public void setMessage(String s) {
         showCustomAlert("Quiz will be updated soon!");
-        dialog = getBaseActivity().showAlertDialog(getActivity(), ERROR, "Quiz will be updated soon!", "ITI Test");
+        dialog =showAlertDialog(this, ERROR, "Quiz will be updated soon!", "ITI Test");
         dialog.setConfirmText("Go Back")
                 .setConfirmClickListener(sweetAlertDialog -> {
                     dialog.dismissWithAnimation();
-                    getBaseActivity().onBackPressed();
+                   finish();
                 });
         //dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
         dialog.show();
     }
 
+    @Override
+    public void onBackPressed() {
+
+        dialog =showAlertDialog(this, WARNING, "Do You want to cancel Your Test", "ITI Test");
+        dialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                dialog.dismissWithAnimation();
+            }
+        });
+        dialog.setConfirmText("Yes")
+                .setConfirmClickListener(sweetAlertDialog -> {
+                    dialog.dismissWithAnimation();
+                    finish();
+                });
+
+        dialog.show();
+    }
 
     @Override
     public void onClickOnStatus(int pos) {
         binding.questionsList.smoothScrollToPosition(pos);
+    }
+
+    @Override
+    public void NoQuestionSelected() {
+        showCustomAlert("Sorry! You Got 0 Points From this Test Series");
+        dialog =showAlertDialog(this, ERROR, "No Question Selected", "Times Up!!");
+        dialog.setConfirmText("Yes")
+                .setConfirmClickListener(sweetAlertDialog -> {
+
+                    dialog.dismissWithAnimation();
+                    finish();
+                });
+
+        dialog.show();
     }
 }

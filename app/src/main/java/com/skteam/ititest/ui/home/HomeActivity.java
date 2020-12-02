@@ -6,8 +6,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -31,6 +33,7 @@ import com.skteam.ititest.databinding.ActivityHomeBinding;
 import com.skteam.ititest.databinding.AppBarMainBinding;
 import com.skteam.ititest.databinding.NavHeaderMainBinding;
 import com.skteam.ititest.setting.CommonUtils;
+import com.skteam.ititest.setting.dialog.SweetAlertDialog;
 import com.skteam.ititest.ui.leaderboard.LeaderboardFragment;
 import com.skteam.ititest.ui.profile.ProfileFragment;
 import com.skteam.ititest.ui.splash.SplashActivity;
@@ -42,6 +45,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import kotlin.Unit;
 
+import static com.skteam.ititest.setting.AppConstance.ERROR;
+import static com.skteam.ititest.setting.AppConstance.WARNING;
+
 public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewModel> implements HomeNav {
 
     private ActivityHomeBinding binding;
@@ -49,6 +55,7 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
     private Dialog internetDialog;
     private Disposable disposable;
     private Context context;
+    private SweetAlertDialog dialog;
     private NavHeaderMainBinding navigationViewHeaderBinding;
 
 
@@ -93,52 +100,80 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
             }
         });
         disposable = RxView.clicks(navigationViewHeaderBinding.btnLogout).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(unit -> {
-            getAuth().signOut();
-            showLoadingDialog("");
-            if (getSharedPre().isFaceboobkLoggedIn()) {
-                if (AccessToken.getCurrentAccessToken() == null) {
-                    getSharedPre().Logout();
-                    hideLoadingDialog();
-                    startActivity(new Intent(HomeActivity.this, SplashActivity.class));
-                    finish();
-                    return; // user already logged out
-                }
-                try {
-                    GraphRequestAsyncTask graphRequest = new GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, graphResponse -> {
-                        LoginManager.getInstance().logOut();
-                        hideLoadingDialog();
-                        getSharedPre().Logout();
-                        startActivity(new Intent(HomeActivity.this, SplashActivity.class));
-                        finish();
-                    }).executeAsync();
-                } catch (Exception e) {
-
-                }
-
-            } else if (getSharedPre().isGoogleLoggedIn()) {
-                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getResources().getString(R.string.GOOGLE_SIGNIN_SECRET)).requestEmail()
-                        .requestScopes(new Scope("https://www.googleapis.com/auth/user.birthday.read"),
-                                new Scope("https://www.googleapis.com/auth/userinfo.profile"))
-                        .build();
-                GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(context, gso);
-                googleSignInClient.signOut()
-                        .addOnCompleteListener(HomeActivity.this, new OnCompleteListener<Void>() {
+            dialog = showAlertDialog(context, WARNING, "Do you want to Logout !", getResources().getString(R.string.app_name));
+           dialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+               @Override
+               public void onClick(SweetAlertDialog sweetAlertDialog) {
+                   dialog.dismissWithAnimation();
+               }
+           });
+            dialog.setConfirmText("Yes!")
+                    .setConfirmClickListener(sweetAlertDialog -> {
+                        dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                        dialog.setContentText("Logout Successfully");
+                        dialog.getmConfirmButton().setVisibility(View.GONE);
+                        Handler handler=new Handler();
+                        Runnable runnable=new Runnable() {
                             @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                getSharedPre().Logout();
-                                hideLoadingDialog();
-                                startActivity(new Intent(HomeActivity.this, SplashActivity.class));
-                                finish();
+                            public void run() {
+                                dialog.dismissWithAnimation();
+                                Logout();
                             }
-                        });
-            } else {
-                hideLoadingDialog();
-                getSharedPre().Logout();
-                startActivity(new Intent(HomeActivity.this, SplashActivity.class));
-                finish();
-            }
+                        };
+                        handler.postDelayed(runnable,1000);
+
+                    });
+            dialog.show();
+
 
         });
+    }
+
+    private void Logout() {
+        getAuth().signOut();
+        showLoadingDialog("");
+        if (getSharedPre().isFaceboobkLoggedIn()) {
+            if (AccessToken.getCurrentAccessToken() == null) {
+                getSharedPre().Logout();
+                hideLoadingDialog();
+                startActivity(new Intent(HomeActivity.this, SplashActivity.class));
+                finish();
+                return; // user already logged out
+            }
+            try {
+                GraphRequestAsyncTask graphRequest = new GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, graphResponse -> {
+                    LoginManager.getInstance().logOut();
+                    hideLoadingDialog();
+                    getSharedPre().Logout();
+                    startActivity(new Intent(HomeActivity.this, SplashActivity.class));
+                    finish();
+                }).executeAsync();
+            } catch (Exception e) {
+
+            }
+
+        } else if (getSharedPre().isGoogleLoggedIn()) {
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getResources().getString(R.string.GOOGLE_SIGNIN_SECRET)).requestEmail()
+                    .requestScopes(new Scope("https://www.googleapis.com/auth/user.birthday.read"),
+                            new Scope("https://www.googleapis.com/auth/userinfo.profile"))
+                    .build();
+            GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(context, gso);
+            googleSignInClient.signOut()
+                    .addOnCompleteListener(HomeActivity.this, new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            getSharedPre().Logout();
+                            hideLoadingDialog();
+                            startActivity(new Intent(HomeActivity.this, SplashActivity.class));
+                            finish();
+                        }
+                    });
+        } else {
+            hideLoadingDialog();
+            getSharedPre().Logout();
+            startActivity(new Intent(HomeActivity.this, SplashActivity.class));
+            finish();
+        }
     }
 
 

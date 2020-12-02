@@ -103,5 +103,6 @@
     <string name="no_chapter_found">No Chapter Found</string>
     <string name="cancel">Cancel</string>
     <string name="dialog_ok">Ok</string>
+    <string name="edit_profile">Edit Profile</string>
 
 </resources>

@@ -32,8 +32,9 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectH
     private TestSeriesAdapter testSeriesAdapter;
 
 
-    public SubjectAdapter(Context context) {
+    public SubjectAdapter(Context context,List<ResItem> subjectList) {
         this.context = context;
+        this.subjectList=subjectList;
     }
 
     @Override
