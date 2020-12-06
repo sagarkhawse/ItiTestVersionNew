@@ -223,9 +223,9 @@ public class LeaderboardFragment extends BaseFragment<FragmentLeaderboardBinding
                        String protocol3 = uri3.getScheme();
                        String server3 = uri3.getAuthority();
                        if(protocol3!=null && server3!=null){
-                           Glide.with(getContext()).load(res.get(2).getProfilePic()).into(binding.top2);
+                           Glide.with(getContext()).load(res.get(2).getProfilePic()).into(binding.top3);
                        }else{
-                           Glide.with(getContext()).load(AppConstance.IMG_URL+res.get(2).getProfilePic()).into(binding.top2);
+                           Glide.with(getContext()).load(AppConstance.IMG_URL+res.get(2).getProfilePic()).into(binding.top3);
                        }
                        binding.nameTop2.setText(res.get(1).getName());
                        binding.nameTop3.setText(res.get(2).getName());
