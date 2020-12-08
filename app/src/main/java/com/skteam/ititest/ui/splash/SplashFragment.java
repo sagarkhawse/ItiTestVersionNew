@@ -120,7 +120,6 @@ public class SplashFragment extends BaseFragment<FragmentSplashBinding,SplashVie
         }
     }
     void StartIntent(){
-        showCustomAlert("Thank You for Choosing us");
         if(getSharedPre().isLoggedIn()){
            startActivity(new Intent(getBaseActivity(), HomeActivity.class));
            getBaseActivity().finish();
