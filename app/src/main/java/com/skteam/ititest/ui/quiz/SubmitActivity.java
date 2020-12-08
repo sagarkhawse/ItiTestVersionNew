@@ -18,17 +18,16 @@ import com.skteam.ititest.baseclasses.BaseActivity;
 import com.skteam.ititest.databinding.FragmentSubmitBinding;
 import com.skteam.ititest.restModel.quiz.ResItem;
 import com.skteam.ititest.ui.quiz.adapter.QuizAdapter;
-import com.skteam.ititest.ui.quiz.adapter.ViewSolutionAdapter;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubmitActivity extends BaseActivity<FragmentSubmitBinding, QuizViewModel>  {
+public class SubmitActivity extends BaseActivity<FragmentSubmitBinding, QuizViewModel> implements QuizAdapter.NoQuestionSelected {
     private static SubmitActivity instance;
     private FragmentSubmitBinding binding;
     private QuizViewModel quizViewModel;
-    private ViewSolutionAdapter adapter;
+    private QuizAdapter adapter;
     private static List<ResItem> finalAnswerSheet=new ArrayList<>();
 
 
@@ -68,19 +67,27 @@ public class SubmitActivity extends BaseActivity<FragmentSubmitBinding, QuizView
             Type type = new TypeToken<List<ResItem>>() {
             }.getType();
             List<ResItem> restItems = gson.fromJson(json, type);
-            adapter = new ViewSolutionAdapter(this,restItems );
+            adapter = new QuizAdapter(this, this);
             binding.submitListRecycler.setAdapter(adapter);
+            adapter.UpdateList(restItems);
+            adapter.UpdateSubmit(true);
         }
-        binding.ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
     }
+
+
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
+
+    }
+
+    @Override
+    public void NoQuestionSelected() {
+
+    }
+
+    @Override
+    public void getResult(List<ResItem> resItems) {
 
     }
 }

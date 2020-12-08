@@ -1,6 +1,7 @@
 package com.skteam.ititest.ui.quiz.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,21 +11,17 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.jakewharton.rxbinding3.view.RxView;
+import com.google.gson.Gson;
 import com.skteam.ititest.R;
 import com.skteam.ititest.databinding.ItemQuizBinding;
-import com.skteam.ititest.databinding.ItemTestSeriesBinding;
 import com.skteam.ititest.restModel.quiz.ResItem;
-import com.skteam.ititest.ui.home.chapterdata.adapter.ChapterListAdapter;
+import com.skteam.ititest.ui.quiz.QuizFragment;
+import com.skteam.ititest.ui.quiz.SubmitActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import kotlin.Unit;
 
 public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder> {
     private List<ResItem> resItems = new ArrayList<>();
@@ -46,18 +43,19 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
 
     public void UpdateSubmit(boolean isSubmited) {
         this.isSubmited = isSubmited;
-        for ( i = 0; i < resItems.size(); i++) {
+        for (i = 0; i < resItems.size(); i++) {
             if (resItems.get(i).getSelectQuestion() != null) {
-                equationFound=true;
+                equationFound = true;
                 break;
             }
         }
-        if(isSubmited && !equationFound ){
+        if (isSubmited && !equationFound) {
             noQuestionSelected.NoQuestionSelected();
-        }else{
-            notifyDataSetChanged();
-        }
+        } else {
+            noQuestionSelected.getResult(resItems);
 
+         //   notifyDataSetChanged();
+        }
     }
 
     @NonNull
@@ -128,13 +126,16 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
                     }
                 }
             } else if ((resItem.getSelectQuestion() == null || resItem.getSelectQuestion().isEmpty()) && isSubmited) {
-
+                binding.answerLay.setOnClickListener(null);
+                binding.answerLay2.setOnClickListener(null);
+                binding.answer3lay.setOnClickListener(null);
+                binding.answer4lay.setOnClickListener(null);
             } else {
-                binding.answer1.setOnClickListener(v -> {
-                    binding.answer1.setOnClickListener(null);
-                    binding.answer2.setOnClickListener(null);
-                    binding.answer3.setOnClickListener(null);
-                    binding.answer4.setOnClickListener(null);
+                binding.answerLay.setOnClickListener(v -> {
+                    binding.answerLay.setOnClickListener(null);
+                    binding.answerLay2.setOnClickListener(null);
+                    binding.answer3lay.setOnClickListener(null);
+                    binding.answer4lay.setOnClickListener(null);
                     resItem.setSelectQuestion("a");
                     if ("a".equalsIgnoreCase(resItem.getAnswer())) {
                         binding.answerLay.setBackgroundResource(R.drawable.question_select_blue);
@@ -146,11 +147,11 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
                         resItem.setCorrectAnswerSelected(false);
                     }
                 });
-                binding.answer2.setOnClickListener(v -> {
-                    binding.answer1.setOnClickListener(null);
-                    binding.answer2.setOnClickListener(null);
-                    binding.answer3.setOnClickListener(null);
-                    binding.answer4.setOnClickListener(null);
+                binding.answerLay2.setOnClickListener(v -> {
+                    binding.answerLay.setOnClickListener(null);
+                    binding.answerLay2.setOnClickListener(null);
+                    binding.answer3lay.setOnClickListener(null);
+                    binding.answer4lay.setOnClickListener(null);
                     resItem.setSelectQuestion("b");
                     if ("b".equalsIgnoreCase(resItem.getAnswer())) {
                         binding.answerLay2.setBackgroundResource(R.drawable.question_select_blue);
@@ -162,11 +163,11 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
                         binding.answer2.setTextColor(Color.WHITE);
                     }
                 });
-                binding.answer3.setOnClickListener(v -> {
-                    binding.answer1.setOnClickListener(null);
-                    binding.answer2.setOnClickListener(null);
-                    binding.answer3.setOnClickListener(null);
-                    binding.answer4.setOnClickListener(null);
+                binding.answer3lay.setOnClickListener(v -> {
+                    binding.answerLay.setOnClickListener(null);
+                    binding.answerLay2.setOnClickListener(null);
+                    binding.answer3lay.setOnClickListener(null);
+                    binding.answer4lay.setOnClickListener(null);
                     resItem.setSelectQuestion("c");
                     if ("c".equalsIgnoreCase(resItem.getAnswer())) {
                         resItem.setCorrectAnswerSelected(true);
@@ -178,11 +179,11 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
                         binding.answer3.setTextColor(Color.WHITE);
                     }
                 });
-                binding.answer4.setOnClickListener(v -> {
-                    binding.answer1.setOnClickListener(null);
-                    binding.answer2.setOnClickListener(null);
-                    binding.answer3.setOnClickListener(null);
-                    binding.answer4.setOnClickListener(null);
+                binding.answer4lay.setOnClickListener(v -> {
+                    binding.answerLay.setOnClickListener(null);
+                    binding.answerLay2.setOnClickListener(null);
+                    binding.answer3lay.setOnClickListener(null);
+                    binding.answer4lay.setOnClickListener(null);
                     resItem.setSelectQuestion("d");
                     if ("d".equalsIgnoreCase(resItem.getAnswer())) {
                         binding.answer4lay.setBackgroundResource(R.drawable.question_select_blue);
@@ -201,5 +202,6 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
 
     public interface NoQuestionSelected {
         void NoQuestionSelected();
+        void getResult(List<ResItem> resItems);
     }
 }

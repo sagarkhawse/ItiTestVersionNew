@@ -21,6 +21,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseActivity;
 import com.skteam.ititest.baseclasses.BaseFragment;
@@ -65,6 +66,9 @@ public class QuizFragment extends BaseActivity<FragmentQuizBinding, QuizViewMode
     @Override
     public QuizViewModel getViewModel() {
         return viewModel = new QuizViewModel(this, getSharedPre(), this);
+    }
+    public FragmentQuizBinding getBinding(){
+        return binding;
     }
 
     @Override
@@ -222,5 +226,22 @@ public class QuizFragment extends BaseActivity<FragmentQuizBinding, QuizViewMode
                 });
 
         dialog.show();
+    }
+
+    @Override
+    public void getResult(List<ResItem> resItems) {
+        Gson gson = new Gson();
+        String json = gson.toJson(resItems);
+        startActivityForResult(new Intent(QuizFragment.this,SubmitActivity.class).putExtra("data",json),001);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode){
+            case 001:{
+                finish();
+            }
+        }
     }
 }
