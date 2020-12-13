@@ -8,13 +8,13 @@ public class ResItem{
 	private String appVersion;
 
 	@SerializedName("gender")
-	private Object gender;
+	private String gender;
 
 	@SerializedName("created")
 	private String created;
 
 	@SerializedName("date_of_birth")
-	private Object dateOfBirth;
+	private String dateOfBirth;
 
 	@SerializedName("profile_pic")
 	private String profilePic;
@@ -29,7 +29,7 @@ public class ResItem{
 	private String userId;
 
 	@SerializedName("phone")
-	private Object phone;
+	private String phone;
 
 	@SerializedName("name")
 	private String name;
@@ -51,11 +51,11 @@ public class ResItem{
 		return appVersion;
 	}
 
-	public void setGender(Object gender){
+	public void setGender(String gender){
 		this.gender = gender;
 	}
 
-	public Object getGender(){
+	public String getGender(){
 		return gender;
 	}
 
@@ -67,11 +67,11 @@ public class ResItem{
 		return created;
 	}
 
-	public void setDateOfBirth(Object dateOfBirth){
+	public void setDateOfBirth(String dateOfBirth){
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public Object getDateOfBirth(){
+	public String getDateOfBirth(){
 		return dateOfBirth;
 	}
 
@@ -107,11 +107,11 @@ public class ResItem{
 		return userId;
 	}
 
-	public void setPhone(Object phone){
+	public void setPhone(String phone){
 		this.phone = phone;
 	}
 
-	public Object getPhone(){
+	public String getPhone(){
 		return phone;
 	}
 

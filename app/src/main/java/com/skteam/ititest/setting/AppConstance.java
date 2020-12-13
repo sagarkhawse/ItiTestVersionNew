@@ -27,6 +27,8 @@ public class AppConstance {
     public static final String SUBJECTS ="subjects";
     public static final String LEADERBOARD ="leaderboard";
     public static final String QUIZ ="quiz";
+    public static final String UPDATE_DP ="update_user_dp";
+    public static final String UPLOAD_USER_DATA = "update_user_data";
     //dialogtype
     public static final int PROGRESS=0;
     public static final int BASIC=1;
@@ -34,4 +36,5 @@ public class AppConstance {
     public static final int ERROR=3;
     public static final int WARNING=4;
     public static final int SUCCESS=5;
+
 }

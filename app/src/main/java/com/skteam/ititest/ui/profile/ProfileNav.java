@@ -4,4 +4,6 @@ public interface ProfileNav {
     void setLoading(boolean b);
 
     void setMessage(String message);
+
+    void OkDone();
 }

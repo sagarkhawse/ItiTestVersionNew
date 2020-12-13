@@ -47,11 +47,7 @@ import kotlin.Unit;
 import static com.skteam.ititest.setting.AppConstance.CAMERA_REQUEST;
 import static com.skteam.ititest.setting.AppConstance.SELECT_IMAGE;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ProfileFragment extends BaseFragment<FragmentProfileBinding, ProfileViewmodel> implements ProfileNav {
     private FragmentProfileBinding binding;
     private ProfileViewmodel viewmodel;
@@ -100,7 +96,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
         super.onViewCreated(view, savedInstanceState);
         binding = getViewDataBinding();
         viewmodel.setNavigator(this);
-        ((HomeActivity)getBaseActivity()).getAppBar().toolbarMain.setVisibility(View.GONE);
+        ((HomeActivity) getBaseActivity()).getAppBar().toolbarMain.setVisibility(View.GONE);
         binding.maleRadio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -131,6 +127,26 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
                         getBaseActivity().onBackPressed();
                     }
                 });
+        binding.submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(binding.name.getText().toString().isEmpty()){
+                    showCustomAlert("Name Not be Empty");
+                }else if(binding.email.getText().toString().isEmpty()){
+                    showCustomAlert("Email Not be Empty");
+                }else if(binding.dob.getText().toString().isEmpty()){
+                    showCustomAlert("Date of Birth Not be Empty");
+                }else if(gender.isEmpty()){
+                    showCustomAlert("Gender Not be Empty");
+                }else if(binding.phone.getText().toString().isEmpty()){
+                    showCustomAlert("phone Not be Empty");
+                }
+                else{
+                    viewmodel.EditNow(binding.name.getText().toString(),binding.phone.getText().toString(),binding.dob.getText().toString(),gender);
+                }
+
+            }
+        });
         viewmodel.GetAllUserDetails().observe(getBaseActivity(), res -> {
             if (res != null && res.size() > 0) {
                 binding.name.setText(res.get(0).getName());
@@ -160,6 +176,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
                 }
             }
         });
+
     }
 
     @Override
@@ -186,6 +203,11 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
     @Override
     public void setMessage(String s) {
         showCustomAlert(s);
+    }
+
+    @Override
+    public void OkDone() {
+        getBaseActivity().onBackPressed();
     }
 
     public Dialog showImgDialog(Context activity, boolean isCancelable) {
@@ -262,8 +284,8 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
                                 Glide.with(getContext()).load(selectedImage)
                                         .placeholder(R.drawable.user)
                                         .into(binding.userDp);
-
-                               // binding.userDp.setImageURI(selectedImage);
+                                viewmodel.UploadProfile(finalFile);
+                                // binding.userDp.setImageURI(selectedImage);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -289,7 +311,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
                         if (mCameraFileName != null) {
                             finalFile = new File(mCameraFileName);
                         }
-
+                        viewmodel.UploadProfile(finalFile);
                         //
                         if (!finalFile.exists()) {
                             finalFile.mkdir();
@@ -313,6 +335,6 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ((HomeActivity)getBaseActivity()).getAppBar().toolbarMain.setVisibility(View.VISIBLE);
+        ((HomeActivity) getBaseActivity()).getAppBar().toolbarMain.setVisibility(View.VISIBLE);
     }
 }
