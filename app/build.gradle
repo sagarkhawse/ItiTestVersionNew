@@ -52,6 +52,9 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.9.0'
     implementation 'com.pnikosis:materialish-progress:1.7'
+    //RetroFit
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
 //ViewModel
     def lifecycle_version = '2.2.0'
     // ViewModel and LiveData

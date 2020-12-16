@@ -22,12 +22,14 @@ public class AppConstance {
 
     //API Endpoints
     public static final String API_BASE_URL ="https://androappdev.xyz/ItiTest/index.php?p=";
+    public static final String API_BASE_URL_RETROFIT ="https://androappdev.xyz/ItiTest/";
     public static final String IMG_URL ="https://androappdev.xyz/ItiTest/";
     public static final String SIGN_UP ="sign_up";
     public static final String SUBJECTS ="subjects";
     public static final String LEADERBOARD ="leaderboard";
     public static final String QUIZ ="quiz";
     public static final String UPDATE_DP ="update_user_dp";
+    public static final String UPDATE_DP_RETROFIT ="index.php?p=update_user_dp";
     public static final String UPLOAD_USER_DATA = "update_user_data";
     //dialogtype
     public static final int PROGRESS=0;

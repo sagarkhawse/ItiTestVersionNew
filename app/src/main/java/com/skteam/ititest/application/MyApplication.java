@@ -47,11 +47,11 @@ public class MyApplication extends Application implements LifeCycleDelegate {
         logInter.setLevel(HttpLoggingInterceptor.Level.BODY);
         networkintentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
-                .connectTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
                 /*.cookieJar(new JavaNetCookieJar(cookieManager))
                 .addInterceptor(logInter)*/
-                .readTimeout(10, TimeUnit.SECONDS)
-                . writeTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                . writeTimeout(60, TimeUnit.SECONDS)
                 .build();
         AndroidNetworking.initialize(this,okHttpClient);
         AppLifecycleHandler lifeCycleHandler = new AppLifecycleHandler(this);

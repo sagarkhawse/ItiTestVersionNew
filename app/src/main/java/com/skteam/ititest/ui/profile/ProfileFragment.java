@@ -5,11 +5,13 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
@@ -59,11 +61,20 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
     private String mCameraFileName;
     private Uri tempUri;
     private File finalFile;
-
+    String [] permissions={Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
     public ProfileFragment() {
         // Required empty public constructor
     }
-
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     public static ProfileFragment newInstance() {
         instance = instance == null ? new ProfileFragment() : instance;
         return instance;
@@ -114,7 +125,9 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
                     @Override
                     public void accept(Boolean aBoolean) throws Exception {
                         if (aBoolean) {
-                            showImgDialog(getActivity(), false).show();
+                            if( hasPermissions(getContext(),permissions)) {
+                                showImgDialog(getActivity(), false).show();
+                            }
                         } else {
                             showCustomAlert("Please Give Permission First!");
                         }

@@ -112,19 +112,22 @@ public class QuizFragment extends BaseActivity<FragmentQuizBinding, QuizViewMode
 
             }
         });
-        CountDownTimer timer = new CountDownTimer(SEC30, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
+        CountDownTimer cT =  new CountDownTimer(30000, 1000) {
 
+            public void onTick(long millisUntilFinished) {
+                String v = String.format("%02d", millisUntilFinished/60000);
+                int va = (int)( (millisUntilFinished%60000)/1000);
+                binding.time.setText( v+":"+String.format("%02d",va));
             }
 
-            @Override
             public void onFinish() {
                 binding.submit.performClick();
             }
         };
-        long elapsedMillis = SystemClock.elapsedRealtime() - binding.time.getBase();
-        binding.time.setBase(SystemClock.elapsedRealtime() - elapsedMillis);
+
+
+
+
 
         binding.submit.setOnClickListener(v -> {
             if(isSubmited){
@@ -132,8 +135,6 @@ public class QuizFragment extends BaseActivity<FragmentQuizBinding, QuizViewMode
             }else {
                 isSubmited=true;
                 quizAdapter.UpdateSubmit(true);
-                binding.time.stop();
-                timer.cancel();
                 dialog = showAlertDialog(this, SUCCESS, "Test Submited Successfully", "ITI Test");
                 dialog.setConfirmText("OK")
                         .setConfirmClickListener(sweetAlertDialog -> {
@@ -146,8 +147,7 @@ public class QuizFragment extends BaseActivity<FragmentQuizBinding, QuizViewMode
         });
         viewModel.GetAllQuiz(testId).observe(this, resItems -> {
             if (resItems != null && resItems.size() > 0) {
-                binding.time.start();
-                timer.start();
+                cT.start();
                 postionAdapter.UpdateList(resItems);
                 quizAdapter.UpdateList(resItems);
             }
