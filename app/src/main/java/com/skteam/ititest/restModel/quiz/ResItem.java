@@ -36,6 +36,16 @@ public class ResItem{
 
 	private String selectQuestion;
 
+	private boolean isSkipQuestion=true;
+
+	public boolean isSkipQuestion() {
+		return isSkipQuestion;
+	}
+
+	public void setSkipQuestion(boolean skipQuestion) {
+		isSkipQuestion = skipQuestion;
+	}
+
 	public String getSelectQuestion() {
 		return selectQuestion;
 	}

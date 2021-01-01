@@ -24,26 +24,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <activity android:name=".ui.quiz.ReportActivity"></activity>
         <!-- Activties -->
         <activity
             android:name=".ui.quiz.SubmitActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.home.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan">
-        </activity>
+            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
         <activity
-            android:name=".ui.quiz.QuizFragment"
+            android:name=".ui.quiz.QuizActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
         <activity
             android:name=".ui.splash.SplashActivity"
             android:launchMode="singleTask"
@@ -70,13 +67,10 @@
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
-        <!--Meta Data-->
-
+            android:label="@string/app_name" /> <!-- Meta Data -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-        <!--Provider-->
+            android:value="@string/facebook_app_id" /> <!-- Provider -->
         <provider
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider835351513672710"
@@ -89,8 +83,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
-        </provider>
-        <!-- receivers -->
+        </provider> <!-- receivers -->
         <receiver
             android:name=".brodcastReceivers.ConnectionReceiver"
             android:enabled="true">
