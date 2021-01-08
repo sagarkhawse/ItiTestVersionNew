@@ -10,12 +10,14 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorTheme1"
     android:padding="@dimen/_5sdp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/test_series_1"
+        android:textColor="@color/color_white"
         style="@style/textViewDescriptionBlack"
         android:id="@+id/tvTitle"
         android:layout_toStartOf="@+id/ivViewTest"

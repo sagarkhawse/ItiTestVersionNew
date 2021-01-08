@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/gradient_background_home"
@@ -11,42 +11,46 @@
 
 
         <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnimationView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/_10sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:layout_above="@id/text_lyt"
+            android:layout_alignParentTop="true"
             android:scaleType="fitCenter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/login"
-            android:layout_above="@id/text_lyt"/>
+            app:lottie_rawRes="@raw/login" />
 
 
         <LinearLayout
             android:id="@+id/text_lyt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/loginBtn"
             android:orientation="vertical"
             android:padding="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_above="@+id/loginBtn">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView">
 
             <TextView
+                style="@style/textViewBigWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                style="@style/textViewBigWhite"
-                />
+                android:text="@string/app_name" />
 
             <TextView
+                style="@style/textViewDescriptionWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="welcome to Iti test app an Electrical Engineering Student App "
-          style="@style/textViewDescriptionWhite"
 
                 />
 
         </LinearLayout>
-
 
 
         <Button
@@ -55,9 +59,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/createBtn"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginEnd="@dimen/_15sdp"
-            android:text="@string/log_in" />
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/log_in"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_lyt" />
 
         <Button
             android:id="@+id/createBtn"
@@ -66,11 +74,19 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_margin="@dimen/_15sdp"
-            android:text="@string/sign_up" />
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/sign_up"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loginBtn"
+            app:layout_constraintVertical_bias="0.0" />
 
 
 
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

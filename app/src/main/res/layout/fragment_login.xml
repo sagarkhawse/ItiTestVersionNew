@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/gradient_background_home"
@@ -13,33 +14,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_5sdp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:contentDescription="@string/back"
             android:padding="@dimen/_10sdp"
-            android:src="@drawable/ic_left_arrow" />
+            android:src="@drawable/ic_left_arrow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-
-        <TextView
-            style="@style/textViewBigWhite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/bottom_lyt"
-            android:layout_below="@+id/back"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="15dp"
-            android:text="Welcome \nBack"
-            android:textAlignment="textStart"
-            tools:ignore="HardcodedText" />
 
         <LinearLayout
             android:id="@+id/bottom_lyt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/bg_curve_top_white"
             android:orientation="vertical"
             android:paddingTop="@dimen/_30sdp"
-            android:paddingBottom="@dimen/_10sdp">
+            android:paddingBottom="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/back">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -57,8 +55,8 @@
                     android:autofillHints="@string/email"
                     android:drawableStart="@drawable/ic_email"
                     android:drawablePadding="@dimen/_10sdp"
-                    tools:ignore="LabelFor"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    tools:ignore="LabelFor" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -125,5 +123,5 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
