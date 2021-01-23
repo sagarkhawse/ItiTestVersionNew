@@ -14,7 +14,7 @@
     <string name="gender">Gender</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="prev">Prev</string>
-    <string name="next">Next</string>
+    <string name="next1">Next</string>
     <string name="login_instead">Login Instead</string>
     <string name="email_address">Email Address</string>
     <string name="password_reset_link_will_be_sent_to_your_registered_email_address">Password reset link will be sent to your registered email address</string>
@@ -106,5 +106,7 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="test_submited">Test Submited Successfully</string>
     <string name="ok">OK</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
 
 </resources>

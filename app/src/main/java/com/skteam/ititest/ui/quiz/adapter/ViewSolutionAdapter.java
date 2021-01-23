@@ -32,11 +32,6 @@ public class ViewSolutionAdapter extends RecyclerView.Adapter<ViewSolutionAdapte
         this.resItems = resItems;
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return position;
-    }
-
     @NonNull
     @Override
     public ViewSolutionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -54,6 +49,9 @@ public class ViewSolutionAdapter extends RecyclerView.Adapter<ViewSolutionAdapte
         return resItems.size();
     }
 
+    public void UpdateSubmit(boolean b) {
+        isSubmited=b;
+    }
 
     class ViewSolutionViewHolder extends RecyclerView.ViewHolder {
         private ViewSolutionItemBinding binding;
@@ -72,11 +70,40 @@ public class ViewSolutionAdapter extends RecyclerView.Adapter<ViewSolutionAdapte
             binding.answer2.setText("B) "+resItem.getOption2());
             binding.answer3.setText("C) "+resItem.getOption3());
             binding.answer4.setText("D) "+resItem.getOption4());
-            if (resItem.getSelectQuestion() != null && !resItem.getSelectQuestion().isEmpty() && !resItem.isSkipQuestion()&& isSubmited) {
-                if(resItem.isCorrectAnswerSelected()){
-                    binding.answerLay.setBackgroundResource(R.drawable.question_select_green);
-                }else{
-                    binding.answerLay.setBackgroundResource(R.drawable.question_select_red);
+            if (resItem.getSelectQuestion() != null && !resItem.getSelectQuestion().isEmpty() && isSubmited) {
+                switch (resItem.getSelectQuestion()) {
+                    case "a": {
+                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
+                            binding.answerLay.setBackgroundResource(R.drawable.question_select_green);
+                        } else {
+                            binding.answerLay.setBackgroundResource(R.drawable.question_select_red);
+                        }
+                        break;
+                    }
+                    case "b": {
+                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
+                            binding.answerLay2.setBackgroundResource(R.drawable.question_select_green);
+                        } else {
+                            binding.answerLay2.setBackgroundResource(R.drawable.question_select_red);
+                        }
+                        break;
+                    }
+                    case "c": {
+                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
+                            binding.answer3lay.setBackgroundResource(R.drawable.question_select_green);
+                        } else {
+                            binding.answer3lay.setBackgroundResource(R.drawable.question_select_red);
+                        }
+                        break;
+                    }
+                    case "d": {
+                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
+                            binding.answer4lay.setBackgroundResource(R.drawable.question_select_green);
+                        } else {
+                            binding.answer4lay.setBackgroundResource(R.drawable.question_select_red);
+                        }
+                        break;
+                    }
                 }
             }
         }

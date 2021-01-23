@@ -3,6 +3,7 @@ package com.skteam.ititest.ui.quiz.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -83,15 +84,36 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         }
 
         public void onBindidView(final int position, final ResItem resItem) {
+            binding.previous.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    noQuestionSelected.UpdatePreviousButton();
+                }
+            });
+            binding.next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    noQuestionSelected.UpdateNextButton();
+                }
+            });
+            binding.questionOrder.setText(String.valueOf((position+1)+"/"+resItems.size()));
             binding.questionText.setText(resItem.getQuestion());
-            binding.answer1.setText(resItem.getOption1());
-            binding.answer2.setText(resItem.getOption2());
-            binding.answer3.setText(resItem.getOption3());
-            binding.answer4.setText(resItem.getOption4());
+            binding.answer1.setText("A) "+resItem.getOption1());
+            binding.answer2.setText("B) "+resItem.getOption2());
+            binding.answer3.setText("C) "+resItem.getOption3());
+            binding.answer4.setText("D) "+resItem.getOption4());
             pos=getAdapterPosition();
             if (resItem.getSelectQuestion() != null && !resItem.getSelectQuestion().isEmpty() && isSubmited) {
                 switch (resItem.getSelectQuestion()) {
                     case "a": {
+                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
+                            binding.answerLay.setBackgroundResource(R.drawable.question_select_green);
+                        } else {
+                            binding.answerLay.setBackgroundResource(R.drawable.question_select_red);
+                        }
+                        break;
+                    }
+                    case "A": {
                         if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
                             binding.answerLay.setBackgroundResource(R.drawable.question_select_green);
                         } else {
@@ -107,6 +129,14 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
                         }
                         break;
                     }
+                    case "B": {
+                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
+                            binding.answerLay2.setBackgroundResource(R.drawable.question_select_green);
+                        } else {
+                            binding.answerLay2.setBackgroundResource(R.drawable.question_select_red);
+                        }
+                        break;
+                    }
                     case "c": {
                         if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
                             binding.answer3lay.setBackgroundResource(R.drawable.question_select_green);
@@ -115,7 +145,23 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
                         }
                         break;
                     }
+                    case "C": {
+                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
+                            binding.answer3lay.setBackgroundResource(R.drawable.question_select_green);
+                        } else {
+                            binding.answer3lay.setBackgroundResource(R.drawable.question_select_red);
+                        }
+                        break;
+                    }
                     case "d": {
+                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
+                            binding.answer4lay.setBackgroundResource(R.drawable.question_select_green);
+                        } else {
+                            binding.answer4lay.setBackgroundResource(R.drawable.question_select_red);
+                        }
+                        break;
+                    }
+                    case "D": {
                         if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
                             binding.answer4lay.setBackgroundResource(R.drawable.question_select_green);
                         } else {
@@ -134,101 +180,68 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
                 binding.answerLay.setOnClickListener(v -> {
                     resItem.setSelectQuestion("a");
                     resItem.setSkipQuestion(false);
+                    binding.answerLay.setBackgroundResource(R.drawable.question_select_blue);
+                    binding.answerLay2.setBackgroundResource(R.drawable.button_border_black);
+                    binding.answer3lay.setBackgroundResource(R.drawable.button_border_black);
+                    binding.answer4lay.setBackgroundResource(R.drawable.button_border_black);
+                    binding.answer1.setTextColor(Color.WHITE);
+                    binding.answer2.setTextColor(Color.BLACK);
+                    binding.answer3.setTextColor(Color.BLACK);
+                    binding.answer4.setTextColor(Color.BLACK);
                     if ("a".equalsIgnoreCase(resItem.getAnswer())) {
-                        binding.answerLay.setBackgroundResource(R.drawable.question_select_blue);
-                        binding.answerLay2.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer3lay.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer4lay.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer1.setTextColor(Color.WHITE);
-                        binding.answer2.setTextColor(Color.BLACK);
-                        binding.answer3.setTextColor(Color.BLACK);
-                        binding.answer4.setTextColor(Color.BLACK);
                         resItem.setCorrectAnswerSelected(true);
                     } else {
-                        binding.answerLay.setBackgroundResource(R.drawable.question_select_blue);
-                        binding.answerLay2.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer3lay.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer4lay.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer1.setTextColor(Color.WHITE);
-                        binding.answer2.setTextColor(Color.BLACK);
-                        binding.answer3.setTextColor(Color.BLACK);
-                        binding.answer4.setTextColor(Color.BLACK);
                         resItem.setCorrectAnswerSelected(false);
                     }
                 });
                 binding.answerLay2.setOnClickListener(v -> {
                     resItem.setSelectQuestion("b");
                     resItem.setSkipQuestion(false);
+                    binding.answerLay2.setBackgroundResource(R.drawable.question_select_blue);
+                    binding.answerLay.setBackgroundResource(R.drawable.button_border_black);
+                    binding.answer3lay.setBackgroundResource(R.drawable.button_border_black);
+                    binding.answer4lay.setBackgroundResource(R.drawable.button_border_black);
+                    binding.answer1.setTextColor(Color.BLACK);
+                    binding.answer2.setTextColor(Color.WHITE);
+                    binding.answer3.setTextColor(Color.BLACK);
+                    binding.answer4.setTextColor(Color.BLACK);
                     if ("b".equalsIgnoreCase(resItem.getAnswer())) {
-                        binding.answerLay2.setBackgroundResource(R.drawable.question_select_blue);
-                        binding.answerLay.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer3lay.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer4lay.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer1.setTextColor(Color.BLACK);
-                        binding.answer2.setTextColor(Color.WHITE);
-                        binding.answer3.setTextColor(Color.BLACK);
-                        binding.answer4.setTextColor(Color.BLACK);
                         resItem.setCorrectAnswerSelected(true);
                     } else {
-                        binding.answerLay2.setBackgroundResource(R.drawable.question_select_blue);
-                        binding.answerLay.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer3lay.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer4lay.setBackgroundResource(R.drawable.button_border_black);
                         resItem.setCorrectAnswerSelected(false);
-                        binding.answer1.setTextColor(Color.BLACK);
-                        binding.answer2.setTextColor(Color.WHITE);
-                        binding.answer3.setTextColor(Color.BLACK);
-                        binding.answer4.setTextColor(Color.BLACK);
                     }
                 });
                 binding.answer3lay.setOnClickListener(v -> {
                     resItem.setSelectQuestion("c");
                     resItem.setSkipQuestion(false);
+                    binding.answer3lay.setBackgroundResource(R.drawable.question_select_blue);
+                    binding.answerLay.setBackgroundResource(R.drawable.button_border_black);
+                    binding.answerLay2.setBackgroundResource(R.drawable.button_border_black);
+                    binding.answer4lay.setBackgroundResource(R.drawable.button_border_black);
+                    binding.answer1.setTextColor(Color.BLACK);
+                    binding.answer2.setTextColor(Color.BLACK);
+                    binding.answer3.setTextColor(Color.WHITE);
+                    binding.answer4.setTextColor(Color.BLACK);
                     if ("c".equalsIgnoreCase(resItem.getAnswer())) {
                         resItem.setCorrectAnswerSelected(true);
-                        binding.answer3lay.setBackgroundResource(R.drawable.question_select_blue);
-                        binding.answerLay.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answerLay2.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer4lay.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer1.setTextColor(Color.BLACK);
-                        binding.answer2.setTextColor(Color.BLACK);
-                        binding.answer3.setTextColor(Color.WHITE);
-                        binding.answer4.setTextColor(Color.BLACK);
                     } else {
                         resItem.setCorrectAnswerSelected(false);
-                        binding.answer3lay.setBackgroundResource(R.drawable.question_select_blue);
-                        binding.answerLay.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answerLay2.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer4lay.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer1.setTextColor(Color.BLACK);
-                        binding.answer2.setTextColor(Color.BLACK);
-                        binding.answer3.setTextColor(Color.WHITE);
-                        binding.answer4.setTextColor(Color.BLACK);
                     }
                 });
                 binding.answer4lay.setOnClickListener(v -> {
-
                     resItem.setSelectQuestion("d");
                     resItem.setSkipQuestion(false);
+                    binding.answer4lay.setBackgroundResource(R.drawable.question_select_blue);
+                    binding.answerLay.setBackgroundResource(R.drawable.button_border_black);
+                    binding.answerLay2.setBackgroundResource(R.drawable.button_border_black);
+                    binding.answer3lay.setBackgroundResource(R.drawable.button_border_black);
+                    binding.answer1.setTextColor(Color.BLACK);
+                    binding.answer2.setTextColor(Color.BLACK);
+                    binding.answer3.setTextColor(Color.BLACK);
+                    binding.answer4.setTextColor(Color.WHITE);
                     if ("d".equalsIgnoreCase(resItem.getAnswer())) {
-                        binding.answer4lay.setBackgroundResource(R.drawable.question_select_blue);
-                        binding.answerLay.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answerLay2.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer3lay.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer1.setTextColor(Color.BLACK);
-                        binding.answer2.setTextColor(Color.BLACK);
-                        binding.answer3.setTextColor(Color.BLACK);
-                        binding.answer4.setTextColor(Color.WHITE);
                         resItem.setCorrectAnswerSelected(true);
                     } else {
-                        binding.answer4lay.setBackgroundResource(R.drawable.question_select_blue);
-                        binding.answerLay.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answerLay2.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer3lay.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer1.setTextColor(Color.BLACK);
-                        binding.answer2.setTextColor(Color.BLACK);
-                        binding.answer3.setTextColor(Color.BLACK);
-                        binding.answer4.setTextColor(Color.WHITE);
                         resItem.setCorrectAnswerSelected(false);
                     }
                 });
@@ -240,5 +253,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
     public interface NoQuestionSelected {
         void NoQuestionSelected();
         void getResult(List<ResItem> resItems);
+        void UpdatePreviousButton();
+        void UpdateNextButton();
     }
 }

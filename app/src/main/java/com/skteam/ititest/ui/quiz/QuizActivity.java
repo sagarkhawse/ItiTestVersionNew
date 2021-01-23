@@ -7,14 +7,12 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import android.os.CountDownTimer;
 import android.view.MotionEvent;
-import android.view.View;
 
 import com.google.gson.Gson;
 import com.skteam.ititest.R;
@@ -23,33 +21,31 @@ import com.skteam.ititest.databinding.FragmentQuizBinding;
 import com.skteam.ititest.restModel.quiz.ResItem;
 import com.skteam.ititest.setting.CommonUtils;
 import com.skteam.ititest.setting.dialog.SweetAlertDialog;
-import com.skteam.ititest.ui.quiz.adapter.PostionAdapter;
 import com.skteam.ititest.ui.quiz.adapter.QuizAdapter;
 
 import java.util.List;
 
 import static com.skteam.ititest.setting.AppConstance.ERROR;
-import static com.skteam.ititest.setting.AppConstance.SUCCESS;
 import static com.skteam.ititest.setting.AppConstance.WARNING;
 
 
-public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewModel> implements QuizAdapter.NoQuestionSelected,QuizNav, PostionAdapter.onClickQuistionStatus {
+public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewModel> implements QuizAdapter.NoQuestionSelected, QuizNav {
     private QuizViewModel viewModel;
     private FragmentQuizBinding binding;
     private Dialog internetDialog;
     private Activity instance;
     private static String testId;
     private SweetAlertDialog dialog;
-    private PostionAdapter postionAdapter;
     private QuizAdapter quizAdapter;
     private SnapHelper postionHelper, quizHelper;
-    private boolean isSubmited =false;
+    private boolean isSubmited = false;
     private LinearLayoutManager manager;
-private CountDownTimer timer;
-private static long QUESTION_TOTAL_TIME=30000;
-private static long TIMER_VARIATION=1000;
-private long saveTime=0;
-private String testName;
+    private CountDownTimer timer;
+    private static long QUESTION_TOTAL_TIME = 30000;
+    private static long TIMER_VARIATION = 1000;
+    private long saveTime = 0;
+    private String testName;
+
     @Override
     public int getBindingVariable() {
         return 1;
@@ -64,7 +60,8 @@ private String testName;
     public QuizViewModel getViewModel() {
         return viewModel = new QuizViewModel(this, getSharedPre(), this);
     }
-    public FragmentQuizBinding getBinding(){
+
+    public FragmentQuizBinding getBinding() {
         return binding;
     }
 
@@ -73,12 +70,12 @@ private String testName;
         super.onCreate(savedInstanceState);
         binding = getViewDataBinding();
         viewModel.setNavigator(this);
-        instance=this;
-        testName=getIntent().getStringExtra("testName");
-        if(getIntent().getStringExtra("test_Id")!=null && !getIntent().getStringExtra("test_Id").isEmpty()){
+        instance = this;
+        testName = getIntent().getStringExtra("testName");
+        if (getIntent().getStringExtra("test_Id") != null && !getIntent().getStringExtra("test_Id").isEmpty()) {
             testId = getIntent().getStringExtra("test_Id");
-        }else{
-            dialog =showAlertDialog(this, ERROR, "Quiz will be updated soon!", "ITI Test");
+        } else {
+            dialog = showAlertDialog(this, ERROR, "Quiz will be updated soon!", "ITI Test");
             dialog.setConfirmText("Go Back")
                     .setConfirmClickListener(sweetAlertDialog -> {
                         dialog.dismissWithAnimation();
@@ -87,15 +84,12 @@ private String testName;
             //dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
             dialog.show();
         }
-         manager=new LinearLayoutManager(instance,RecyclerView.HORIZONTAL,false);
+        manager = new LinearLayoutManager(instance, RecyclerView.HORIZONTAL, false);
         binding.questionsList.setLayoutManager(manager);
-        quizAdapter = new QuizAdapter(this,this);
-        postionAdapter = new PostionAdapter(this, this);
-        postionHelper = new LinearSnapHelper();
-        postionHelper.attachToRecyclerView(binding.statusList);
+        quizAdapter = new QuizAdapter(this, this);
         quizHelper = new PagerSnapHelper();
         quizHelper.attachToRecyclerView(binding.questionsList);
-        binding.statusList.setAdapter(postionAdapter);
+
         binding.questionsList.setAdapter(quizAdapter);
         binding.questionsList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
@@ -113,13 +107,13 @@ private String testName;
 
             }
         });
-        timer =  new CountDownTimer(QUESTION_TOTAL_TIME, TIMER_VARIATION) {
+        timer = new CountDownTimer(QUESTION_TOTAL_TIME, TIMER_VARIATION) {
 
             public void onTick(long millisUntilFinished) {
-                saveTime=QUESTION_TOTAL_TIME-TIMER_VARIATION;
-                String v = String.format("%02d", millisUntilFinished/60000);
-                int va = (int)( (millisUntilFinished%60000)/1000);
-                binding.time.setText( v+":"+String.format("%02d",va));
+                saveTime = QUESTION_TOTAL_TIME - TIMER_VARIATION;
+                String v = String.format("%02d", millisUntilFinished / 60000);
+                int va = (int) ((millisUntilFinished % 60000) / 1000);
+                binding.time.setText(v + ":" + String.format("%02d", va));
             }
 
             public void onFinish() {
@@ -127,7 +121,6 @@ private String testName;
                 binding.submit.performClick();
             }
         };
-
         binding.submit.setOnClickListener(v -> {
             try {
                 if (isSubmited) {
@@ -138,7 +131,7 @@ private String testName;
                     quizAdapter.UpdateSubmit(true);
 
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
 
@@ -146,34 +139,12 @@ private String testName;
         viewModel.GetAllQuiz(testId).observe(this, resItems -> {
             if (resItems != null && resItems.size() > 0) {
                 timer.start();
-                postionAdapter.UpdateList(resItems);
                 quizAdapter.UpdateList(resItems);
 
             }
         });
-        binding.previous.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                int firstVisible = manager.findFirstVisibleItemPosition() - 1;
-                int lastVisible = manager.findLastVisibleItemPosition() + 1;
 
-                if(firstVisible <= quizAdapter.getItemCount()){
-                    manager.scrollToPosition(firstVisible);
-                }
-            }
-        });
-        binding.next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int firstVisible = manager.findFirstVisibleItemPosition() - 1;
-                int lastVisible = manager.findLastVisibleItemPosition() + 1;
-
-                if(lastVisible <= quizAdapter.getItemCount()){
-                    manager.scrollToPosition(lastVisible);
-                }
-            }
-        });
     }
 
 
@@ -236,10 +207,7 @@ private String testName;
 
         }
     }
-    @Override
-    public void onClickOnStatus(int pos) {
-        binding.questionsList.smoothScrollToPosition(pos);
-    }
+
 
     @Override
     public void NoQuestionSelected() {
@@ -254,7 +222,7 @@ private String testName;
                     });
 
             dialog.show();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -264,19 +232,39 @@ private String testName;
         showCustomAlert("Test Submited Succesfully!!");
         Gson gson = new Gson();
         String json = gson.toJson(resItems);
-        String timerNew= String.valueOf((QUESTION_TOTAL_TIME-saveTime)/1000);
-        startActivityForResult(new Intent(QuizActivity.this,ReportActivity.class)
-                .putExtra("data",json)
-                .putExtra("timeMain",timerNew)
-                .putExtra("testName",testName)
-                ,001);
+        String timerNew = String.valueOf((QUESTION_TOTAL_TIME - saveTime) / 1000);
+        startActivityForResult(new Intent(QuizActivity.this, ReportActivity.class)
+                        .putExtra("data", json)
+                        .putExtra("timeMain", timerNew)
+                        .putExtra("testName", testName)
+                , 001);
+    }
+
+    @Override
+    public void UpdatePreviousButton() {
+        int firstVisible = manager.findFirstVisibleItemPosition() - 1;
+        int lastVisible = manager.findLastVisibleItemPosition() + 1;
+
+        if (firstVisible <= quizAdapter.getItemCount()) {
+            manager.scrollToPosition(firstVisible);
+        }
+    }
+
+    @Override
+    public void UpdateNextButton() {
+        int firstVisible = manager.findFirstVisibleItemPosition() - 1;
+        int lastVisible = manager.findLastVisibleItemPosition() + 1;
+
+        if (lastVisible <= quizAdapter.getItemCount()) {
+            manager.scrollToPosition(lastVisible);
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode){
-            case 001:{
+        switch (requestCode) {
+            case 001: {
                 finish();
             }
         }

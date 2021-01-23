@@ -42,7 +42,6 @@ public class HomeViewModel extends BaseViewModel<HomeNav> {
     private MutableLiveData<List<ResItem>> subjectListMutableLiveData=new MutableLiveData<>();
     private MutableLiveData<List<com.skteam.ititest.restModel.home.leaderboard.Re>> leaderBoardMutabledata=new MutableLiveData<>();
     private MutableLiveData<List<Re>>LoginDetaild=new MutableLiveData<>();
-
     public HomeViewModel(Context context, SharedPre sharedPre, Activity activity) {
         super(context, sharedPre, activity);
     }
@@ -72,7 +71,6 @@ public class HomeViewModel extends BaseViewModel<HomeNav> {
                 });
         return subjectListMutableLiveData;
     }
-
     private MutableLiveData<List<com.skteam.ititest.restModel.home.leaderboard.Re>> GetAllLeaderBoard(String type) {
         String date= String.valueOf(System.currentTimeMillis());
         String dateF=CurrentTimeAsFormat(date);
