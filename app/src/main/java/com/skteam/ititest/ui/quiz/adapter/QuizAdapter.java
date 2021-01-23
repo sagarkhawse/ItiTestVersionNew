@@ -103,72 +103,11 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
             binding.answer3.setText("C) "+resItem.getOption3());
             binding.answer4.setText("D) "+resItem.getOption4());
             pos=getAdapterPosition();
-            if (resItem.getSelectQuestion() != null && !resItem.getSelectQuestion().isEmpty() && isSubmited) {
-                switch (resItem.getSelectQuestion()) {
-                    case "a": {
-                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
-                            binding.answerLay.setBackgroundResource(R.drawable.question_select_green);
-                        } else {
-                            binding.answerLay.setBackgroundResource(R.drawable.question_select_red);
-                        }
-                        break;
-                    }
-                    case "A": {
-                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
-                            binding.answerLay.setBackgroundResource(R.drawable.question_select_green);
-                        } else {
-                            binding.answerLay.setBackgroundResource(R.drawable.question_select_red);
-                        }
-                        break;
-                    }
-                    case "b": {
-                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
-                            binding.answerLay2.setBackgroundResource(R.drawable.question_select_green);
-                        } else {
-                            binding.answerLay2.setBackgroundResource(R.drawable.question_select_red);
-                        }
-                        break;
-                    }
-                    case "B": {
-                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
-                            binding.answerLay2.setBackgroundResource(R.drawable.question_select_green);
-                        } else {
-                            binding.answerLay2.setBackgroundResource(R.drawable.question_select_red);
-                        }
-                        break;
-                    }
-                    case "c": {
-                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
-                            binding.answer3lay.setBackgroundResource(R.drawable.question_select_green);
-                        } else {
-                            binding.answer3lay.setBackgroundResource(R.drawable.question_select_red);
-                        }
-                        break;
-                    }
-                    case "C": {
-                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
-                            binding.answer3lay.setBackgroundResource(R.drawable.question_select_green);
-                        } else {
-                            binding.answer3lay.setBackgroundResource(R.drawable.question_select_red);
-                        }
-                        break;
-                    }
-                    case "d": {
-                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
-                            binding.answer4lay.setBackgroundResource(R.drawable.question_select_green);
-                        } else {
-                            binding.answer4lay.setBackgroundResource(R.drawable.question_select_red);
-                        }
-                        break;
-                    }
-                    case "D": {
-                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
-                            binding.answer4lay.setBackgroundResource(R.drawable.question_select_green);
-                        } else {
-                            binding.answer4lay.setBackgroundResource(R.drawable.question_select_red);
-                        }
-                        break;
-                    }
+            if (resItem.getSelectQuestion() != null && !resItem.getSelectQuestion().isEmpty() && !resItem.isSkipQuestion()&& isSubmited) {
+                if(resItem.isCorrectAnswerSelected()){
+                    binding.answerLay.setBackgroundResource(R.drawable.question_select_green);
+                }else{
+                    binding.answerLay.setBackgroundResource(R.drawable.question_select_red);
                 }
             }
             else if ((resItem.getSelectQuestion() == null || resItem.getSelectQuestion().isEmpty()) && isSubmited) {
