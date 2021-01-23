@@ -71,6 +71,12 @@ public class SubmitActivity extends BaseActivity<FragmentSubmitBinding, QuizView
             adapter = new ViewSolutionAdapter(this,restItems );
             binding.submitListRecycler.setAdapter(adapter);
         }
+        binding.ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     @Override

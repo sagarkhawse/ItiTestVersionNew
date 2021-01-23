@@ -80,7 +80,23 @@ public class ViewSolutionAdapter extends RecyclerView.Adapter<ViewSolutionAdapte
                         }
                         break;
                     }
+                    case "A": {
+                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
+                            binding.answerLay.setBackgroundResource(R.drawable.question_select_green);
+                        } else {
+                            binding.answerLay.setBackgroundResource(R.drawable.question_select_red);
+                        }
+                        break;
+                    }
                     case "b": {
+                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
+                            binding.answerLay2.setBackgroundResource(R.drawable.question_select_green);
+                        } else {
+                            binding.answerLay2.setBackgroundResource(R.drawable.question_select_red);
+                        }
+                        break;
+                    }
+                    case "B": {
                         if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
                             binding.answerLay2.setBackgroundResource(R.drawable.question_select_green);
                         } else {
@@ -96,7 +112,23 @@ public class ViewSolutionAdapter extends RecyclerView.Adapter<ViewSolutionAdapte
                         }
                         break;
                     }
+                    case "C": {
+                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
+                            binding.answer3lay.setBackgroundResource(R.drawable.question_select_green);
+                        } else {
+                            binding.answer3lay.setBackgroundResource(R.drawable.question_select_red);
+                        }
+                        break;
+                    }
                     case "d": {
+                        if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
+                            binding.answer4lay.setBackgroundResource(R.drawable.question_select_green);
+                        } else {
+                            binding.answer4lay.setBackgroundResource(R.drawable.question_select_red);
+                        }
+                        break;
+                    }
+                    case "D": {
                         if (resItem.getAnswer().equalsIgnoreCase(resItem.getSelectQuestion())) {
                             binding.answer4lay.setBackgroundResource(R.drawable.question_select_green);
                         } else {
