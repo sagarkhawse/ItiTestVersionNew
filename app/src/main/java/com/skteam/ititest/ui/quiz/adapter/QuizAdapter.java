@@ -70,6 +70,16 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
     public int getItemCount() {
         return resItems.size();
     }
@@ -103,20 +113,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
             binding.answer3.setText("C) "+resItem.getOption3());
             binding.answer4.setText("D) "+resItem.getOption4());
             pos=getAdapterPosition();
-            if (resItem.getSelectQuestion() != null && !resItem.getSelectQuestion().isEmpty() && !resItem.isSkipQuestion()&& isSubmited) {
-                if(resItem.isCorrectAnswerSelected()){
-                    binding.answerLay.setBackgroundResource(R.drawable.question_select_green);
-                }else{
-                    binding.answerLay.setBackgroundResource(R.drawable.question_select_red);
-                }
-            }
-            else if ((resItem.getSelectQuestion() == null || resItem.getSelectQuestion().isEmpty()) && isSubmited) {
-                binding.answerLay.setOnClickListener(null);
-                binding.answerLay2.setOnClickListener(null);
-                binding.answer3lay.setOnClickListener(null);
-                binding.answer4lay.setOnClickListener(null);
-            } else {
-                binding.answerLay.setOnClickListener(v -> {
+            binding.answerLay.setOnClickListener(v -> {
                     resItem.setSelectQuestion("a");
                     resItem.setSkipQuestion(false);
                     binding.answerLay.setBackgroundResource(R.drawable.question_select_blue);
@@ -184,7 +181,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
                         resItem.setCorrectAnswerSelected(false);
                     }
                 });
-            }
+
 
         }
     }
