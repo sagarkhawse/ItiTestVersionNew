@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:gravity="center"
+    android:id="@+id/status_icon"
+    android:layout_margin="4dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/status_text"
+        android:gravity="center"
+        android:text="0"
+        android:textSize="20sp"
+        android:textColor="@color/color_white"
+       android:fontFamily="@font/poppins_semibold"
+        android:layout_height="match_parent"/>
+
+</LinearLayout></layout>
