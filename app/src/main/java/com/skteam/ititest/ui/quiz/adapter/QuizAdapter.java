@@ -112,7 +112,16 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
             binding.answer2.setText("B) "+resItem.getOption2());
             binding.answer3.setText("C) "+resItem.getOption3());
             binding.answer4.setText("D) "+resItem.getOption4());
-            pos=getAdapterPosition();
+            if ("a".equalsIgnoreCase(resItem.getAnswer())) {
+                resItem.setAnswer("a");
+            }else  if ("b".equalsIgnoreCase(resItem.getAnswer())) {
+                resItem.setAnswer("b");
+            }else if ("c".equalsIgnoreCase(resItem.getAnswer())) {
+                resItem.setAnswer("c");
+            }else if ("d".equalsIgnoreCase(resItem.getAnswer())) {
+                resItem.setAnswer("d");
+            }
+
             binding.answerLay.setOnClickListener(v -> {
                     resItem.setSelectQuestion("a");
                     resItem.setSkipQuestion(false);

@@ -91,7 +91,7 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
         quizHelper.attachToRecyclerView(binding.questionsList);
 
         binding.questionsList.setAdapter(quizAdapter);
-        binding.questionsList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+        /*binding.questionsList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
                 return e.getAction() == MotionEvent.ACTION_MOVE;
@@ -106,7 +106,7 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
             public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
             }
-        });
+        });*/
         timer = new CountDownTimer(QUESTION_TOTAL_TIME, TIMER_VARIATION) {
 
             public void onTick(long millisUntilFinished) {

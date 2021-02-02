@@ -73,11 +73,174 @@ public class ViewSolutionAdapter extends RecyclerView.Adapter<ViewSolutionAdapte
             binding.answer3.setText("C) "+resItem.getOption3());
             binding.answer4.setText("D) "+resItem.getOption4());
             if (resItem.getSelectQuestion() != null && !resItem.getSelectQuestion().isEmpty() && !resItem.isSkipQuestion()&& isSubmited) {
-                if(resItem.isCorrectAnswerSelected()){
-                    binding.answerLay.setBackgroundResource(R.drawable.question_select_green);
-                }else{
-                    binding.answerLay.setBackgroundResource(R.drawable.question_select_red);
+                switch (resItem.getAnswer()){
+                        case "a":{
+                            binding.answerLay.setBackgroundResource(R.drawable.question_select_green);
+                                if ("a".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                    binding.answerLay.setBackgroundResource(R.drawable.question_select_green);
+                                    binding.answer1.setTextColor(Color.WHITE);
+                                    binding.answer2.setTextColor(Color.BLACK);
+                                    binding.answer3.setTextColor(Color.BLACK);
+                                    binding.answer4.setTextColor(Color.BLACK);
+                                }else  if ("b".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                    binding.answerLay2.setBackgroundResource(R.drawable.question_select_red);
+                                    binding.answer1.setTextColor(Color.BLACK);
+                                    binding.answer2.setTextColor(Color.WHITE);
+                                    binding.answer3.setTextColor(Color.BLACK);
+                                    binding.answer4.setTextColor(Color.BLACK);
+                                }else if ("c".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                    binding.answer3lay.setBackgroundResource(R.drawable.question_select_red);
+                                    binding.answer1.setTextColor(Color.BLACK);
+                                    binding.answer2.setTextColor(Color.BLACK);
+                                    binding.answer3.setTextColor(Color.WHITE);
+                                    binding.answer4.setTextColor(Color.BLACK);
+                                }else if ("d".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                    binding.answer4lay.setBackgroundResource(R.drawable.question_select_red);
+                                    binding.answer1.setTextColor(Color.BLACK);
+                                    binding.answer2.setTextColor(Color.BLACK);
+                                    binding.answer3.setTextColor(Color.BLACK);
+                                    binding.answer4.setTextColor(Color.WHITE);
+                                }
+                            break;
+                        }
+                        case "b":{
+
+                            binding.answerLay2.setBackgroundResource(R.drawable.question_select_green);
+                            if ("a".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                binding.answerLay.setBackgroundResource(R.drawable.question_select_red);
+                                binding.answer1.setTextColor(Color.WHITE);
+                                binding.answer2.setTextColor(Color.BLACK);
+                                binding.answer3.setTextColor(Color.BLACK);
+                                binding.answer4.setTextColor(Color.BLACK);
+                            }else  if ("b".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                binding.answerLay2.setBackgroundResource(R.drawable.question_select_green);
+                                binding.answer1.setTextColor(Color.BLACK);
+                                binding.answer2.setTextColor(Color.WHITE);
+                                binding.answer3.setTextColor(Color.BLACK);
+                                binding.answer4.setTextColor(Color.BLACK);
+                            }else if ("c".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                binding.answer3lay.setBackgroundResource(R.drawable.question_select_red);
+                                binding.answer1.setTextColor(Color.BLACK);
+                                binding.answer2.setTextColor(Color.BLACK);
+                                binding.answer3.setTextColor(Color.WHITE);
+                                binding.answer4.setTextColor(Color.BLACK);
+                            }else if ("d".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                binding.answer4lay.setBackgroundResource(R.drawable.question_select_red);
+                                binding.answer1.setTextColor(Color.BLACK);
+                                binding.answer2.setTextColor(Color.BLACK);
+                                binding.answer3.setTextColor(Color.BLACK);
+                                binding.answer4.setTextColor(Color.WHITE);
+                            }
+                            break;
+                        }
+                        case "c":{
+                            binding.answer3lay.setBackgroundResource(R.drawable.question_select_green);
+                            if ("a".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                binding.answerLay.setBackgroundResource(R.drawable.question_select_red);
+                                binding.answer1.setTextColor(Color.WHITE);
+                                binding.answer2.setTextColor(Color.BLACK);
+                                binding.answer3.setTextColor(Color.BLACK);
+                                binding.answer4.setTextColor(Color.BLACK);
+                            }else  if ("b".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                binding.answerLay2.setBackgroundResource(R.drawable.question_select_red);
+                                binding.answer1.setTextColor(Color.BLACK);
+                                binding.answer2.setTextColor(Color.WHITE);
+                                binding.answer3.setTextColor(Color.BLACK);
+                                binding.answer4.setTextColor(Color.BLACK);
+                            }else if ("c".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                binding.answer3lay.setBackgroundResource(R.drawable.question_select_green);
+                                binding.answer1.setTextColor(Color.BLACK);
+                                binding.answer2.setTextColor(Color.BLACK);
+                                binding.answer3.setTextColor(Color.WHITE);
+                                binding.answer4.setTextColor(Color.BLACK);
+                            }else if ("d".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                binding.answer4lay.setBackgroundResource(R.drawable.question_select_red);
+                                binding.answer1.setTextColor(Color.BLACK);
+                                binding.answer2.setTextColor(Color.BLACK);
+                                binding.answer3.setTextColor(Color.BLACK);
+                                binding.answer4.setTextColor(Color.WHITE);
+                            }
+                            break;
+                        }
+                        case "d":{
+                            binding.answer4lay.setBackgroundResource(R.drawable.question_select_green);
+                            if ("a".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                binding.answerLay.setBackgroundResource(R.drawable.question_select_red);
+                                binding.answer1.setTextColor(Color.WHITE);
+                                binding.answer2.setTextColor(Color.BLACK);
+                                binding.answer3.setTextColor(Color.BLACK);
+                                binding.answer4.setTextColor(Color.BLACK);
+                            }else  if ("b".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                binding.answerLay2.setBackgroundResource(R.drawable.question_select_red);
+                                binding.answer1.setTextColor(Color.BLACK);
+                                binding.answer2.setTextColor(Color.WHITE);
+                                binding.answer3.setTextColor(Color.BLACK);
+                                binding.answer4.setTextColor(Color.BLACK);
+                            }else if ("c".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                binding.answer3lay.setBackgroundResource(R.drawable.question_select_red);
+                                binding.answer1.setTextColor(Color.BLACK);
+                                binding.answer2.setTextColor(Color.BLACK);
+                                binding.answer3.setTextColor(Color.WHITE);
+                                binding.answer4.setTextColor(Color.BLACK);
+                            }else if ("d".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                binding.answer4lay.setBackgroundResource(R.drawable.question_select_green);
+                                binding.answer1.setTextColor(Color.BLACK);
+                                binding.answer2.setTextColor(Color.BLACK);
+                                binding.answer3.setTextColor(Color.BLACK);
+                                binding.answer4.setTextColor(Color.WHITE);
+                            }
+                            break;
+                        }
                 }
+            }else{
+                switch (resItem.getAnswer()){
+                    case "a":{
+                        binding.answerLay.setBackgroundResource(R.drawable.question_select_green);
+                        binding.answerLay2.setBackgroundResource(R.drawable.button_border_black);
+                        binding.answer3lay.setBackgroundResource(R.drawable.button_border_black);
+                        binding.answer4lay.setBackgroundResource(R.drawable.button_border_black);
+                        binding.answer1.setTextColor(Color.WHITE);
+                        binding.answer2.setTextColor(Color.BLACK);
+                        binding.answer3.setTextColor(Color.BLACK);
+                        binding.answer4.setTextColor(Color.BLACK);
+                        break;
+                    }
+                    case "b":{
+                        binding.answerLay2.setBackgroundResource(R.drawable.question_select_green);
+                        binding.answerLay.setBackgroundResource(R.drawable.button_border_black);
+                        binding.answer3lay.setBackgroundResource(R.drawable.button_border_black);
+                        binding.answer4lay.setBackgroundResource(R.drawable.button_border_black);
+                        binding.answer1.setTextColor(Color.BLACK);
+                        binding.answer2.setTextColor(Color.WHITE);
+                        binding.answer3.setTextColor(Color.BLACK);
+                        binding.answer4.setTextColor(Color.BLACK);
+                        break;
+                    }
+                    case "c":{
+                        binding.answer3lay.setBackgroundResource(R.drawable.question_select_green);
+                        binding.answerLay.setBackgroundResource(R.drawable.button_border_black);
+                        binding.answerLay2.setBackgroundResource(R.drawable.button_border_black);
+                        binding.answer4lay.setBackgroundResource(R.drawable.button_border_black);
+                        binding.answer1.setTextColor(Color.BLACK);
+                        binding.answer2.setTextColor(Color.BLACK);
+                        binding.answer3.setTextColor(Color.WHITE);
+                        binding.answer4.setTextColor(Color.BLACK);
+                        break;
+                    }
+                    case "d":{
+                        binding.answer4lay.setBackgroundResource(R.drawable.question_select_green);
+                        binding.answerLay.setBackgroundResource(R.drawable.button_border_black);
+                        binding.answerLay2.setBackgroundResource(R.drawable.button_border_black);
+                        binding.answer3lay.setBackgroundResource(R.drawable.button_border_black);
+                        binding.answer1.setTextColor(Color.BLACK);
+                        binding.answer2.setTextColor(Color.BLACK);
+                        binding.answer3.setTextColor(Color.BLACK);
+                        binding.answer4.setTextColor(Color.WHITE);
+                        break;
+                    }
+
+                }
+
             }
         }
     }
