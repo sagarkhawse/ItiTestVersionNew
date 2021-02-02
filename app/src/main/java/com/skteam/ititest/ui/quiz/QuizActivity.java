@@ -41,7 +41,7 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
     private boolean isSubmited = false;
     private LinearLayoutManager manager;
     private CountDownTimer timer;
-    private static long QUESTION_TOTAL_TIME = 300000;
+    private static long QUESTION_TOTAL_TIME = 30000;
     private static long TIMER_VARIATION = 1000;
     private long saveTime = 0;
     private String testName;
@@ -91,22 +91,22 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
         quizHelper.attachToRecyclerView(binding.questionsList);
 
         binding.questionsList.setAdapter(quizAdapter);
-//        binding.questionsList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-//            @Override
-//            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-//                return e.getAction() == MotionEvent.ACTION_MOVE;
-//            }
-//
-//            @Override
-//            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-//
-//            }
-//        });
+        /*binding.questionsList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                return e.getAction() == MotionEvent.ACTION_MOVE;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });*/
         timer = new CountDownTimer(QUESTION_TOTAL_TIME, TIMER_VARIATION) {
 
             public void onTick(long millisUntilFinished) {
