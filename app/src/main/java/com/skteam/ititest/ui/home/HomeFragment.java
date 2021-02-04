@@ -133,6 +133,16 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 setProfileData(res);
             }
         });
+        viewModel.getScore().observe(getBaseActivity(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if(s!=null && !s.isEmpty()) {
+                    binding.score.setText(s);
+                }else{
+                    binding.score.setText("00.00");
+                }
+            }
+        });
     }
 
 

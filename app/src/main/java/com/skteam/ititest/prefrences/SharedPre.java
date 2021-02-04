@@ -31,6 +31,7 @@ public class SharedPre {
     private static final String IS_LOGGED_IN_VIA_GOOGLE = "googleLoggedIn";
     private static final String IS_LOGGED_IN_VIA_FACEBOOK = "facebookLoggedin";
     private static final String FB_ACCESS_TOKEN = "facebookToken";
+    private static final String SCORE = "User_Score";
     private static SharedPre Instance;
     @NonNull
     Context mContext;
@@ -196,6 +197,13 @@ public class SharedPre {
     public void setNotificationSound(String uri) {
         SetDataString(this.RINGTON_PATH, uri);
     }
+
+    public void setUserScore(String points) {
+        SetDataString(SCORE,points);
+    }
+    public String getUserScore() {
+        return  GetDataString(SCORE);
+    }
 //--------------------------------------Boolean Values--------------------------------------------
 
     //------------------------------------------------------------------------------------------------
@@ -294,6 +302,7 @@ public class SharedPre {
         removePreferences(IS_LOGGED_IN_VIA_FACEBOOK, mContext);
 
     }
+
 
 
 }

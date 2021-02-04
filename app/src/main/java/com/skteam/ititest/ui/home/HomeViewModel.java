@@ -28,6 +28,7 @@ import com.skteam.ititest.prefrences.SharedPre;
 import com.skteam.ititest.restModel.home.leaderboard.LeaderBoardResponse;
 import com.skteam.ititest.restModel.home.subjects.ResItem;
 import com.skteam.ititest.restModel.home.subjects.SubjectResponse;
+import com.skteam.ititest.restModel.scoreView.ScoreResponse;
 import com.skteam.ititest.restModel.signup.Re;
 import com.skteam.ititest.restModel.signup.ResponseSignUp;
 import com.skteam.ititest.setting.AppConstance;
@@ -42,6 +43,7 @@ public class HomeViewModel extends BaseViewModel<HomeNav> {
     private MutableLiveData<List<ResItem>> subjectListMutableLiveData=new MutableLiveData<>();
     private MutableLiveData<List<com.skteam.ititest.restModel.home.leaderboard.Re>> leaderBoardMutabledata=new MutableLiveData<>();
     private MutableLiveData<List<Re>>LoginDetaild=new MutableLiveData<>();
+    private MutableLiveData<String>Score=new MutableLiveData<>();
     public HomeViewModel(Context context, SharedPre sharedPre, Activity activity) {
         super(context, sharedPre, activity);
     }
@@ -139,5 +141,37 @@ public class HomeViewModel extends BaseViewModel<HomeNav> {
             return LoginDetaild;
         }
     }
+    private MutableLiveData<String> GetScore() {
+        getNavigator().setLoading(true);
+        AndroidNetworking.post(AppConstance.API_BASE_URL + AppConstance.SCORE)
+                .addBodyParameter("user_id",getSharedPre().getUserId())
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsObject(ScoreResponse.class, new ParsedRequestListener<ScoreResponse>() {
+                    @Override
+                    public void onResponse(ScoreResponse response) {
+                        getNavigator().setLoading(false);
+                        if (response != null) {
+                            if (response.getCode().equals("200")) {
+                                getSharedPre().setUserScore(response.getRes().get(0).getPoints());
+                                Score.postValue(response.getRes().get(0).getPoints());
+                            } else {
+                                getNavigator().setMessage("Please try again later!");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(ANError error) {
+                        getNavigator().setLoading(false);
+                        getNavigator().setMessage("Server not Responding");
+                    }
+                });
+        return Score;
+    }
+    public LiveData<String>getScore(){
+        return GetScore();
+    }
+
 
 }
