@@ -1,10 +1,12 @@
 package com.skteam.ititest.ui.quiz.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -64,6 +66,7 @@ public class ViewSolutionAdapter extends RecyclerView.Adapter<ViewSolutionAdapte
             this.binding = binding;
         }
 
+        @SuppressLint("SetTextI18n")
         public void onBindidView(final int position, final ResItem resItem) {
 
             binding.questionOrder.setText(String.valueOf((position+1)+"/"+resItems.size()));
@@ -72,29 +75,30 @@ public class ViewSolutionAdapter extends RecyclerView.Adapter<ViewSolutionAdapte
             binding.answer2.setText("B) "+resItem.getOption2());
             binding.answer3.setText("C) "+resItem.getOption3());
             binding.answer4.setText("D) "+resItem.getOption4());
+
             if (resItem.getSelectQuestion() != null && !resItem.getSelectQuestion().isEmpty() && !resItem.isSkipQuestion()&& isSubmited) {
-                switch (resItem.getAnswer()){
+                switch (resItem.getAnswer().toLowerCase()){
                         case "a":{
                             binding.answerLay.setBackgroundResource(R.drawable.question_select_green);
-                                if ("a".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                if ("a".equalsIgnoreCase(resItem.getSelectQuestion().trim())) {
                                     binding.answerLay.setBackgroundResource(R.drawable.question_select_green);
                                     binding.answer1.setTextColor(Color.WHITE);
                                     binding.answer2.setTextColor(Color.BLACK);
                                     binding.answer3.setTextColor(Color.BLACK);
                                     binding.answer4.setTextColor(Color.BLACK);
-                                }else  if ("b".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                }else  if ("b".equalsIgnoreCase(resItem.getSelectQuestion().trim())) {
                                     binding.answerLay2.setBackgroundResource(R.drawable.question_select_red);
                                     binding.answer1.setTextColor(Color.BLACK);
                                     binding.answer2.setTextColor(Color.WHITE);
                                     binding.answer3.setTextColor(Color.BLACK);
                                     binding.answer4.setTextColor(Color.BLACK);
-                                }else if ("c".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                }else if ("c".equalsIgnoreCase(resItem.getSelectQuestion().trim())) {
                                     binding.answer3lay.setBackgroundResource(R.drawable.question_select_red);
                                     binding.answer1.setTextColor(Color.BLACK);
                                     binding.answer2.setTextColor(Color.BLACK);
                                     binding.answer3.setTextColor(Color.WHITE);
                                     binding.answer4.setTextColor(Color.BLACK);
-                                }else if ("d".equalsIgnoreCase(resItem.getSelectQuestion())) {
+                                }else if ("d".equalsIgnoreCase(resItem.getSelectQuestion().trim())) {
                                     binding.answer4lay.setBackgroundResource(R.drawable.question_select_red);
                                     binding.answer1.setTextColor(Color.BLACK);
                                     binding.answer2.setTextColor(Color.BLACK);
@@ -104,7 +108,6 @@ public class ViewSolutionAdapter extends RecyclerView.Adapter<ViewSolutionAdapte
                             break;
                         }
                         case "b":{
-
                             binding.answerLay2.setBackgroundResource(R.drawable.question_select_green);
                             if ("a".equalsIgnoreCase(resItem.getSelectQuestion())) {
                                 binding.answerLay.setBackgroundResource(R.drawable.question_select_red);
@@ -193,7 +196,7 @@ public class ViewSolutionAdapter extends RecyclerView.Adapter<ViewSolutionAdapte
                         }
                 }
             }else{
-                switch (resItem.getAnswer()){
+                switch (resItem.getAnswer().toLowerCase()){
                     case "a":{
                         binding.answerLay.setBackgroundResource(R.drawable.question_select_green);
                         binding.answerLay2.setBackgroundResource(R.drawable.button_border_black);

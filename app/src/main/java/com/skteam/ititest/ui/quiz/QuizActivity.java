@@ -75,6 +75,7 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
         instance = this;
         stopwatch=new Stopwatch();
         testName = getIntent().getStringExtra("testName");
+        binding.tvTitle.setText(testName);
         if (getIntent().getStringExtra("test_Id") != null && !getIntent().getStringExtra("test_Id").isEmpty()) {
             testId = getIntent().getStringExtra("test_Id");
         } else {
@@ -144,6 +145,7 @@ binding.time.setVisibility(View.GONE);
         viewModel.GetAllQuiz(testId).observe(this, resItems -> {
             if (resItems != null && resItems.size() > 0) {
                 //timer.start();
+//                timer.start();
                 quizAdapter.UpdateList(resItems);
 
             }
