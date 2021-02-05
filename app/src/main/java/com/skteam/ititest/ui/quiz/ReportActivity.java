@@ -86,7 +86,13 @@ public class ReportActivity extends BaseActivity<ActivityReportBinding, QuizView
             complete=(completeCount*100)/restItems.size();
             accuracy=(Correctcount*100)/restItems.size();
             binding.score.setText("" + Correctcount);
-            int Score=Integer.parseInt(getSharedPre().getUserScore())+Correctcount;
+            int Score=0;
+            if(getSharedPre().getUserScore()!=null && !getSharedPre().getUserScore().isEmpty()){
+                Score=Integer.parseInt(getSharedPre().getUserScore())+Correctcount;
+            }else{
+                Score=Correctcount;
+            }
+
             viewmodel.UpdateTheScore(String.valueOf(Score));
             binding.scoreTotal.setText("" + Correctcount+"/"+restItems.size());
             binding.correctTotal.setText("" + Correctcount+"/"+restItems.size());

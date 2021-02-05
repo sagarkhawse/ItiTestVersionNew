@@ -139,10 +139,14 @@ public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseView
     }
 
     public void showLoadingDialog(String s) {
-        if (progressDialog == null)
-            progressDialog = CommonUtils.showLoadingDialog(getContext(), "Please wait");
-        else
-            progressDialog.show();
+        try {
+            if (progressDialog == null)
+                progressDialog = CommonUtils.showLoadingDialog(getContext(), "Please wait");
+            else
+                progressDialog.show();
+        }catch (Exception e){
+
+        }
     }
 
     public void hideLoadingDialog() {

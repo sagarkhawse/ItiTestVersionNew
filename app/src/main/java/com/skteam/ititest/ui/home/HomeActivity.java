@@ -153,12 +153,7 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
             }
 
         } else if (getSharedPre().isGoogleLoggedIn()) {
-            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getResources().getString(R.string.GOOGLE_SIGNIN_SECRET)).requestEmail()
-                    .requestScopes(new Scope("https://www.googleapis.com/auth/user.birthday.read"),
-                            new Scope("https://www.googleapis.com/auth/userinfo.profile"))
-                    .build();
-            GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(context, gso);
-            googleSignInClient.signOut()
+            viewModel.getGoogleClient().signOut()
                     .addOnCompleteListener(HomeActivity.this, new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -251,6 +246,11 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
     @Override
     public void setMessage(String message) {
         showCustomAlert(message);
+    }
+
+    @Override
+    public void LogOut() {
+
     }
 
     public AppBarMainBinding getAppBar(){

@@ -23,6 +23,11 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.ParsedRequestListener;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseViewModel;
 import com.skteam.ititest.prefrences.SharedPre;
 import com.skteam.ititest.restModel.home.leaderboard.LeaderBoardResponse;
@@ -40,22 +45,38 @@ import static com.skteam.ititest.setting.AppConstance.MONTH;
 import static com.skteam.ititest.setting.CommonUtils.CurrentTimeAsFormat;
 
 public class HomeViewModel extends BaseViewModel<HomeNav> {
+    private FirebaseAuth mAuth;
+    private GoogleSignInClient googleSignInClient;
+    private GoogleSignInOptions gso;
     private MutableLiveData<List<ResItem>> subjectListMutableLiveData=new MutableLiveData<>();
     private MutableLiveData<List<com.skteam.ititest.restModel.home.leaderboard.Re>> leaderBoardMutabledata=new MutableLiveData<>();
     private MutableLiveData<List<Re>>LoginDetaild=new MutableLiveData<>();
     private MutableLiveData<String>Score=new MutableLiveData<>();
     public HomeViewModel(Context context, SharedPre sharedPre, Activity activity) {
         super(context, sharedPre, activity);
+        mAuth = FirebaseAuth.getInstance();
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(activity.getResources().getString(R.string.GOOGLE_SIGNIN_SECRET)).requestEmail().build();
+    }
+
+    public FirebaseAuth getmAuth() {
+        return mAuth;
+    }
+
+    public GoogleSignInClient getGoogleClient() {
+        if (googleSignInClient != null) {
+            return googleSignInClient;
+        } else {
+            return googleSignInClient = GoogleSignIn.getClient(getContext(), gso);
+        }
+
     }
     private MutableLiveData<List<ResItem>> GetAllSubject() {
-        getNavigator().setLoading(true);
         AndroidNetworking.post(AppConstance.API_BASE_URL + AppConstance.SUBJECTS)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsObject(SubjectResponse.class, new ParsedRequestListener<SubjectResponse>() {
                     @Override
                     public void onResponse(SubjectResponse response) {
-                        getNavigator().setLoading(false);
                         if (response != null) {
                             if (response.getCode().equals("200")) {
                                 subjectListMutableLiveData.postValue(response.getRes());
@@ -67,7 +88,6 @@ public class HomeViewModel extends BaseViewModel<HomeNav> {
 
                     @Override
                     public void onError(ANError error) {
-                        getNavigator().setLoading(false);
                         getNavigator().setMessage("Server not Responding");
                     }
                 });
@@ -111,7 +131,7 @@ public class HomeViewModel extends BaseViewModel<HomeNav> {
                 .getAsObject(ResponseSignUp.class, new ParsedRequestListener<ResponseSignUp>() {
                     @Override
                     public void onResponse(ResponseSignUp response) {
-                        getNavigator().setLoading(false);
+
                         if (response != null) {
                             if (response.getCode().equals("200")) {
                                 LoginDetaild.postValue(response.getRes());
@@ -142,7 +162,6 @@ public class HomeViewModel extends BaseViewModel<HomeNav> {
         }
     }
     private MutableLiveData<String> GetScore() {
-        getNavigator().setLoading(true);
         AndroidNetworking.post(AppConstance.API_BASE_URL + AppConstance.SCORE)
                 .addBodyParameter("user_id",getSharedPre().getUserId())
                 .setPriority(Priority.HIGH)
@@ -150,20 +169,19 @@ public class HomeViewModel extends BaseViewModel<HomeNav> {
                 .getAsObject(ScoreResponse.class, new ParsedRequestListener<ScoreResponse>() {
                     @Override
                     public void onResponse(ScoreResponse response) {
-                        getNavigator().setLoading(false);
                         if (response != null) {
                             if (response.getCode().equals("200")) {
                                 getSharedPre().setUserScore(response.getRes().get(0).getPoints());
                                 Score.postValue(response.getRes().get(0).getPoints());
                             } else {
-                                getNavigator().setMessage("Please try again later!");
+                                getNavigator().setMessage("User doesn't exists pleas sign up Again ");
+                                getNavigator().LogOut();
                             }
                         }
                     }
 
                     @Override
                     public void onError(ANError error) {
-                        getNavigator().setLoading(false);
                         getNavigator().setMessage("Server not Responding");
                     }
                 });

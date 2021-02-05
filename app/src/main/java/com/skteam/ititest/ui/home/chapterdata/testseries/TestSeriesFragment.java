@@ -129,4 +129,9 @@ public class TestSeriesFragment extends BaseFragment<FragmentChapterBinding, Hom
     public void setMessage(String s) {
         showCustomAlert(s);
     }
+
+    @Override
+    public void LogOut() {
+
+    }
 }
