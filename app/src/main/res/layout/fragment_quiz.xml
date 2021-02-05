@@ -16,7 +16,7 @@
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/bg_quiz"
+                android:background="@color/colorHomeBg"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -34,7 +34,7 @@
                         android:gravity="center"
                         android:padding="4dp"
                         android:text="@string/time"
-                        android:textColor="@color/color_white"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/_16ssp" />
 
                     <TextView
@@ -45,16 +45,18 @@
                         android:fontFamily="@font/poppins_medium"
                         android:gravity="center"
                         android:padding="4dp"
-                        android:textColor="@color/color_white"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/_14ssp" />
 
                     <TextView
                         android:id="@+id/submit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button_border_white"
+                        android:background="@drawable/bg_primary"
                         android:lines="1"
-                        android:padding="4dp"
+                        android:padding="10dp"
+                        android:fontFamily="@font/poppins_bold"
+                        android:textSize="@dimen/_12ssp"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:text="@string/submit"
