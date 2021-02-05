@@ -19,15 +19,15 @@
                 android:background="@color/colorHomeBg"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/lay1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="12dp">
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_semibold"
@@ -36,9 +36,9 @@
                         android:text="@string/time"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_16ssp" />
-
                     <TextView
                         android:id="@+id/time"
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="50dp"
@@ -49,12 +49,24 @@
                         android:textSize="@dimen/_14ssp" />
 
                     <TextView
+                        android:id="@+id/tvTitle"
+                        android:visibility="visible"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="4dp"
+                        android:layout_toStartOf="@id/submit"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <TextView
                         android:id="@+id/submit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_primary"
                         android:lines="1"
                         android:padding="10dp"
+                        android:layout_alignParentEnd="true"
                         android:fontFamily="@font/poppins_bold"
                         android:textSize="@dimen/_12ssp"
                         android:paddingStart="16dp"
@@ -63,7 +75,7 @@
                         android:textColor="@color/color_white" />
 
 
-                </LinearLayout>
+                </RelativeLayout>
 
 
                 <LinearLayout

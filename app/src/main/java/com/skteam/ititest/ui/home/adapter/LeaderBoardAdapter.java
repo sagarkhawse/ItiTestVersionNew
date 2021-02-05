@@ -9,6 +9,7 @@ package com.skteam.ititest.ui.home.adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.LeaderBoardViewHolder> {
+    private static final String TAG = "LeaderBoardAdapterTest";
    private  List<Re> lederboardList=new ArrayList<>();
    private  Context context;
 
@@ -60,16 +62,20 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
         }
 
         public void onBinding(final Re re) {
-
-            Uri uri = Uri.parse(re.getProfilePic());
-            String protocol = uri.getScheme();
-            String server = uri.getAuthority();
-          if(protocol!=null && server!=null){
-              Glide.with(context).load(re.getProfilePic()).into(binding.userDp);
-          }else{
-              Glide.with(context).load(AppConstance.IMG_URL+re.getProfilePic()).into(binding.userDp);
-          }
-            binding.userName.setText(re.getName()+"\n"+re.getPoints());
+try {
+    Uri uri = Uri.parse(re.getProfilePic());
+    String protocol = uri.getScheme();
+    String server = uri.getAuthority();
+    if(protocol!=null && server!=null){
+        Glide.with(context).load(re.getProfilePic()).into(binding.userDp);
+    }else{
+        Glide.with(context).load(AppConstance.IMG_URL+re.getProfilePic()).into(binding.userDp);
+    }
+    binding.userName.setText(re.getName()+"\n"+re.getPoints());
+}catch(Exception e){
+    Log.d(TAG, "onBinding: "+e.getMessage());
+}
+  
         }
     }
 

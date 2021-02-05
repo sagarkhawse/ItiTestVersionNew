@@ -72,6 +72,7 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
         viewModel.setNavigator(this);
         instance = this;
         testName = getIntent().getStringExtra("testName");
+        binding.tvTitle.setText(testName);
         if (getIntent().getStringExtra("test_Id") != null && !getIntent().getStringExtra("test_Id").isEmpty()) {
             testId = getIntent().getStringExtra("test_Id");
         } else {
@@ -138,7 +139,7 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
         });
         viewModel.GetAllQuiz(testId).observe(this, resItems -> {
             if (resItems != null && resItems.size() > 0) {
-                timer.start();
+//                timer.start();
                 quizAdapter.UpdateList(resItems);
 
             }
