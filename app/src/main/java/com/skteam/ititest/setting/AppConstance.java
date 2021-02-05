@@ -31,6 +31,8 @@ public class AppConstance {
     public static final String UPDATE_DP ="update_user_dp";
     public static final String UPDATE_DP_RETROFIT ="index.php?p=update_user_dp";
     public static final String UPLOAD_USER_DATA = "update_user_data";
+    public static final String SCORE = "my_score";
+    public static final String SCORE_UPDATED = "update_user_points";
     //dialogtype
     public static final int PROGRESS=0;
     public static final int BASIC=1;

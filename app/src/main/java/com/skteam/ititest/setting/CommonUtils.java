@@ -263,4 +263,10 @@ public class CommonUtils {
 
 
     }
+    public static String getFormattedDate(Context context, long smsTimeInMilis, String Format) {
+        SimpleDateFormat formatter = new SimpleDateFormat(Format);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(smsTimeInMilis);
+        return formatter.format(calendar.getTime());
+    }
 }

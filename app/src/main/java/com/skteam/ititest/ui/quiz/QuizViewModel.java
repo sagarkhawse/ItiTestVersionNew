@@ -15,7 +15,9 @@ import com.skteam.ititest.prefrences.SharedPre;
 import com.skteam.ititest.restModel.home.leaderboard.LeaderBoardResponse;
 import com.skteam.ititest.restModel.quiz.QuizResponse;
 import com.skteam.ititest.restModel.quiz.ResItem;
+import com.skteam.ititest.restModel.scoreupdate.ScoreUpdateResponse;
 import com.skteam.ititest.setting.AppConstance;
+import com.skteam.ititest.setting.CommonUtils;
 
 import java.util.List;
 
@@ -53,5 +55,33 @@ public class QuizViewModel extends BaseViewModel<QuizNav> {
     }
     public LiveData<List<ResItem>>GetAllQuiz(String testId){
         return getAllQuizData(testId);
+    }
+
+    public void UpdateTheScore(String score) {
+        AndroidNetworking.post(AppConstance.API_BASE_URL + AppConstance.SCORE_UPDATED)
+                .addBodyParameter("user_id",getSharedPre().getUserId())
+                .addBodyParameter("points",score)
+                .addBodyParameter("date", CommonUtils.getFormattedDate(getContext(),System.currentTimeMillis(),"yy-MM-dd h.mm.ss"))
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsObject(ScoreUpdateResponse.class, new ParsedRequestListener<ScoreUpdateResponse>() {
+                    @Override
+                    public void onResponse(ScoreUpdateResponse response) {
+                        getNavigator().setLoading(false);
+                        if (response != null) {
+                            if (response.getCode().equals("200")) {
+                               getSharedPre().setUserScore(score);
+                               getNavigator().setMessage("Score Updated Successfully");
+                            } else {
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(ANError error) {
+                        getNavigator().setLoading(false);
+                    }
+                });
     }
 }
