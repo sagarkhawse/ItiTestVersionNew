@@ -125,7 +125,7 @@
                         <ImageView
                             android:layout_width="@dimen/_60sdp"
                             android:layout_height="match_parent"
-                            android:src="@drawable/user"
+                            android:src="@drawable/ic_question"
                             android:padding="@dimen/_5sdp"/>
                         <TextView
                             android:layout_width="@dimen/_100sdp"
@@ -149,6 +149,7 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:padding="@dimen/_5sdp"
@@ -187,7 +188,7 @@
                         <ImageView
                             android:layout_width="@dimen/_60sdp"
                             android:layout_height="match_parent"
-                            android:src="@drawable/user"
+                            android:src="@drawable/ic_score"
                             android:padding="@dimen/_5sdp"/>
                         <TextView
                             android:layout_width="@dimen/_100sdp"
@@ -231,7 +232,7 @@
                             <ImageView
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/user"
+                                android:src="@drawable/ic_completed"
                                 android:padding="@dimen/_5sdp"/>
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -264,7 +265,7 @@
                             <ImageView
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/user"
+                                android:src="@drawable/ic_score"
                                 android:padding="@dimen/_5sdp"/>
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -306,7 +307,7 @@
                             <ImageView
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/user"
+                                android:src="@drawable/ic_accuracy"
                                 android:padding="@dimen/_5sdp"/>
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -339,7 +340,7 @@
                             <ImageView
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/user"
+                                android:src="@drawable/ic_correct"
                                 android:padding="@dimen/_5sdp"/>
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -381,7 +382,7 @@
                             <ImageView
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/user"
+                                android:src="@drawable/ic_skip"
                                 android:padding="@dimen/_5sdp"/>
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -414,7 +415,7 @@
                             <ImageView
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/user"
+                                android:src="@drawable/ic_wrong"
                                 android:padding="@dimen/_5sdp"/>
                             <LinearLayout
                                 android:layout_width="match_parent"

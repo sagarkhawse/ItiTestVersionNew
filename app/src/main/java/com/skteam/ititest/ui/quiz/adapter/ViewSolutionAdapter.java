@@ -82,7 +82,7 @@ public class ViewSolutionAdapter extends RecyclerView.Adapter<ViewSolutionAdapte
                             binding.answerLay.setBackgroundResource(R.drawable.question_select_green);
                                 if ("a".equalsIgnoreCase(resItem.getSelectQuestion().trim())) {
                                     binding.answerLay.setBackgroundResource(R.drawable.question_select_green);
-                                    binding.answer1.setTextColor(Color.WHITE);
+                                    binding.answer1.setTextColor(Color.BLACK);
                                     binding.answer2.setTextColor(Color.BLACK);
                                     binding.answer3.setTextColor(Color.BLACK);
                                     binding.answer4.setTextColor(Color.BLACK);
@@ -118,7 +118,7 @@ public class ViewSolutionAdapter extends RecyclerView.Adapter<ViewSolutionAdapte
                             }else  if ("b".equalsIgnoreCase(resItem.getSelectQuestion())) {
                                 binding.answerLay2.setBackgroundResource(R.drawable.question_select_green);
                                 binding.answer1.setTextColor(Color.BLACK);
-                                binding.answer2.setTextColor(Color.WHITE);
+                                binding.answer2.setTextColor(Color.BLACK);
                                 binding.answer3.setTextColor(Color.BLACK);
                                 binding.answer4.setTextColor(Color.BLACK);
                             }else if ("c".equalsIgnoreCase(resItem.getSelectQuestion())) {
@@ -154,7 +154,7 @@ public class ViewSolutionAdapter extends RecyclerView.Adapter<ViewSolutionAdapte
                                 binding.answer3lay.setBackgroundResource(R.drawable.question_select_green);
                                 binding.answer1.setTextColor(Color.BLACK);
                                 binding.answer2.setTextColor(Color.BLACK);
-                                binding.answer3.setTextColor(Color.WHITE);
+                                binding.answer3.setTextColor(Color.BLACK);
                                 binding.answer4.setTextColor(Color.BLACK);
                             }else if ("d".equalsIgnoreCase(resItem.getSelectQuestion())) {
                                 binding.answer4lay.setBackgroundResource(R.drawable.question_select_red);
@@ -190,7 +190,7 @@ public class ViewSolutionAdapter extends RecyclerView.Adapter<ViewSolutionAdapte
                                 binding.answer1.setTextColor(Color.BLACK);
                                 binding.answer2.setTextColor(Color.BLACK);
                                 binding.answer3.setTextColor(Color.BLACK);
-                                binding.answer4.setTextColor(Color.WHITE);
+                                binding.answer4.setTextColor(Color.BLACK);
                             }
                             break;
                         }
@@ -202,7 +202,7 @@ public class ViewSolutionAdapter extends RecyclerView.Adapter<ViewSolutionAdapte
                         binding.answerLay2.setBackgroundResource(R.drawable.button_border_black);
                         binding.answer3lay.setBackgroundResource(R.drawable.button_border_black);
                         binding.answer4lay.setBackgroundResource(R.drawable.button_border_black);
-                        binding.answer1.setTextColor(Color.WHITE);
+                        binding.answer1.setTextColor(Color.BLACK);
                         binding.answer2.setTextColor(Color.BLACK);
                         binding.answer3.setTextColor(Color.BLACK);
                         binding.answer4.setTextColor(Color.BLACK);
@@ -214,7 +214,7 @@ public class ViewSolutionAdapter extends RecyclerView.Adapter<ViewSolutionAdapte
                         binding.answer3lay.setBackgroundResource(R.drawable.button_border_black);
                         binding.answer4lay.setBackgroundResource(R.drawable.button_border_black);
                         binding.answer1.setTextColor(Color.BLACK);
-                        binding.answer2.setTextColor(Color.WHITE);
+                        binding.answer2.setTextColor(Color.BLACK);
                         binding.answer3.setTextColor(Color.BLACK);
                         binding.answer4.setTextColor(Color.BLACK);
                         break;
@@ -226,7 +226,7 @@ public class ViewSolutionAdapter extends RecyclerView.Adapter<ViewSolutionAdapte
                         binding.answer4lay.setBackgroundResource(R.drawable.button_border_black);
                         binding.answer1.setTextColor(Color.BLACK);
                         binding.answer2.setTextColor(Color.BLACK);
-                        binding.answer3.setTextColor(Color.WHITE);
+                        binding.answer3.setTextColor(Color.BLACK);
                         binding.answer4.setTextColor(Color.BLACK);
                         break;
                     }
@@ -238,7 +238,7 @@ public class ViewSolutionAdapter extends RecyclerView.Adapter<ViewSolutionAdapte
                         binding.answer1.setTextColor(Color.BLACK);
                         binding.answer2.setTextColor(Color.BLACK);
                         binding.answer3.setTextColor(Color.BLACK);
-                        binding.answer4.setTextColor(Color.WHITE);
+                        binding.answer4.setTextColor(Color.BLACK);
                         break;
                     }
 

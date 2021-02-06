@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseFragment;
@@ -136,6 +138,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.getScore().observe(getBaseActivity(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
+                Toast.makeText(getContext(), ""+s, Toast.LENGTH_SHORT).show();
                 if(s!=null && !s.isEmpty()) {
                     binding.score.setText(s);
                 }else{
