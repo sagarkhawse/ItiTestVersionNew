@@ -248,8 +248,10 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
         }
     }
 
-    public void startFragment(Fragment fragment) {
+    public void startFragment(Fragment fragment, String backStackTag, boolean addToBackStack) {
         transaction = manager.beginTransaction();
+        this.addToBackStack = addToBackStack;
+        transaction.addToBackStack(backStackTag);
         transaction.replace(R.id.container, fragment);
         if (!isFinishing() && !isDestroyed()) {
             transaction.commit();

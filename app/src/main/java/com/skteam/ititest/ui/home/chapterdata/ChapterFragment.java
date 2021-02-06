@@ -134,4 +134,9 @@ public class ChapterFragment extends BaseFragment<FragmentChapterBinding, HomeVi
         showCustomAlert(s);
     }
 
+    @Override
+    public void LogOut() {
+
+    }
+
 }

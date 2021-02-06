@@ -60,7 +60,8 @@ public class SplashActivity extends BaseActivity<SplashActivityBinding, SplashVi
       printHashKey();
         if (fragment == null) {
             //start splash fragment only first time
-            startFragment( SplashFragment.newInstance());
+            startFragment( SplashFragment.newInstance(),"SplashFragment",true);
+
         }
     }
 

@@ -9,7 +9,6 @@ package com.skteam.ititest.ui.home.adapter;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -27,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.LeaderBoardViewHolder> {
-    private static final String TAG = "LeaderBoardAdapterTest";
     private List<Re> lederboardList = new ArrayList<>();
     private Context context;
 
@@ -63,7 +61,7 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
         }
 
         public void onBinding(final Re re) {
-            try {
+            if (re.getProfilePic() != null && !re.getProfilePic().isEmpty()) {
                 Uri uri = Uri.parse(re.getProfilePic());
                 String protocol = uri.getScheme();
                 String server = uri.getAuthority();
@@ -72,9 +70,11 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
                 } else {
                     Glide.with(context).load(AppConstance.IMG_URL + re.getProfilePic()).into(binding.userDp);
                 }
+            }
+            if(re.getName()!=null && !re.getName().isEmpty()){
                 binding.userName.setText(re.getName() + "\n" + re.getPoints());
-            } catch (Exception e) {
-                Log.d(TAG, "onBinding: " + e.getMessage());
+            }else{
+                binding.userName.setText( re.getPoints());
             }
 
         }

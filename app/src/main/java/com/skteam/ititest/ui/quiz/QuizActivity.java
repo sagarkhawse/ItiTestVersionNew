@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.SnapHelper;
 
 import android.os.CountDownTimer;
 import android.view.MotionEvent;
+import android.view.View;
 
 import com.google.gson.Gson;
 import com.skteam.ititest.R;
@@ -40,9 +41,10 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
     private SnapHelper postionHelper, quizHelper;
     private boolean isSubmited = false;
     private LinearLayoutManager manager;
-    private CountDownTimer timer;
-    private static long QUESTION_TOTAL_TIME = 30000;
-    private static long TIMER_VARIATION = 1000;
+    private Stopwatch stopwatch;
+   // private CountDownTimer timer;
+   // private static long QUESTION_TOTAL_TIME = 30000;
+   // private static long TIMER_VARIATION = 1000;
     private long saveTime = 0;
     private String testName;
 
@@ -71,6 +73,7 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
         binding = getViewDataBinding();
         viewModel.setNavigator(this);
         instance = this;
+        stopwatch=new Stopwatch();
         testName = getIntent().getStringExtra("testName");
         binding.tvTitle.setText(testName);
         if (getIntent().getStringExtra("test_Id") != null && !getIntent().getStringExtra("test_Id").isEmpty()) {
@@ -90,7 +93,8 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
         quizAdapter = new QuizAdapter(this, this);
         quizHelper = new PagerSnapHelper();
         quizHelper.attachToRecyclerView(binding.questionsList);
-
+binding.time.setVisibility(View.GONE);
+        stopwatch.start();
         binding.questionsList.setAdapter(quizAdapter);
         /*binding.questionsList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
@@ -108,7 +112,7 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
 
             }
         });*/
-        timer = new CountDownTimer(QUESTION_TOTAL_TIME, TIMER_VARIATION) {
+       /* timer = new CountDownTimer(QUESTION_TOTAL_TIME, TIMER_VARIATION) {
 
             public void onTick(long millisUntilFinished) {
                 saveTime = QUESTION_TOTAL_TIME - TIMER_VARIATION;
@@ -121,14 +125,15 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
 
                 binding.submit.performClick();
             }
-        };
+        };*/
         binding.submit.setOnClickListener(v -> {
             try {
                 if (isSubmited) {
                     showCustomAlert("Test Already Submited!!");
                 } else {
-                    timer.cancel();
+                   // timer.cancel();
                     isSubmited = true;
+                    stopwatch.stop();
                     quizAdapter.UpdateSubmit(true);
 
                 }
@@ -139,6 +144,7 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
         });
         viewModel.GetAllQuiz(testId).observe(this, resItems -> {
             if (resItems != null && resItems.size() > 0) {
+                //timer.start();
 //                timer.start();
                 quizAdapter.UpdateList(resItems);
 
@@ -209,6 +215,17 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        stopwatch.resume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopwatch.pause();
+    }
 
     @Override
     public void NoQuestionSelected() {
@@ -233,7 +250,7 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
         showCustomAlert("Test Submited Succesfully!!");
         Gson gson = new Gson();
         String json = gson.toJson(resItems);
-        String timerNew = String.valueOf((QUESTION_TOTAL_TIME - saveTime) / 1000);
+        String timerNew = String.valueOf((stopwatch.getElapsedTimeMili()) / 1000);
         startActivityForResult(new Intent(QuizActivity.this, ReportActivity.class)
                         .putExtra("data", json)
                         .putExtra("timeMain", timerNew)

@@ -182,15 +182,21 @@ public class LeaderboardFragment extends BaseFragment<FragmentLeaderboardBinding
             @Override
             public void onChanged(List<Re> res) {
                 if(res!=null &&res.size()>0){
-                    Uri uri = Uri.parse(res.get(0).getProfilePic());
-                    String protocol = uri.getScheme();
-                    String server = uri.getAuthority();
-                    if(protocol!=null && server!=null){
-                        Glide.with(getContext()).load(res.get(0).getProfilePic()).into(binding.top1);
-                    }else{
-                        Glide.with(getContext()).load(AppConstance.IMG_URL+res.get(0).getProfilePic()).into(binding.top1);
+                    if(res.get(0).getProfilePic()!=null && !res.get(0).getProfilePic().isEmpty()){
+                        Uri uri = Uri.parse(res.get(0).getProfilePic());
+                        String protocol = uri.getScheme();
+                        String server = uri.getAuthority();
+                        if(protocol!=null && server!=null){
+                            Glide.with(getContext()).load(res.get(0).getProfilePic()).into(binding.top1);
+                        }else{
+                            Glide.with(getContext()).load(AppConstance.IMG_URL+res.get(0).getProfilePic()).into(binding.top1);
+                        }
+
                     }
-                    binding.nameTop1.setText(res.get(0).getName());
+                    if(res.get(0).getName()!=null && !res.get(0).getName().isEmpty() ){
+                        binding.nameTop1.setText(res.get(0).getName());
+                    }
+
                     binding.pointTop1.setText(res.get(0).getPoints()+" Pro");
                   if(res.size()<2){
                         binding.layTop2.setVisibility(View.GONE);
@@ -199,36 +205,50 @@ public class LeaderboardFragment extends BaseFragment<FragmentLeaderboardBinding
                   else  if(res.size()<3){
                       binding.layTop3.setVisibility(View.GONE);
                       binding.layTop2.setVisibility(View.VISIBLE);
-                      Uri uri2 = Uri.parse(res.get(1).getProfilePic());
-                      String protocol2 = uri2.getScheme();
-                      String server2 = uri2.getAuthority();
-                      if(protocol2!=null && server2!=null){
-                          Glide.with(getContext()).load(res.get(1).getProfilePic()).into(binding.top2);
-                      }else{
-                          Glide.with(getContext()).load(AppConstance.IMG_URL+res.get(1).getProfilePic()).into(binding.top2);
+                      if(res.get(1).getProfilePic()!=null && !res.get(1).getProfilePic().isEmpty()){
+                          Uri uri2 = Uri.parse(res.get(1).getProfilePic());
+                          String protocol2 = uri2.getScheme();
+                          String server2 = uri2.getAuthority();
+                          if(protocol2!=null && server2!=null){
+                              Glide.with(getContext()).load(res.get(1).getProfilePic()).into(binding.top2);
+                          }else{
+                              Glide.with(getContext()).load(AppConstance.IMG_URL+res.get(1).getProfilePic()).into(binding.top2);
+                          }
                       }
-                      binding.nameTop2.setText(res.get(1).getName());
+                      if(res.get(1).getName()!=null && !res.get(1).getName().isEmpty() ){
+                          binding.nameTop2.setText(res.get(1).getName());
+                      }
+
                       binding.pointTop2.setText(res.get(1).getPoints()+" Pro");
                   }
                   else{
-                       Uri uri2 = Uri.parse(res.get(1).getProfilePic());
-                       String protocol2 = uri2.getScheme();
-                       String server2 = uri2.getAuthority();
-                       if(protocol2!=null && server2!=null){
-                           Glide.with(getContext()).load(res.get(1).getProfilePic()).into(binding.top2);
-                       }else{
-                           Glide.with(getContext()).load(AppConstance.IMG_URL+res.get(1).getProfilePic()).into(binding.top2);
-                       }
-                       Uri uri3 = Uri.parse(res.get(2).getProfilePic());
-                       String protocol3 = uri3.getScheme();
-                       String server3 = uri3.getAuthority();
-                       if(protocol3!=null && server3!=null){
-                           Glide.with(getContext()).load(res.get(2).getProfilePic()).into(binding.top3);
-                       }else{
-                           Glide.with(getContext()).load(AppConstance.IMG_URL+res.get(2).getProfilePic()).into(binding.top3);
-                       }
-                       binding.nameTop2.setText(res.get(1).getName());
-                       binding.nameTop3.setText(res.get(2).getName());
+                      if(res.get(1).getProfilePic()!=null && !res.get(1).getProfilePic().isEmpty()){
+                          Uri uri2 = Uri.parse(res.get(1).getProfilePic());
+                          String protocol2 = uri2.getScheme();
+                          String server2 = uri2.getAuthority();
+                          if(protocol2!=null && server2!=null){
+                              Glide.with(getContext()).load(res.get(1).getProfilePic()).into(binding.top2);
+                          }else{
+                              Glide.with(getContext()).load(AppConstance.IMG_URL+res.get(1).getProfilePic()).into(binding.top2);
+                          }
+                      }
+                      if(res.get(2).getProfilePic()!=null && !res.get(2).getProfilePic().isEmpty()){
+                          Uri uri3 = Uri.parse(res.get(2).getProfilePic());
+                          String protocol3 = uri3.getScheme();
+                          String server3 = uri3.getAuthority();
+                          if(protocol3!=null && server3!=null){
+                              Glide.with(getContext()).load(res.get(2).getProfilePic()).into(binding.top3);
+                          }else{
+                              Glide.with(getContext()).load(AppConstance.IMG_URL+res.get(2).getProfilePic()).into(binding.top3);
+                          }
+                      }
+                      if(res.get(1).getName()!=null && !res.get(1).getName().isEmpty() ){
+                          binding.nameTop2.setText(res.get(1).getName());
+                      }
+                      if(res.get(2).getName()!=null && !res.get(2).getName().isEmpty() ){
+                          binding.nameTop3.setText(res.get(2).getName());
+                      }
+
                        binding.pointTop2.setText(res.get(1).getPoints()+" Pro");
                        binding.pointTop3.setText(res.get(2).getPoints()+" Pro");
                        binding.layTop2.setVisibility(View.VISIBLE);

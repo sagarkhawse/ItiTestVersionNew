@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LeaderBoardMainAdapter extends RecyclerView.Adapter<LeaderBoardMainAdapter.LeaderBoardViewHolder> {
-   private  List<Re> lederboardList=new ArrayList<>();
-   private  Context context;
+    private List<Re> lederboardList = new ArrayList<>();
+    private Context context;
 
 
     public LeaderBoardMainAdapter(Context context) {
@@ -38,13 +38,13 @@ public class LeaderBoardMainAdapter extends RecyclerView.Adapter<LeaderBoardMain
     @NonNull
     @Override
     public LeaderBoardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       ParticipantItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.participant_item, parent, false);
+        ParticipantItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.participant_item, parent, false);
         return new LeaderBoardViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull LeaderBoardViewHolder holder, final int position) {
-       holder.onBinding(position,lederboardList.get(position));
+        holder.onBinding(position, lederboardList.get(position));
     }
 
     @Override
@@ -55,28 +55,31 @@ public class LeaderBoardMainAdapter extends RecyclerView.Adapter<LeaderBoardMain
     class LeaderBoardViewHolder extends RecyclerView.ViewHolder {
         ParticipantItemBinding binding;
 
-        public LeaderBoardViewHolder( ParticipantItemBinding binding) {
+        public LeaderBoardViewHolder(ParticipantItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
-        public void onBinding(final int position ,final Re re) {
+        public void onBinding(final int position, final Re re) {
+            if (re.getProfilePic() != null && !re.getProfilePic().isEmpty()) {
+                Uri uri = Uri.parse(re.getProfilePic());
+                String protocol = uri.getScheme();
+                String server = uri.getAuthority();
+                if (protocol != null && server != null) {
+                    Glide.with(context).load(re.getProfilePic()).into(binding.profile);
+                } else {
+                    Glide.with(context).load(AppConstance.IMG_URL + re.getProfilePic()).into(binding.profile);
+                }
+            }
+            if (re.getName() != null && !re.getName().isEmpty()) {
+                binding.name.setText(re.getName());
+            }
 
-            Uri uri = Uri.parse(re.getProfilePic());
-            String protocol = uri.getScheme();
-            String server = uri.getAuthority();
-          if(protocol!=null && server!=null){
-              Glide.with(context).load(re.getProfilePic()).into(binding.profile);
-          }else{
-              Glide.with(context).load(AppConstance.IMG_URL+re.getProfilePic()).into(binding.profile);
-          }
-            binding.name.setText(re.getName());
             binding.score.setText(re.getPoints());
             binding.score.setText(re.getPoints());
-            binding.order.setText(String.valueOf(position+1));
+            binding.order.setText(String.valueOf(position + 1));
         }
     }
-
 
 
     public void updateList(List<Re> lederboardList) {

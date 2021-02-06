@@ -125,7 +125,6 @@
                         android:id="@+id/nameTop2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tony Stark"
                         android:textColor="@color/color_white"
                         android:textStyle="bold" />
 
@@ -162,10 +161,9 @@
                         android:background="@drawable/ic_gold_medal" />
 
                     <TextView
+                        android:id="@+id/nameTop1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Peter Parker"
-                        android:id="@+id/nameTop1"
                         android:textColor="@color/color_white"
                         android:textStyle="bold" />
 
@@ -203,10 +201,9 @@
                         android:background="@drawable/ic_bronze_medal" />
 
                     <TextView
+                        android:id="@+id/nameTop3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="John Carter"
-                        android:id="@+id/nameTop3"
                         android:textColor="@color/color_white"
                         android:textStyle="bold" />
 
