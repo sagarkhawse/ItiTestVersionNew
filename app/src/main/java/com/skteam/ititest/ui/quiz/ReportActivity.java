@@ -127,6 +127,9 @@ public class ReportActivity extends BaseActivity<ActivityReportBinding, QuizView
             }
         });
 
+        binding.back.setOnClickListener(view -> {
+           finish();
+        });
     }
 
     @Override
