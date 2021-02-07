@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -92,6 +94,9 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
         setData();
 
 
+    }
+    public TextView getToolbar(){
+        return binding.toolbar.toolbarTitle;
     }
 
     private void setData() {
