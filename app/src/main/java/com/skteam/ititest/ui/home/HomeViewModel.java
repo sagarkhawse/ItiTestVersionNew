@@ -55,7 +55,6 @@ public class HomeViewModel extends BaseViewModel<HomeNav> {
     private MutableLiveData<String>Score=new MutableLiveData<>();
     public HomeViewModel(Context context, SharedPre sharedPre, Activity activity) {
         super(context, sharedPre, activity);
-        mAuth = FirebaseAuth.getInstance();
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(activity.getResources().getString(R.string.GOOGLE_SIGNIN_SECRET)).requestEmail().build();
     }
 
