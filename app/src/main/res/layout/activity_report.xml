@@ -453,15 +453,21 @@
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/_100sdp"
+        android:minHeight="@dimen/_150sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:orientation="vertical">
+        <!--https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID-->
         <TextView
             style="@style/btnPrimary"
             android:text="View Solution"
             android:id="@+id/ViewSolution"/>
+        <TextView
+            style="@style/btnPrimary"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="Share Score"
+            android:id="@+id/shareScoreBtn"/>
 
 
     </LinearLayout>

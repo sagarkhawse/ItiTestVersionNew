@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.skteam.ititest.BuildConfig;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseActivity;
 import com.skteam.ititest.databinding.ActivityReportBinding;
@@ -106,7 +107,20 @@ public class ReportActivity extends BaseActivity<ActivityReportBinding, QuizView
             binding.completePersent.setText("" + complete + " %");
             binding.accuracyPercent.setText("" + accuracy + " %");
             binding.title.setText(title);
+            binding.shareScoreBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String uri = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
+                    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    sharingIntent.setType("text/plain");
+                    String ShareSub = " Hey!! My Score is "+Correctcount +" Out of "+restItems.size() +" in ITI " +title+" Download Now and Beat My Score  ";
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, ShareSub+uri);
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, ShareSub+uri);
+                    startActivity(Intent.createChooser(sharingIntent, "Share via"));
+                }
+            });
         }
+
         binding.overViewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

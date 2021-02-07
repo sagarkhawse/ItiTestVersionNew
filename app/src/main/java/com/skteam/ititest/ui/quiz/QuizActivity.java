@@ -180,13 +180,11 @@ binding.time.setVisibility(View.GONE);
     @Override
     public void setMessage(String s) {
         try {
-            dialog = showAlertDialog(this, ERROR, "Quiz will be updated soon!", "ITI Test");
             dialog.setConfirmText("Go Back")
                     .setConfirmClickListener(sweetAlertDialog -> {
                         dialog.dismissWithAnimation();
                         finish();
                     });
-            //dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
             dialog.show();
         } catch (Exception e) {
 
@@ -230,11 +228,10 @@ binding.time.setVisibility(View.GONE);
     @Override
     public void NoQuestionSelected() {
         try {
-            showCustomAlert("Sorry! You Got 0 Points From this Test Series");
+            showCustomAlert("Sorry! You Got 0 Points From this Test ");
             dialog = showAlertDialog(this, ERROR, "No Question Selected", "Times Up!!");
             dialog.setConfirmText("Yes")
                     .setConfirmClickListener(sweetAlertDialog -> {
-
                         dialog.dismissWithAnimation();
                         finish();
                     });

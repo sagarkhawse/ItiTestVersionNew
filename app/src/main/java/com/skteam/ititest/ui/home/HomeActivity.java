@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.jakewharton.rxbinding3.view.RxView;
+import com.skteam.ititest.BuildConfig;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseActivity;
 import com.skteam.ititest.databinding.ActivityHomeBinding;
@@ -194,6 +195,13 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
                     break;
                 }
                 case R.id.nav_share_app: {
+                    String uri = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
+                    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    sharingIntent.setType("text/plain");
+                    String ShareSub = "Hey!! There i'm Using ITI Test ";
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, ShareSub+uri);
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, ShareSub+uri);
+                    startActivity(Intent.createChooser(sharingIntent, "Share via"));
                     break;
 
                 }
