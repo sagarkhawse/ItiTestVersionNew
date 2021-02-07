@@ -165,6 +165,7 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
                             if (response.getCode().equals("200")) {
                                 getNavigator().setMessage("Signup Successfully");
                                 getNavigator().SignUpResponse(response.getRes().get(0),type);
+                                getSharedPre().setIsLoggedIn(true);
                             } else {
                                 getNavigator().setMessage("Please try again later!");
                             }

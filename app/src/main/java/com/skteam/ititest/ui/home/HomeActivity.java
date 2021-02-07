@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.facebook.AccessToken;

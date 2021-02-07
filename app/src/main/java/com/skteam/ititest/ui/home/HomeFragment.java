@@ -14,6 +14,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -101,6 +103,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.rvBestPlayers.setAdapter(leaderBoardAdapter);
         CollectAllDataThroughAPI();
 
+
         binding.swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -110,7 +113,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         });
         binding.tvViewAllPlayers.setOnClickListener(v -> getBaseActivity().startFragment(LeaderboardFragment.newInstance(), true, LeaderboardFragment.newInstance().toString()));
     }
-
     private void setProfileData(List<com.skteam.ititest.restModel.signup.Re> profileData) {
         isApicalled=true;
         binding.name.setText(profileData.get(0).getName());
