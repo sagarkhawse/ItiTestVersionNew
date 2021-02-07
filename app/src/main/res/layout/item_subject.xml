@@ -33,14 +33,16 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_margin="@dimen/_6sdp"
+                        android:paddingEnd="20dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_google" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_toEndOf="@id/subjectImage"
+                        android:layout_toStartOf="@id/subjectImage"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="@dimen/_10sdp">
