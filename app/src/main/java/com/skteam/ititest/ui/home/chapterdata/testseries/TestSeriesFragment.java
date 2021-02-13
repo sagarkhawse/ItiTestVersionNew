@@ -16,6 +16,7 @@ import com.skteam.ititest.databinding.FragmentChapterBinding;
 import com.skteam.ititest.restModel.home.subjects.TestListItem;
 import com.skteam.ititest.setting.CommonUtils;
 import com.skteam.ititest.setting.dialog.SweetAlertDialog;
+import com.skteam.ititest.ui.home.HomeActivity;
 import com.skteam.ititest.ui.home.HomeNav;
 import com.skteam.ititest.ui.home.HomeViewModel;
 import com.skteam.ititest.ui.home.chapterdata.testseries.adapter.TestSeriesAdapter;
@@ -38,6 +39,7 @@ public class TestSeriesFragment extends BaseFragment<FragmentChapterBinding, Hom
     private static List<TestListItem> testList = new ArrayList<>();
     private TestSeriesAdapter testSeriesAdapter;
     private SweetAlertDialog dialog;
+    private static String chapterName;
     public TestSeriesFragment() {
         // Required empty public constructor
     }
@@ -46,8 +48,9 @@ public class TestSeriesFragment extends BaseFragment<FragmentChapterBinding, Hom
         return TestSeriesFragment.class.getName();
     }
 
-    public static TestSeriesFragment newInstance(List<TestListItem> testListMain) {
+    public static TestSeriesFragment newInstance(List<TestListItem> testListMain,String chapter) {
         testList = testListMain;
+        chapterName=chapter;
         instance = instance == null ? new TestSeriesFragment() : instance;
         return instance;
     }
@@ -81,8 +84,15 @@ public class TestSeriesFragment extends BaseFragment<FragmentChapterBinding, Hom
         binding = getViewDataBinding();
         viewModel.setNavigator(this);
         binding.name.setText("Test Series");
+        ((HomeActivity)getContext()).getToolbar().setText(chapterName);
         testSeriesAdapter = new TestSeriesAdapter(getContext(), testList);
         CollectAllDataThroughAPI();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ((HomeActivity)getContext()).getToolbar().setText(getString(R.string.app_name));
     }
 
     @Override

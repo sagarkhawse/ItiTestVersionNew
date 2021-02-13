@@ -70,10 +70,10 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
                 @Override
                 public void accept(Unit unit) throws Exception {
                     if (chapterListItem.getTestList() != null && chapterListItem.getTestList().size() > 0) {
-                        ((HomeActivity) mContext).startFragment(TestSeriesFragment.newInstance(chapterListItem.getTestList()),true,TestSeriesFragment.newInstance(chapterListItem.getTestList()).toString());
+                        ((HomeActivity) mContext).startFragment(TestSeriesFragment.newInstance(chapterListItem.getTestList(),chapterListItem.getTitle()),true,TestSeriesFragment.newInstance(chapterListItem.getTestList(),chapterListItem.getTitle()).toString());
                     }else{
                         ((HomeActivity) mContext).showCustomAlert("No Test Series Found");
-                        ((HomeActivity) mContext).startFragment(TestSeriesFragment.newInstance(null),true,TestSeriesFragment.newInstance(null).toString());
+                        ((HomeActivity) mContext).startFragment(TestSeriesFragment.newInstance(null,null),true,TestSeriesFragment.newInstance(null,null).toString());
                     }
                 }
             });
