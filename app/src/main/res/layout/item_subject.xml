@@ -37,7 +37,7 @@
                         android:layout_margin="@dimen/_6sdp"
                         android:paddingEnd="20dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/ic_google" />
+                    />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -52,7 +52,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/avenir_next_demi"
-                            android:text="@string/mathematics"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/_16ssp" />
 
@@ -67,7 +66,6 @@
                             android:paddingTop="@dimen/_2sdp"
                             android:paddingEnd="@dimen/_10sdp"
                             android:paddingBottom="@dimen/_2sdp"
-                            android:text="@string/_20_chapters"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_10ssp" />
 

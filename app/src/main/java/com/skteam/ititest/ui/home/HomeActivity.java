@@ -2,14 +2,18 @@
 package com.skteam.ititest.ui.home;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -25,8 +29,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.jakewharton.rxbinding3.view.RxView;
+import com.skteam.ititest.BuildConfig;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseActivity;
 import com.skteam.ititest.databinding.ActivityHomeBinding;
@@ -193,16 +199,32 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
                     break;
                 }
                 case R.id.nav_share_app: {
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT,
+                            "I found a great app in playstore check it out  : https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID);
+                    sendIntent.setType("text/plain");
+                    startActivity(sendIntent);
                     break;
 
                 }
+                case R.id.nav_rate_app: {
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID));
+                    startActivity(intent);
+                    break;
+                }
                 case R.id.nav_about_us: {
+                    startActivity(new Intent(this, AboutUsActivity.class));
                     break;
                 }
                 case R.id.nav_contact_us: {
+                    startEmailIntent(this);
                     break;
                 }
                 case R.id.nav_privacy_policy: {
+                    startActivity(new Intent(this, PrivacyPolicyActivity.class));
                     break;
                 }
             }
@@ -211,6 +233,22 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
             }
             return false;
         });
+
+    }/**/
+
+
+
+    public static void startEmailIntent(Activity context) {
+
+        try {
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                    "mailto",context.getString(R.string.contact_email), null));
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Body");
+            context.startActivity(Intent.createChooser(emailIntent, "Send email..."));
+        } catch (Exception e) {
+            e.printStackTrace ();
+        }
 
     }
 

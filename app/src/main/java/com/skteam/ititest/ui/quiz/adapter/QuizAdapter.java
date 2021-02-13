@@ -1,5 +1,6 @@
 package com.skteam.ititest.ui.quiz.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.skteam.ititest.R;
 import com.skteam.ititest.databinding.ItemQuizBinding;
 import com.skteam.ititest.restModel.quiz.ResItem;
@@ -95,6 +97,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
             this.binding = binding;
         }
 
+
         public void onBindidView(final int position, final ResItem resItem) {
             binding.previous.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -109,11 +112,17 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
                 }
             });
             binding.questionOrder.setText(String.valueOf((position + 1) + "/" + resItems.size()));
+            Glide.with(context).load(resItem.getImage()).into(binding.ivQuestion);
             binding.questionText.setText(resItem.getQuestion());
             binding.answer1.setText("A) " + resItem.getOption1());
             binding.answer2.setText("B) " + resItem.getOption2());
             binding.answer3.setText("C) " + resItem.getOption3());
             binding.answer4.setText("D) " + resItem.getOption4());
+
+
+
+
+
             if ("a".equalsIgnoreCase(resItem.getAnswer())) {
                 resItem.setAnswer("a");
             } else if ("b".equalsIgnoreCase(resItem.getAnswer())) {
