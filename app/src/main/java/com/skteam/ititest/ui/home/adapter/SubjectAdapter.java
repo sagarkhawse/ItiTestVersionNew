@@ -79,11 +79,11 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectH
 
             binding.itemView.setOnClickListener(view -> {
                 if(re.getChapterList()!=null && re.getChapterList().size()>0) {
-                    ((HomeActivity) context).startFragment(ChapterFragment.newInstance(re.getChapterList()),true,ChapterFragment.newInstance(re.getChapterList()).toString());
+                    ((HomeActivity) context).startFragment(ChapterFragment.newInstance(re.getChapterList(),re.getTitle()),true,ChapterFragment.newInstance(re.getChapterList(), re.getTitle()).toString());
                 }
                 else{
                     ((HomeActivity) context).showCustomAlert("Chapter Not Found");
-                    ((HomeActivity) context).startFragment(ChapterFragment.newInstance(null),true,ChapterFragment.newInstance(null).toString());
+                    ((HomeActivity) context).startFragment(ChapterFragment.newInstance(null,null),true,ChapterFragment.newInstance(null,null).toString());
                 }
             });
 

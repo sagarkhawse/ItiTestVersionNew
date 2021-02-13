@@ -17,6 +17,7 @@ import com.skteam.ititest.databinding.FragmentChapterBinding;
 import com.skteam.ititest.restModel.home.subjects.ChapterListItem;
 import com.skteam.ititest.setting.CommonUtils;
 import com.skteam.ititest.setting.dialog.SweetAlertDialog;
+import com.skteam.ititest.ui.home.HomeActivity;
 import com.skteam.ititest.ui.home.HomeNav;
 import com.skteam.ititest.ui.home.HomeViewModel;
 import com.skteam.ititest.ui.home.chapterdata.adapter.ChapterListAdapter;
@@ -39,13 +40,17 @@ public class ChapterFragment extends BaseFragment<FragmentChapterBinding, HomeVi
     private static List<ChapterListItem> chapterList = new ArrayList<>();
     private ChapterListAdapter chapterListAdapter;
     private SweetAlertDialog dialog;
+    private static String header="";
 
     public ChapterFragment() {
         // Required empty public constructor
     }
 
-    public static ChapterFragment newInstance(List<ChapterListItem> chapterListmain) {
+    public static ChapterFragment newInstance(List<ChapterListItem> chapterListmain, String title) {
         chapterList = chapterListmain;
+        if(title!=null){
+            header=title;
+        }
         instance = instance == null ? new ChapterFragment() : new ChapterFragment();
         return instance;
     }
@@ -83,6 +88,7 @@ public class ChapterFragment extends BaseFragment<FragmentChapterBinding, HomeVi
         super.onViewCreated(view, savedInstanceState);
         binding = getViewDataBinding();
         viewModel.setNavigator(this);
+        ((HomeActivity)getContext()).getToolbar().setText(header);
         binding.name.setText("Chapter");
         chapterListAdapter = new ChapterListAdapter(getContext(), chapterList);
         CollectAllDataThroughAPI();
@@ -127,6 +133,12 @@ public class ChapterFragment extends BaseFragment<FragmentChapterBinding, HomeVi
         } else {
             hideLoadingDialog();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ((HomeActivity)getContext()).getToolbar().setText(getString(R.string.app_name));
     }
 
     @Override
