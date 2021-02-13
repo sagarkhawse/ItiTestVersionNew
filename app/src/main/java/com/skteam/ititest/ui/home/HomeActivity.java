@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -97,7 +98,9 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
 
 
     }
-
+    public TextView getToolbar(){
+        return binding.toolbar.toolbarTitle;
+    }
     private void setData() {
         viewModel.GetAllUserDetails().observe(this, res -> {
             if (res != null && res.size() > 0) {
