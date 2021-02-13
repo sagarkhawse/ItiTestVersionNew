@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.skteam.ititest.R;
 import com.skteam.ititest.databinding.ItemQuizBinding;
 import com.skteam.ititest.restModel.quiz.ResItem;
-import com.skteam.ititest.setting.Animations;
+import com.skteam.ititest.setting.animation.Animations;
 
 import java.util.ArrayList;
 import java.util.List;

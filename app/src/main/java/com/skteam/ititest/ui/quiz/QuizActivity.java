@@ -93,7 +93,7 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
         quizAdapter = new QuizAdapter(this, this);
         quizHelper = new PagerSnapHelper();
         quizHelper.attachToRecyclerView(binding.questionsList);
-binding.time.setVisibility(View.GONE);
+        binding.time.setVisibility(View.GONE);
         stopwatch.start();
         binding.questionsList.setAdapter(quizAdapter);
         /*binding.questionsList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {

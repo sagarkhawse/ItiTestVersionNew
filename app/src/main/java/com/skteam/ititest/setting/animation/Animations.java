@@ -1,4 +1,4 @@
-package com.skteam.ititest.setting;
+package com.skteam.ititest.setting.animation;
 
 import android.content.Context;
 import android.view.View;
