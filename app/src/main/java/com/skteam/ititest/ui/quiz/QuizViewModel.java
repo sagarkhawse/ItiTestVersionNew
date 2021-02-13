@@ -61,7 +61,7 @@ public class QuizViewModel extends BaseViewModel<QuizNav> {
         AndroidNetworking.post(AppConstance.API_BASE_URL + AppConstance.SCORE_UPDATED)
                 .addBodyParameter("user_id",getSharedPre().getUserId())
                 .addBodyParameter("points",score)
-                .addBodyParameter("date", CommonUtils.getFormattedDate(getContext(),System.currentTimeMillis(),"yy-MM-dd h.mm.ss"))
+                .addBodyParameter("date", CommonUtils.getFormattedDate(getContext(),System.currentTimeMillis(),"yyyy-MM-dd"))
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsObject(ScoreUpdateResponse.class, new ParsedRequestListener<ScoreUpdateResponse>() {

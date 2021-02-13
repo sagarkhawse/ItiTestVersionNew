@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.home.AboutUsActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/about_us_details"
+        android:fontFamily="@font/poppins_medium"
+        android:padding="10dp"
+        android:textSize="@dimen/_12ssp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/visit_our_website_for_more_details"
+        android:fontFamily="@font/poppins_medium"
+        android:padding="10dp"
+        android:textSize="@dimen/_12ssp"
+        />
+
+    <Button
+        android:id="@+id/btnItizone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/itizone_com"
+        android:textAllCaps="false"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/bg_primary"
+        android:textColor="@color/white_light"
+        android:textSize="@dimen/_14ssp"
+        android:fontFamily="@font/poppins_bold"
+        />
+
+    <Button
+        android:id="@+id/btnElectricianBlog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/electrician_in_hindi_com"
+        android:textAllCaps="false"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/bg_primary"
+        android:textColor="@color/white_light"
+        android:textSize="@dimen/_14ssp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/poppins_bold"
+        />
+
+</LinearLayout>

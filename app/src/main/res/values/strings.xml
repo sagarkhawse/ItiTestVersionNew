@@ -109,4 +109,18 @@
     <string name="previous">Previous</string>
     <string name="next">Next</string>
 
+    <string name="about_us_details">Hello friends,
+For ITI students, www.itizone.com is a blog through which ITI students can give the free online test, for which they will not have to pay any money.
+My main purpose in creating this blog is to help students preparing for ITI exams or competitive exams.
+This App covers all the questions of ITI which are very important questions for competitive exams.
+You can assess yourself by looking at this online test, and at the end of the test, the answers you have given, the questions left, and the result will be shown in percentage.\n\n
+
+<b>Amrit Kumar Sharma
+Technician
+    Uttar Pradesh Rajya Vidyut Utpada Nigam Ltd</b>.</string>
+    <string name="contact_email">amritsharma5@gmail.com</string>
+    <string name="visit_our_website_for_more_details">Visit our website for more details</string>
+    <string name="electrician_in_hindi_com">electrician-in-hindi.com</string>
+    <string name="itizone_com">itizone.com</string>
+    <string name="rate">Rate this app</string>
 </resources>

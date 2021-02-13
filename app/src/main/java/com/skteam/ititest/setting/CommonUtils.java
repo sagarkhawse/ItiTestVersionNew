@@ -249,7 +249,7 @@ public class CommonUtils {
 
     public static String CurrentTimeAsFormat(String curentTimeStamp)  {
 
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ROOT);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
 
         Date result= null;
         long miliSec= Long.parseLong(curentTimeStamp);
