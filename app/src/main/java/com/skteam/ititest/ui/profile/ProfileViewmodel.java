@@ -161,8 +161,8 @@ public class ProfileViewmodel extends BaseViewModel<ProfileNav> {
     public void EditNow(String name,String phone,String dob,String gender){
         getNavigator().setLoading(true);
         AndroidNetworking.post(AppConstance.API_BASE_URL + AppConstance.UPLOAD_USER_DATA)
-                .addBodyParameter("user_id", name)
-                .addBodyParameter("name", getSharedPre().getUserId())
+                .addBodyParameter("user_id", getSharedPre().getUserId())
+                .addBodyParameter("name", name)
                 .addBodyParameter("phone", phone)
                 .addBodyParameter("date_of_birth", dob)
                 .addBodyParameter("gender", gender)
