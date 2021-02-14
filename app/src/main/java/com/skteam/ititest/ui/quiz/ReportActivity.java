@@ -113,7 +113,7 @@ public class ReportActivity extends BaseActivity<ActivityReportBinding, QuizView
                     String uri = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
                     Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                     sharingIntent.setType("text/plain");
-                    String ShareSub = " Hey!! My Score is "+Correctcount +" Out of "+restItems.size() +" in ITI " +title+" Download Now and Beat My Score  ";
+                    String ShareSub = " Hey!! My Score is "+Correctcount +" Out of "+restItems.size() +" in ITI " +title+" Install "+getString(R.string.app_name)+" Now and Beat My Score  ";
                     sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, ShareSub+uri);
                     sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, ShareSub+uri);
                     startActivity(Intent.createChooser(sharingIntent, "Share via"));
