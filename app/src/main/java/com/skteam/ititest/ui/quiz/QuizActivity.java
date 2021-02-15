@@ -15,6 +15,7 @@ import android.os.CountDownTimer;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.google.android.gms.ads.AdRequest;
 import com.google.gson.Gson;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseActivity;
@@ -73,6 +74,8 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
         binding = getViewDataBinding();
         viewModel.setNavigator(this);
         instance = this;
+        AdRequest adRequest = new AdRequest.Builder().build();
+        binding.adView.loadAd(adRequest);
         stopwatch=new Stopwatch();
         testName = getIntent().getStringExtra("testName");
         binding.tvTitle.setText(testName);

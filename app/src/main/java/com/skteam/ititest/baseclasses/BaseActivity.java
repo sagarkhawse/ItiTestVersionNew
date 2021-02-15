@@ -35,6 +35,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.skteam.ititest.R;
 import com.skteam.ititest.application.MyApplication;
@@ -117,6 +120,12 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
         performDataBinding();
         manager = getSupportFragmentManager();
         toast = new Toast(this);
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+
+            }
+        });
     }
 
     public FirebaseAuth getAuth() {
