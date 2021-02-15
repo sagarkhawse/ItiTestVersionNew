@@ -88,7 +88,7 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
         testName = getIntent().getStringExtra("testName");
 
 
-        InterstitialAd.load(this,getString(R.string.addMobId), adRequest, new InterstitialAdLoadCallback() {
+        InterstitialAd.load(this,getString(R.string.InterstiatladdMobId), adRequest, new InterstitialAdLoadCallback() {
             @Override
             public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                 // The mInterstitialAd reference will be null until

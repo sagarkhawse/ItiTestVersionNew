@@ -103,7 +103,7 @@ public class LeaderboardFragment extends BaseFragment<FragmentLeaderboardBinding
         AdRequest adRequest = new AdRequest.Builder().build();
 
 
-        InterstitialAd.load(getContext(),getString(R.string.addMobId), adRequest, new InterstitialAdLoadCallback() {
+        InterstitialAd.load(getContext(),getString(R.string.InterstiatladdMobId), adRequest, new InterstitialAdLoadCallback() {
             @Override
             public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                 // The mInterstitialAd reference will be null until
