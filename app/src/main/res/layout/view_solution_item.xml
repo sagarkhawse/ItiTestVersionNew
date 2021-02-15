@@ -48,6 +48,15 @@
                     android:text="This is a question "
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14ssp" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/questionImage"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:padding="@dimen/_10sdp"
+                    android:src="@color/black"
+                    />
+
 
 
                 <RelativeLayout

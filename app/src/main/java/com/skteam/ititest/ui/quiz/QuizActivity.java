@@ -273,6 +273,9 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
         if (lastVisible <= quizAdapter.getItemCount()) {
             manager.scrollToPosition(lastVisible);
         }
+        if(lastVisible==quizAdapter.getItemCount()){
+            showCustomAlert("No More Question Available!!");
+        }
     }
 
     @Override
