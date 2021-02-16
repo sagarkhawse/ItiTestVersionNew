@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ITI TEST</string>
+    <string name="app_name">ITI Mafia</string>
     <string name="messageofinternetService">No internet connection found.Please\ncheck your connection \n or try again</string>
     <string name="turn_on_internet_service">Turn On</string>
     <string name="login_id">Login ID</string>
@@ -110,14 +110,8 @@
     <string name="next">Next</string>
 
     <string name="about_us_details">Hello friends,
-For ITI students, www.itizone.com is a blog through which ITI students can give the free online test, for which they will not have to pay any money.
-My main purpose in creating this blog is to help students preparing for ITI exams or competitive exams.
-This App covers all the questions of ITI which are very important questions for competitive exams.
-You can assess yourself by looking at this online test, and at the end of the test, the answers you have given, the questions left, and the result will be shown in percentage.\n\n
-
-<b>Amrit Kumar Sharma
-Technician
-    Uttar Pradesh Rajya Vidyut Utpada Nigam Ltd</b>.</string>
+        For ITI students, <b>ITI Mafia</b> is an App through which ITI students can give online test for FREE.\nMy main purpose in creating this App is to help students preparing for ITI exams or competitive exams.\nThis App covers all the questions of ITI which are very important questions for competitive exams.\nYou can assess yourself by looking at this online test, and at the end of the test, the answers you have given, the questions left, and the result will be shown in percentage.\n\n<b>Amrit kumar sharma\nTechnician (Electrical)\nउत्तर प्रदेश राज्य विद्युत उत्पादन निगम लिमिटेड</b>.\n\n
+    Visit our websites</string>
     <string name="contact_email">amritsharma5@gmail.com</string>
     <string name="visit_our_website_for_more_details">Visit our website for more details</string>
     <string name="electrician_in_hindi_com">electrician-in-hindi.com</string>

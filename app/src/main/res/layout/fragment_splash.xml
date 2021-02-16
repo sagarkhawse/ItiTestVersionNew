@@ -15,7 +15,7 @@
     <ImageView
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:src="@mipmap/ic_iti"
+        android:src="@drawable/iti_logo"
         />
     <TextView
         android:layout_width="wrap_content"

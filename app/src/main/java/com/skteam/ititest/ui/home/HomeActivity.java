@@ -7,12 +7,15 @@ import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -181,7 +184,7 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
     }
 
 
-    @SuppressLint("RtlHardcoded")
+    @SuppressLint({"RtlHardcoded", "NonConstantResourceId"})
     private void SetOnClickListenersAll() {
         disposable = RxView.clicks(binding.toolbar.drwerAccess).throttleFirst(500, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(unit -> {
             if (binding.drawerLayout.isDrawerOpen(Gravity.LEFT)) {
@@ -219,7 +222,7 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
                     break;
                 }
                 case R.id.nav_about_us: {
-                    startActivity(new Intent(this, AboutUsActivity.class));
+                   showAboutUsDialog();
                     break;
                 }
                 case R.id.nav_contact_us: {
@@ -298,4 +301,40 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
         return binding.toolbar;
     }
 
+
+    private void showAboutUsDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dialog_about_us);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setCancelable(true);
+
+        ((Button) dialog.findViewById(R.id.bt_itizone)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openWebPage("https://www.itizone.com/");
+            }
+        });
+
+        ((Button) dialog.findViewById(R.id.bt_electrician_blog)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openWebPage("https://electrician-in-hindi.blogspot.com/");
+            }
+        });
+
+
+        dialog.show();
+    }
+
+    public void openWebPage(String url) {
+        try {
+            Uri webpage = Uri.parse(url);
+            Intent myIntent = new Intent(Intent.ACTION_VIEW, webpage);
+            startActivity(myIntent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, "No application can handle this request. Please install a web browser or check your URL.",  Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
 }
