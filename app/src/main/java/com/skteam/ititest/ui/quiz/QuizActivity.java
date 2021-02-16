@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -12,9 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.gson.Gson;
 import com.skteam.ititest.R;
 import com.skteam.ititest.baseclasses.BaseActivity;
@@ -42,6 +50,7 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
     private boolean isSubmited = false;
     private LinearLayoutManager manager;
     private Stopwatch stopwatch;
+    private InterstitialAd mInterstitialAd;
    // private CountDownTimer timer;
    // private static long QUESTION_TOTAL_TIME = 30000;
    // private static long TIMER_VARIATION = 1000;
@@ -73,8 +82,51 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
         binding = getViewDataBinding();
         viewModel.setNavigator(this);
         instance = this;
+        AdRequest adRequest = new AdRequest.Builder().build();
+        binding.adView.loadAd(adRequest);
         stopwatch=new Stopwatch();
         testName = getIntent().getStringExtra("testName");
+
+
+        InterstitialAd.load(this,getString(R.string.InterstiatladdMobId), adRequest, new InterstitialAdLoadCallback() {
+            @Override
+            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                // The mInterstitialAd reference will be null until
+                // an ad is loaded.
+                mInterstitialAd = interstitialAd;
+                mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
+                    @Override
+                    public void onAdDismissedFullScreenContent() {
+                        // Called when fullscreen content is dismissed.
+                        Log.d("TAG", "The ad was dismissed.");
+                    }
+
+                    @Override
+                    public void onAdFailedToShowFullScreenContent(AdError adError) {
+                        // Called when fullscreen content failed to show.
+                        Log.d("TAG", "The ad failed to show.");
+                    }
+
+                    @Override
+                    public void onAdShowedFullScreenContent() {
+                        // Called when fullscreen content is shown.
+                        // Make sure to set your reference to null so you don't
+                        // show it a second time.
+                        mInterstitialAd = null;
+                        Log.d("TAG", "The ad was shown.");
+                    }
+                });
+                Log.i("Add Mob Ads", "onAdLoaded");
+            }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                // Handle the error
+                Log.i("Add Mob Ads", loadAdError.getMessage());
+                mInterstitialAd = null;
+            }
+        });
+
         binding.tvTitle.setText(testName);
         if (getIntent().getStringExtra("test_Id") != null && !getIntent().getStringExtra("test_Id").isEmpty()) {
             testId = getIntent().getStringExtra("test_Id");
@@ -132,6 +184,11 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
                     showCustomAlert("Test Already Submited!!");
                 } else {
                    // timer.cancel();
+                    if (mInterstitialAd != null) {
+                        mInterstitialAd.show(QuizActivity.this);
+                    } else {
+                        Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                    }
                     isSubmited = true;
                     stopwatch.stop();
                     quizAdapter.UpdateSubmit(true);
@@ -272,6 +329,9 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
 
         if (lastVisible <= quizAdapter.getItemCount()) {
             manager.scrollToPosition(lastVisible);
+        }
+        if(lastVisible==quizAdapter.getItemCount()){
+            showCustomAlert("No More Question Available!!");
         }
     }
 

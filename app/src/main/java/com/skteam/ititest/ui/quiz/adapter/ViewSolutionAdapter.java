@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.skteam.ititest.R;
 import com.skteam.ititest.databinding.ItemQuizBinding;
 import com.skteam.ititest.databinding.ViewSolutionItemBinding;
@@ -75,6 +76,12 @@ public class ViewSolutionAdapter extends RecyclerView.Adapter<ViewSolutionAdapte
             binding.answer2.setText("B) "+resItem.getOption2());
             binding.answer3.setText("C) "+resItem.getOption3());
             binding.answer4.setText("D) "+resItem.getOption4());
+            if(resItem.getImage()!=null && !resItem.getImage().isEmpty()){
+                Glide.with(context).load(resItem.getImage()).into(binding.questionImage);
+                binding.questionImage.setVisibility(View.VISIBLE);
+            }else{
+                binding.questionImage.setVisibility(View.GONE);
+            }
 
             if (resItem.getSelectQuestion() != null && !resItem.getSelectQuestion().isEmpty() && !resItem.isSkipQuestion()&& isSubmited) {
                 switch (resItem.getAnswer().toLowerCase()){

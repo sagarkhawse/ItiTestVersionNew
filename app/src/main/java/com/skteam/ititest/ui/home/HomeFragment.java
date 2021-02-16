@@ -22,6 +22,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphRequestAsyncTask;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.skteam.ititest.R;
@@ -95,6 +96,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         super.onViewCreated(view, savedInstanceState);
         binding = getViewDataBinding();
         viewModel.setNavigator(this);
+
         leaderBoardAdapter = new LeaderBoardAdapter(getContext(),leaderboardList);
         subjectAdapter = new SubjectAdapter(getContext(),subjectList);
         bestPlayerHelper.attachToRecyclerView(  binding.rvBestPlayers);

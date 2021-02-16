@@ -27,6 +27,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphRequestAsyncTask;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -90,7 +91,8 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
         binding = getViewDataBinding();
         viewModel.setNavigator(this);
         context = this;
-
+        AdRequest adRequest = new AdRequest.Builder().build();
+        binding.toolbar.mainContent.adView.loadAd(adRequest);
         navigationViewHeaderBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.nav_header_main, binding.navView, false);
         binding.navView.addHeaderView(navigationViewHeaderBinding.getRoot());
         if (savedInstanceState == null) {
