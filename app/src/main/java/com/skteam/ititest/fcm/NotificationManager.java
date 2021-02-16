@@ -69,8 +69,7 @@ public class NotificationManager extends FirebaseMessagingService {
             } catch (Exception e) {
 
             }
-            if (sharedPre.getFirebaseDeviceToken() != null && !sharedPre.getFirebaseDeviceToken().isEmpty()) {
-                super.onMessageReceived(remoteMessage);
+            super.onMessageReceived(remoteMessage);
                 try {
                     title = getString(R.string.app_name);
                     type = remoteMessage.getNotification().getTitle();
@@ -89,7 +88,7 @@ public class NotificationManager extends FirebaseMessagingService {
             }
 
 
-        }
+
     }
     private void handleDataMessage(Map<String, String> json){
         Log.e("CIC INSTITUTE FCM", "push json: " + json.toString());

@@ -19,7 +19,7 @@
         <com.google.android.gms.ads.AdView
             android:id="@+id/adView"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_height="wrap_content"
             ads:adSize="BANNER"
             ads:adUnitId="@string/addMobId" />
     </LinearLayout>
