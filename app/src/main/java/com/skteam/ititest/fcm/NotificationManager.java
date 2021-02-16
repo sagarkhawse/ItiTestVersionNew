@@ -3,12 +3,10 @@ package com.skteam.ititest.fcm;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
@@ -17,6 +15,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -25,30 +24,31 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.skteam.ititest.R;
 import com.skteam.ititest.prefrences.SharedPre;
+import com.skteam.ititest.ui.home.HomeActivity;
 
 import java.io.IOException;
 import java.util.Map;
 
-public class NotificationMessagingService extends FirebaseMessagingService {
-
-    private static final String TAG = "FirebaseService";
-    private boolean isMuted = false;
+public class NotificationManager extends FirebaseMessagingService {
     private SharedPre sharedPre;
-    private Uri uri = null;
-    private Intent intent = null, brodcast = null;
-    private String title, body, type;
-    private boolean SendNotification = true;
+    private boolean isMuted=false,SendNotification=true;
+    private Uri uri;
+    private String title,type,body;
+    private Intent intent;
     private static final int NOTIFICATION_ID = 3;
 
     @Override
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
-        Log.e(TAG, "onNewToken: " + s);
+        sendRegistrationToServer(s);
     }
 
+    private void sendRegistrationToServer(String token) {
+
+    }
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-        sharedPre =SharedPre.getInstance(this);
+        sharedPre = SharedPre.getInstance(this);
         isMuted = sharedPre.isNotificationMuted();
         if (remoteMessage != null) {
             try {
@@ -58,7 +58,6 @@ public class NotificationMessagingService extends FirebaseMessagingService {
                     String sound = sharedPre.getNotificationSound();
                     if (sound == null || sound.equals("")) {
                         uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                        sharedPre.setNotificationSound(uri.toString());
                     } else {
                         uri = Uri.parse(sharedPre.getNotificationSound());
                     }
@@ -69,22 +68,19 @@ public class NotificationMessagingService extends FirebaseMessagingService {
             if (sharedPre.getFirebaseDeviceToken() != null && !sharedPre.getFirebaseDeviceToken().isEmpty()) {
                 super.onMessageReceived(remoteMessage);
                 try {
-                    title = "ReplayMe";
+                    title = getString(R.string.app_name);
                     type = remoteMessage.getNotification().getTitle();
                     body = remoteMessage.getNotification().getBody();
-                     String tag = remoteMessage.getNotification().getTag();
+                    String tag = remoteMessage.getNotification().getTag();
                     Map<String, String> map = remoteMessage.getData();
                     handleDataMessage(map);
-                    if (type != null) {
-                        switch (type.trim()) {
-                        }
-                    }
                     if (SendNotification) {
                         showNotification(title, body, intent);
                     }
 
                 } catch (Exception e) {
-
+                    Intent intent = new Intent(this, HomeActivity.class);
+                    showNotification(title, body, intent);
                 }
             }
 
@@ -92,41 +88,38 @@ public class NotificationMessagingService extends FirebaseMessagingService {
         }
     }
     private void handleDataMessage(Map<String, String> json){
-        Log.e(TAG, "push json: " + json.toString());
+        Log.e("CIC INSTITUTE FCM", "push json: " + json.toString());
 
         try {
-
-            String title = json.get("title");
-            String message = json.get("body");
-            String badge = json.get("badge");
-
-            // Display notication depends on received data
-
-
+            if (json != null) {
+                String title = json.get("title");
+                String message = json.get("body");
+                String badge = json.get("badge");
+            }
         } catch (Exception e) {
-            Log.e(TAG, "Exception: " + e.getMessage());
+            Log.e("CIC INSTITUTE FCM", "Exception: " + e.getMessage());
         }
     }
     public void showNotification(String title, String body, Intent intent) {
         Bitmap logo;
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-       // stackBuilder.addParentStack(HomeActivity.class);
+        stackBuilder.addParentStack(HomeActivity.class);
         stackBuilder.addNextIntent(intent);
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT);
         // PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         //to be able to launch your activity from the notification
         @SuppressLint("WrongConstant")
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.app_name));
-       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setSmallIcon(R.drawable.logo);
-            builder.setColor(getResources().getColor(R.color.color_transparent));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.setSmallIcon(R.mipmap.ic_iti);
+            builder.setColor(getResources().getColor(R.color.transparent));
         } else {
-            builder.setSmallIcon(R.drawable.logo);
+            builder.setSmallIcon(R.mipmap.ic_iti);
         }
-        logo = BitmapFactory.decodeResource(getResources(), R.drawable.watermark);*/
+        logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_iti);
         builder.setContentTitle(title)
                 .setContentText(body)
-               // .setLargeIcon(logo)
+                .setLargeIcon(logo)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setColorized(true)
                 .setAutoCancel(true)
@@ -141,14 +134,14 @@ public class NotificationMessagingService extends FirebaseMessagingService {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.app_name);
             String description = getString(R.string.app_name);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = android.app.NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(getString(R.string.app_name), name, importance);
             channel.setDescription(description);
             channel.enableVibration(true);
             channel.setSound(null, null);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            android.app.NotificationManager notificationManager = getSystemService(android.app.NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
             notificationManager.notify(NOTIFICATION_ID, builder.build());
         } else {
@@ -201,5 +194,6 @@ public class NotificationMessagingService extends FirebaseMessagingService {
             e.printStackTrace();
         }
     }
+
 
 }
