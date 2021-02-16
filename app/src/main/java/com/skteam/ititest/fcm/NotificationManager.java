@@ -35,12 +35,15 @@ public class NotificationManager extends FirebaseMessagingService {
     private Uri uri;
     private String title,type,body;
     private Intent intent;
+    private String token;
     private static final int NOTIFICATION_ID = 3;
 
     @Override
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
+        token=s;
         sendRegistrationToServer(s);
+
     }
 
     private void sendRegistrationToServer(String token) {
@@ -49,6 +52,7 @@ public class NotificationManager extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         sharedPre = SharedPre.getInstance(this);
+        sharedPre.setFirebaseToken(token);
         isMuted = sharedPre.isNotificationMuted();
         if (remoteMessage != null) {
             try {
