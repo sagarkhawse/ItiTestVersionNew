@@ -1,9 +1,11 @@
 
 package com.skteam.ititest.ui.home;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
@@ -48,12 +50,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private LeaderBoardAdapter leaderBoardAdapter;
     private SubjectAdapter subjectAdapter;
     private Dialog internetDialog;
-    private boolean isApicalled=false;
-    private List<ResItem> subjectList=new ArrayList<>();
-    private List<Re> leaderboardList=new ArrayList<>();
-    private List<com.skteam.ititest.restModel.signup.Re> profileData=new ArrayList<>();
-    private SnapHelper bestPlayerHelper=new PagerSnapHelper();
-    private SnapHelper subjectHelper=new PagerSnapHelper();
+    private boolean isApicalled = false;
+    private List<ResItem> subjectList = new ArrayList<>();
+    private List<Re> leaderboardList = new ArrayList<>();
+    private List<com.skteam.ititest.restModel.signup.Re> profileData = new ArrayList<>();
+    private SnapHelper bestPlayerHelper = new PagerSnapHelper();
+    private SnapHelper subjectHelper = new PagerSnapHelper();
 
     public HomeFragment() {
         // Required empty public constructor
@@ -97,10 +99,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding = getViewDataBinding();
         viewModel.setNavigator(this);
 
-        leaderBoardAdapter = new LeaderBoardAdapter(getContext(),leaderboardList);
-        subjectAdapter = new SubjectAdapter(getContext(),subjectList);
-        bestPlayerHelper.attachToRecyclerView(  binding.rvBestPlayers);
-        subjectHelper.attachToRecyclerView( binding.rvSubjects);
+        leaderBoardAdapter = new LeaderBoardAdapter(getContext(), leaderboardList);
+        subjectAdapter = new SubjectAdapter(getContext(), subjectList);
+        bestPlayerHelper.attachToRecyclerView(binding.rvBestPlayers);
+        subjectHelper.attachToRecyclerView(binding.rvSubjects);
         binding.rvSubjects.setAdapter(subjectAdapter);
         binding.rvBestPlayers.setAdapter(leaderBoardAdapter);
         CollectAllDataThroughAPI();
@@ -115,18 +117,19 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         });
         binding.tvViewAllPlayers.setOnClickListener(v -> getBaseActivity().startFragment(LeaderboardFragment.newInstance(), true, LeaderboardFragment.newInstance().toString()));
     }
+
     private void setProfileData(List<com.skteam.ititest.restModel.signup.Re> profileData) {
-        isApicalled=true;
+        isApicalled = true;
         binding.name.setText(profileData.get(0).getName());
         binding.emailAddress.setText(profileData.get(0).getEmail());
-        if(profileData.get(0).getProfilePic()!=null) {
+        if (profileData.get(0).getProfilePic() != null) {
             Uri uri = Uri.parse(profileData.get(0).getProfilePic());
             String protocol = uri.getScheme();
             String server = uri.getAuthority();
-            if(protocol!=null && server!=null){
+            if (protocol != null && server != null) {
                 Glide.with(getContext()).load(profileData.get(0).getProfilePic()).into(binding.userDp);
-            }else{
-                Glide.with(getContext()).load(AppConstance.IMG_URL+profileData.get(0).getProfilePic()).into(binding.userDp);
+            } else {
+                Glide.with(getContext()).load(AppConstance.IMG_URL + profileData.get(0).getProfilePic()).into(binding.userDp);
             }
         }
     }
@@ -137,20 +140,20 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             binding.swipe.setRefreshing(false);
             if (res != null && res.size() > 0) {
                 subjectAdapter.updateList(res);
-                subjectList=res;
+                subjectList = res;
             }
         });
         viewModel.GetAllLeaderBoardNow().observe(getBaseActivity(), res -> {
             binding.swipe.setRefreshing(false);
             if (res != null && res.size() > 0) {
                 leaderBoardAdapter.updateList(res);
-                leaderboardList=res;
+                leaderboardList = res;
             }
         });
         viewModel.GetAllUserDetails().observe(getBaseActivity(), res -> {
             binding.swipe.setRefreshing(false);
-            if(res!=null && res.size()>0){
-                profileData=res;
+            if (res != null && res.size() > 0) {
+                profileData = res;
                 setProfileData(res);
             }
         });
@@ -158,9 +161,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             @Override
             public void onChanged(String s) {
                 binding.swipe.setRefreshing(false);
-                if(s!=null && !s.isEmpty()) {
+                if (s != null && !s.isEmpty()) {
                     binding.score.setText(s);
-                }else{
+                } else {
                     binding.score.setText("00.00");
                 }
             }
@@ -189,17 +192,19 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     @Override
     public void LogOut() {
-        if(getSharedPre().isGoogleLoggedIn()){
+        if (getSharedPre().isGoogleLoggedIn()) {
             viewModel.getGoogleClient().signOut().addOnCompleteListener(getBaseActivity(), new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    viewModel.getmAuth().signOut();
+                    if (viewModel.getmAuth() != null) {
+                        viewModel.getmAuth().signOut();
+                    }
                     getSharedPre().Logout();
                     startActivity(new Intent(getBaseActivity(), SplashActivity.class));
                     getBaseActivity().finish();
                 }
             });
-        }else  if(getSharedPre().isFaceboobkLoggedIn()){
+        } else if (getSharedPre().isFaceboobkLoggedIn()) {
             try {
                 GraphRequestAsyncTask graphRequest = new GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, graphResponse -> {
                     LoginManager.getInstance().logOut();
@@ -212,7 +217,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
             }
 
-        }else{
+        } else {
             viewModel.getmAuth().signOut();
             getSharedPre().Logout();
             startActivity(new Intent(getBaseActivity(), SplashActivity.class));
