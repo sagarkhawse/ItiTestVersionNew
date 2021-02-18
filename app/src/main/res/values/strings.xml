@@ -119,6 +119,7 @@
     <string name="rate">Rate this app</string>
 
     <string name="addMobId">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="admobBannerAdId">ca-app-pub-3940256099942544/6300978111</string>
     <string name="InterstiatladdMobId">ca-app-pub-3940256099942544/1033173712</string>
 
 </resources>
