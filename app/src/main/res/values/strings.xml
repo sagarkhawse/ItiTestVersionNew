@@ -118,8 +118,9 @@
     <string name="itizone_com">itizone.com</string>
     <string name="rate">Rate this app</string>
 
-    <string name="addMobId">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="admobBannerAdId">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="InterstiatladdMobId">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="addMobId">ca-app-pub-1788683128594869~9297933578</string>
+    <string name="admobBannerAdId">ca-app-pub-1788683128594869/7696722071</string>
+    <string name="InterstiatladdMobId">ca-app-pub-1788683128594869/4394210814</string>
+    <string name="welcome_to_iti_mafia_application_a_complete_solution_for_iti_students_for_100_success">Welcome to ITI Mafia application, A complete solution for ITI students for 100% success.</string>
 
 </resources>

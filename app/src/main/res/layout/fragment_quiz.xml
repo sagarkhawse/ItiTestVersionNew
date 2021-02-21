@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             ads:adSize="BANNER"
-            ads:adUnitId="@string/addMobId" />
+            ads:adUnitId="@string/admobBannerAdId" />
     </LinearLayout>
 
     <FrameLayout
@@ -48,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:padding="5dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -103,11 +103,6 @@
                 </RelativeLayout>
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:weightSum="10">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/questions_list"
@@ -115,12 +110,9 @@
                         android:layout_height="0dp"
                         android:layout_weight="10"
                         android:orientation="horizontal"
-                        android:padding="4dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_quiz" />
 
-
-                </LinearLayout>
 
 
             </LinearLayout>

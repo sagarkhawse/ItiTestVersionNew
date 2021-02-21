@@ -132,7 +132,6 @@
                         android:id="@+id/pointTop2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="6500 Pro"
                         android:textColor="#B39999" />
 
 
@@ -170,7 +169,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="7600 Pro"
                         android:id="@+id/pointTop1"
                         android:textColor="#B39999" />
 
@@ -210,7 +208,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="5400 Pro"
                         android:id="@+id/pointTop3"
                         android:textColor="#B39999" />
 

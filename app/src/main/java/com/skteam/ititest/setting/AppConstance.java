@@ -21,9 +21,9 @@ public class AppConstance {
     public static final int MINUTES60=3600000;
 
     //API Endpoints
-    public static final String API_BASE_URL ="https://androappdev.xyz/ItiTest/index.php?p=";
-    public static final String API_BASE_URL_RETROFIT ="https://androappdev.xyz/ItiTest/";
-    public static final String IMG_URL ="https://androappdev.xyz/ItiTest/admin/";
+    public static final String API_BASE_URL ="http://app.itimafia.com/index.php?p=";
+    public static final String API_BASE_URL_RETROFIT ="http://app.itimafia.com/";
+    public static final String IMG_URL ="http://app.itimafia.com/admin/";
     public static final String SIGN_UP ="sign_up";
     public static final String SUBJECTS ="subjects";
     public static final String LEADERBOARD ="leaderboard";

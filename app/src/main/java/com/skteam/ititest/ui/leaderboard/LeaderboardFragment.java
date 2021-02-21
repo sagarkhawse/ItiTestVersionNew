@@ -261,7 +261,7 @@ public class LeaderboardFragment extends BaseFragment<FragmentLeaderboardBinding
                         binding.nameTop1.setText(res.get(0).getName());
                     }
 
-                    binding.pointTop1.setText(res.get(0).getPoints()+" Pro");
+                    binding.pointTop1.setText(res.get(0).getPoints()+" Points");
                   if(res.size()<2){
                         binding.layTop2.setVisibility(View.GONE);
                        binding.layTop3.setVisibility(View.GONE);
@@ -283,7 +283,7 @@ public class LeaderboardFragment extends BaseFragment<FragmentLeaderboardBinding
                           binding.nameTop2.setText(res.get(1).getName());
                       }
 
-                      binding.pointTop2.setText(res.get(1).getPoints()+" Pro");
+                      binding.pointTop2.setText(res.get(1).getPoints()+" Points");
                   }
                   else{
                       if(res.get(1).getProfilePic()!=null && !res.get(1).getProfilePic().isEmpty()){
@@ -313,8 +313,8 @@ public class LeaderboardFragment extends BaseFragment<FragmentLeaderboardBinding
                           binding.nameTop3.setText(res.get(2).getName());
                       }
 
-                       binding.pointTop2.setText(res.get(1).getPoints()+" Pro");
-                       binding.pointTop3.setText(res.get(2).getPoints()+" Pro");
+                       binding.pointTop2.setText(res.get(1).getPoints()+" Points");
+                       binding.pointTop3.setText(res.get(2).getPoints()+" Points");
                        binding.layTop2.setVisibility(View.VISIBLE);
                        binding.layTop3.setVisibility(View.VISIBLE);
                     }

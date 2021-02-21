@@ -131,7 +131,7 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
         if (getIntent().getStringExtra("test_Id") != null && !getIntent().getStringExtra("test_Id").isEmpty()) {
             testId = getIntent().getStringExtra("test_Id");
         } else {
-            dialog = showAlertDialog(this, ERROR, "Quiz will be updated soon!", "ITI Test");
+            dialog = showAlertDialog(this, ERROR, "Points will be updated soon!", "ITI Test");
             dialog.setConfirmText("Go Back")
                     .setConfirmClickListener(sweetAlertDialog -> {
                         dialog.dismissWithAnimation();
@@ -181,7 +181,7 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
         binding.submit.setOnClickListener(v -> {
             try {
                 if (isSubmited) {
-                    showCustomAlert("Test Already Submited!!");
+                    showCustomAlert("Test Already Submitted!!");
                 } else {
                    // timer.cancel();
                     if (mInterstitialAd != null) {
@@ -301,7 +301,7 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
 
     @Override
     public void getResult(List<ResItem> resItems) {
-        showCustomAlert("Test Submited Succesfully!!");
+        showCustomAlert("Test Submitted Successfully!!");
         Gson gson = new Gson();
         String json = gson.toJson(resItems);
         String timerNew = String.valueOf((stopwatch.getElapsedTimeMili()) / 1000);
@@ -331,7 +331,7 @@ public class QuizActivity extends BaseActivity<FragmentQuizBinding, QuizViewMode
             manager.scrollToPosition(lastVisible);
         }
         if(lastVisible==quizAdapter.getItemCount()){
-            showCustomAlert("No More Question Available!!");
+            showCustomAlert("Please submit your test to know your result!!");
         }
     }
 

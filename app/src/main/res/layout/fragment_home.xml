@@ -2,7 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
+           <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/swipe"
+                    android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+                  >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,10 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                    android:id="@+id/swipe"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_150sdp">
+
 
                     <FrameLayout
                         android:id="@+id/top_bar"
@@ -47,9 +48,9 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/_20sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginEnd="@dimen/_20sdp"
                             android:layout_marginBottom="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
                             android:background="@drawable/bg_white_round"
                             android:padding="@dimen/_10sdp">
 
@@ -120,7 +121,7 @@
 
 
                     </FrameLayout>
-                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
             </LinearLayout>
 
 
@@ -136,7 +137,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/_10sdp">
+                        android:padding="@dimen/_5sdp">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -184,4 +185,5 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

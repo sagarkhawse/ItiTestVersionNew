@@ -46,7 +46,7 @@
                 style="@style/textViewDescriptionWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="welcome to Iti test app an Electrical Engineering Student App "
+                android:text="@string/welcome_to_iti_mafia_application_a_complete_solution_for_iti_students_for_100_success"
 
                 />
 

@@ -175,6 +175,6 @@ public class ReportActivity extends BaseActivity<ActivityReportBinding, QuizView
 
     @Override
     public void setMessage(String s) {
-        showCustomAlert("Quiz will be updated soon!");
+        showCustomAlert("Points will be updated soon!");
     }
 }
