@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.skteam.ititest.R;
@@ -77,6 +78,8 @@ public class SubmitActivity extends BaseActivity<FragmentSubmitBinding, QuizView
                 onBackPressed();
             }
         });
+        AdRequest adRequest = new AdRequest.Builder().build();
+        binding.adView.loadAd(adRequest);
     }
 
     @Override
