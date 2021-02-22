@@ -33,6 +33,7 @@ import com.skteam.ititest.ui.home.HomeActivity;
 import com.skteam.ititest.ui.leaderboard.adapter.LeaderBoardMainAdapter;
 import com.skteam.ititest.ui.splash.SplashFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -319,7 +320,11 @@ public class LeaderboardFragment extends BaseFragment<FragmentLeaderboardBinding
                        binding.layTop3.setVisibility(View.VISIBLE);
                     }
                    adapter.updateList(res);
+                    binding.emptyTxt.setVisibility(View.GONE);
 
+                }else{
+                    adapter.updateList(new ArrayList<>());
+                    binding.emptyTxt.setVisibility(View.VISIBLE);
                 }
             }
         });
