@@ -126,7 +126,7 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
                 first = name;
             getSharedPre().setIsGoogleLoggedIn(true);
             getSharedPre().setIsFaceboobkLoggedIn(false);
-            getSharedPre().setIsLoggedIn(true);
+            getSharedPre().setIsLoggedIn(false);
             getSharedPre().setIsRegister(true);
             getSharedPre().setUserEmail(email);
             getSharedPre().setName(name);
@@ -203,7 +203,6 @@ public class SignUpViewModel extends BaseViewModel<SignUpNav> {
                                     String facebookId=bFacebookData.getString("idFacebook");
                                     getSharedPre().setIsGoogleLoggedIn(false);
                                     getSharedPre().setIsFaceboobkLoggedIn(true);
-                                    getSharedPre().setIsLoggedIn(false);
                                     getSharedPre().setIsRegister(true);
                                     getSharedPre().setUserEmail(email);
                                     getSharedPre().setClientProfile(profilePic);

@@ -104,7 +104,7 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
                 first = name;
             getSharedPre().setIsGoogleLoggedIn(true);
             getSharedPre().setIsFaceboobkLoggedIn(false);
-            getSharedPre().setIsLoggedIn(true);
+            getSharedPre().setIsLoggedIn(false);
             getSharedPre().setIsRegister(true);
             getSharedPre().setUserEmail(email);
             getSharedPre().setName(name);
@@ -142,7 +142,7 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
                                     String facebookId=bFacebookData.getString("idFacebook");
                                     getSharedPre().setIsGoogleLoggedIn(false);
                                     getSharedPre().setIsFaceboobkLoggedIn(true);
-                                    getSharedPre().setIsLoggedIn(true);
+                                    getSharedPre().setIsLoggedIn(false);
                                     getSharedPre().setIsRegister(true);
                                     getSharedPre().setUserEmail(email);
                                     getSharedPre().setClientProfile(profilePic);
@@ -201,7 +201,7 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
                         getSharedPre().setUserId(user.getUid());
                         getSharedPre().setUserEmail(user.getEmail());
                         getNavigator().setLoading(false);
-                        getSharedPre().setIsLoggedIn(true);
+                        getSharedPre().setIsLoggedIn(false);
                         getSharedPre().setIsRegister(true);
                         LoginClient(user.getUid(),AppConstance.LOGIN_TYPE_EMAIL);
                     } else {
@@ -245,8 +245,7 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
                                 FirebaseUser user = getmAuth().getCurrentUser();
                                 getSharedPre().setUserId(user.getUid());
                                 getSharedPre().setUserEmail(user.getEmail());
-                                getSharedPre().setIsLoggedIn(true);
-                                getSharedPre().setIsRegister(true);
+                                getSharedPre().setIsLoggedIn(false);
                                 LoginClient(getSharedPre().getName(),user.getEmail(),Profile,user.getUid(),finalTypeFinal,BuildConfig.VERSION_NAME);
                             } else {
                                 // If sign in fails, display a message to the user.
@@ -339,6 +338,7 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
                                 getSharedPre().setName(response.getRes().get(0).getName());
                                 getSharedPre().setUserEmail(response.getRes().get(0).getEmail());
                                 getSharedPre().setUserMobile(response.getRes().get(0).getPhone());
+                                getSharedPre().setIsLoggedIn(true);
                                 getNavigator().StartHomeNow();
                             } else {
                                 getNavigator().onLoginFail("Server Not Responding");
@@ -358,6 +358,7 @@ public class LoginViewModel extends BaseViewModel<LoginNav> {
     }
 
     public void signOut() {
+        if(getmAuth()!=null)
         getmAuth().signOut();
     }
 
