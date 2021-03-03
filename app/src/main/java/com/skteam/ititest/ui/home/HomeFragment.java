@@ -105,7 +105,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         subjectHelper.attachToRecyclerView(binding.rvSubjects);
         binding.rvSubjects.setAdapter(subjectAdapter);
         binding.rvBestPlayers.setAdapter(leaderBoardAdapter);
-        CollectAllDataThroughAPI();
+        if(getSharedPre().isLoggedIn()){
+            CollectAllDataThroughAPI();
+        }else{
+            getBaseActivity().finish();
+        }
+
 
 
         binding.swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

@@ -98,8 +98,13 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
         if (savedInstanceState == null) {
             startFragment(HomeFragment.getInstance(), true, HomeFragment.getInstance().toString());
         }
-        SetOnClickListenersAll();
-        setData();
+        if(getSharedPre().isLoggedIn()){
+            SetOnClickListenersAll();
+            setData();
+        }else{
+            Logout();
+        }
+
 
 
     }
@@ -144,7 +149,9 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding, HomeViewMode
     }
 
     private void Logout() {
-        getAuth().signOut();
+        if(getAuth()!=null){
+            getAuth().signOut();
+        }
         showLoadingDialog("");
         if (getSharedPre().isFaceboobkLoggedIn()) {
             if (AccessToken.getCurrentAccessToken() == null) {
