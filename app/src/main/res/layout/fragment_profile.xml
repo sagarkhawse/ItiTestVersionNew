@@ -123,7 +123,7 @@
                 android:textSize="@dimen/_15ssp"
                 android:hint="D.O.B"/>
         </com.google.android.material.textfield.TextInputLayout>
-        <RadioGroup
+        <LinearLayout
             android:layout_width="fill_parent"
             android:orientation="horizontal"
             android:gravity="center"
@@ -150,7 +150,7 @@
                 android:buttonTint="@color/colorPrimaryDark"
                 android:text="Female"/>
 
-        </RadioGroup>
+        </LinearLayout>
 
         <Button
             android:layout_marginTop="@dimen/_20sdp"

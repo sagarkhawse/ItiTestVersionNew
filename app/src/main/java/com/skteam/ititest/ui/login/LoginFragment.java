@@ -15,6 +15,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.MutableLiveData;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +54,7 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding, LoginViewM
     private Disposable disposable;
     private FirebaseAuth mAuth;
     private Dialog internetDialog;
+    private MutableLiveData<Integer>getInt=new MutableLiveData<>();
     private List<String> permissions = Arrays.asList("public_profile", "email","user_status");
     public LoginFragment() {
         // Required empty public constructor

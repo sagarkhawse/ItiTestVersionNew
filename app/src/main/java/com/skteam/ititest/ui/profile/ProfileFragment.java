@@ -108,16 +108,21 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
         binding = getViewDataBinding();
         viewmodel.setNavigator(this);
         ((HomeActivity) getBaseActivity()).getAppBar().toolbarMain.setVisibility(View.GONE);
-        binding.maleRadio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        binding.maleRadio.setChecked(true);
+        binding.maleRadio.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onClick(View v) {
                 gender = "male";
+                binding.maleRadio.setChecked(true);
+                binding.femaleRadio.setChecked(false);
             }
         });
-        binding.femaleRadio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        binding.femaleRadio.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onClick(View v) {
                 gender = "female";
+                binding.maleRadio.setChecked(false);
+                binding.femaleRadio.setChecked(true);
             }
         });
         disposable = RxView.clicks(binding.userDp).compose(getBaseActivity().getRxPermissions().ensure(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)).observeOn(AndroidSchedulers.mainThread())
@@ -173,8 +178,10 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
                 if (res.get(0).getGender() != null && !res.get(0).getGender().isEmpty()) {
                     if (res.get(0).getGender().equalsIgnoreCase("male")) {
                         binding.maleRadio.setChecked(true);
+                        binding.femaleRadio.setChecked(false);
                     } else {
                         binding.femaleRadio.setChecked(true);
+                        binding.maleRadio.setChecked(false);
                     }
                 }
                 if (res.get(0).getProfilePic() != null) {
