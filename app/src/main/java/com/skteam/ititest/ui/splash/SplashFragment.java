@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -108,25 +109,31 @@ public class SplashFragment extends BaseFragment<FragmentSplashBinding,SplashVie
                             String token = task.getResult().getToken();
                             getSharedPre().setFirebaseToken(token);
                             getSharedPre().setUserId(FirebaseInstanceId.getInstance().getId());
-                            disposable = Observable.timer(SPLASH_SCREEN_TIME_OUT, TimeUnit.SECONDS)
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(aLong -> StartIntent());
-                        });
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            StartIntent() ;
+                        }
+                    }, 3000);
+                });
+
+
             } catch (Exception e) {
             }
 
         } else {
-            disposable = Observable.timer(SPLASH_SCREEN_TIME_OUT, TimeUnit.SECONDS)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(aLong -> StartIntent());
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    StartIntent() ;
+                }
+            }, 3000);
         }
     }
     void StartIntent(){
         if(getSharedPre().isLoggedIn()){
-           startActivity(new Intent(getBaseActivity(), HomeActivity.class));
-           getBaseActivity().finish();
+           startActivity(new Intent(getContext(), HomeActivity.class));
+           getActivity().finish();
         }else{
             getBaseActivity().startFragment(WelcomeFragment.newInstance(),true,WelcomeFragment.newInstance().toString());
         }
@@ -148,7 +155,6 @@ public class SplashFragment extends BaseFragment<FragmentSplashBinding,SplashVie
         }
         if (isConnected) {
             internetDialog.dismiss();
-            StartIntent();
         } else {
             internetDialog.show();
         }

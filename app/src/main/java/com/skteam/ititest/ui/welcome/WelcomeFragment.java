@@ -83,6 +83,7 @@ public class WelcomeFragment extends BaseFragment<WelcomeFragmentBinding, Welcom
         disposable = RxView.clicks(binding.loginBtn).throttleFirst(1000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Unit>() {
             @Override
             public void accept(Unit unit) throws Exception {
+
                 getVib().vibrate(100);
                 getBaseActivity().startFragment(LoginFragment.newInstance(), true, LoginFragment.newInstance().toString());
             }

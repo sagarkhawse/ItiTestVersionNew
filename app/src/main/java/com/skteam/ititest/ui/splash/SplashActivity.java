@@ -58,11 +58,9 @@ public class SplashActivity extends BaseActivity<SplashActivityBinding, SplashVi
         Fragment fragment = fm.findFragmentById(R.id.container);
         FacebookSdk.sdkInitialize(this);
       printHashKey();
-        if (fragment == null) {
-            //start splash fragment only first time
             startFragment( SplashFragment.newInstance(),"SplashFragment",true);
 
-        }
+
     }
 
     @Override

@@ -269,17 +269,19 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
 
     public void startFragment(Fragment fragment, boolean addToBackStack, String backStackTag) {
         this.addToBackStack = addToBackStack;
-        boolean fragmentPopped = manager.popBackStackImmediate(backStackTag, 0);
-        if (!fragmentPopped) {
-            transaction = manager.beginTransaction();
-            if (addToBackStack) {
-                transaction.addToBackStack(backStackTag);
-            } else {
-                transaction.addToBackStack(null);
+        try {
+            boolean fragmentPopped = manager.popBackStackImmediate(backStackTag, 0);
+            if (!fragmentPopped) {
+                transaction = manager.beginTransaction();
+                if (addToBackStack) {
+                    transaction.addToBackStack(backStackTag);
+                } else {
+                    transaction.addToBackStack(null);
+                }
+                transaction.replace(R.id.container, fragment);
+                transaction.commit();
             }
-            transaction.replace(R.id.container, fragment);
-            transaction.commit();
-        }
+        }catch (Exception e){}
     }
 
     public void startFragment(Fragment fragment, boolean addToBackStack, String backStackTag, boolean wantAnimation) {
