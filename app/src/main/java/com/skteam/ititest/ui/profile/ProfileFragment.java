@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.jakewharton.rxbinding3.view.RxView;
@@ -184,6 +185,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
                         binding.maleRadio.setChecked(false);
                     }
                 }
+
                 if (res.get(0).getProfilePic() != null) {
                     Uri uri = Uri.parse(res.get(0).getProfilePic());
                     String protocol = uri.getScheme();
